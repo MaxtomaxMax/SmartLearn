@@ -1,3 +1,4 @@
+#用usb连接测试版和上位机
 import serial   #pip install pyserial
 
 baud=1382400 #波特率
@@ -17,4 +18,5 @@ def read_serial():
         if data:
             process_data(data)
 
+#执行串口读取函数
 read_serial()
