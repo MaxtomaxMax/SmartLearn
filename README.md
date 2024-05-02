@@ -12,6 +12,7 @@ openai >= 1.0.0
 - software: 最终项目所有的软件内容放在这里，大家各自负责其中的子文件夹管理
 - hardware_test: 硬件项目测试文件放在这里
 - software_test: 软件项目测试文件放在这里
+- fig4log：用来存放写Project_Log.md的图片文件
 
 ## 注意事项
 - 所有文件路径尽可能不要出现中文字符，避免出bug，可以用中文代替

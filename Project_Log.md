@@ -7,7 +7,7 @@
 >
 >此文档最终将用于撰写课程设计的报告，建议用于撰写报告的相关内容在记录开发Log的时候按照最终报告的格式进行书写，附上对应的展示图片并做好标题命名，**所有图片存储在文件夹fig中**
 
-![SmartLearn](/fig/SmartLearn.png)
+![SmartLearn](/fig4log/SmartLearn.png)
 
 # 项目进度汇报
 
