@@ -10,5 +10,10 @@
 ![SmartLearn](/fig4log/SmartLearn.png)
 
 # 项目进度汇报
+## Max
+## Jas
+## Ljh
+## Zy
+
 
 # 开发遇到的问题＆解决方案
