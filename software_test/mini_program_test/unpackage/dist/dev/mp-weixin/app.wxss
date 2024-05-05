@@ -1,3 +1,8 @@
 
 	/*每个页面公共css */
+.learn_bg{
+		height: 100vh;
+		width: 100vw;
+		background: linear-gradient(to bottom, #FFEBCC,#F4F2FC);
+}
 page{--status-bar-height:25px;--top-window-height:0px;--window-top:0px;--window-bottom:0px;--window-left:0px;--window-right:0px;--window-magin:0px}[data-c-h="true"]{display: none !important;}

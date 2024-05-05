@@ -1,11 +1,12 @@
 {
   "pages": [
+    "pages/learn/wait4bt",
     "pages/login/init_loading"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#7452FF"
+    "navigationBarTitleText": "智学"
   },
   "usingComponents": {}
 }

@@ -14,4 +14,9 @@
 
 <style>
 	/*每个页面公共css */
+	.learn_bg{
+		height: 100vh;
+		width: 100vw;
+		background: linear-gradient(to bottom, #FFEBCC,#F4F2FC);
+	}
 </style>

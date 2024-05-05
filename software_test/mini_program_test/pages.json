@@ -1,11 +1,10 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/login/init_loading",
-			"style": {
-				"navigationBarTitleText": "智学"
-				
-			}
+			"path": "pages/learn/wait4bt"
+		},
+		{
+			"path": "pages/login/init_loading"
 		}
 		// {
 		// 	"path": "pages/index/index",
@@ -17,7 +16,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#7452FF"
+		"navigationBarTitleText": "智学"
 	},
 	"uniIdRouter": {}
 }
