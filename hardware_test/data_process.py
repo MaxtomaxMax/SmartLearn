@@ -2,6 +2,7 @@ import serial   # pip install pyserial
 import time # 用来记录时间戳
 import struct # 用来解析十六进制字节串
 import matplotlib.pyplot as plt # 绘制散点图
+import math
 
 # ----------------------------- FRAME FORMAT ---------------------------------
 #  The format can be adjusted to fit your particular application needs
@@ -172,10 +173,57 @@ def delta_peak(delta_list, peak_pos, N):
             delta = delta + delta_list[j]
         delta_time.append(round(delta,3))
     return delta_time
+# 检测RR间隔和峰值数（合理区间0.6s-1.0s）
+def check_RR(delta_time):
+    delta_check = [] # 检验后的RR间隔
+    peak_number_check = 0 # 检验后的峰值数
+    m = len(delta_time)
+    i = 0 # 遍历的delta_time下标
+    while i<m: # （0到m-1,共m个项）
+        if 0.5<delta_time[i]<=1.2:
+            delta_check.append(delta_time[i])
+            i = i + 1
+        elif delta_time[i]<=0.5:
+            if i == (m-1) or delta_time[i+1]>=1.2: # 如果遍历到最后一个delta_time,或下一项大于1.2，则不往delta_check中添加
+                i = i + 1
+            else:
+                sum = delta_time[i]+delta_time[i+1]  # 用于RR累计求和,如果不到0.6s以上就合并下一项
+                i = i + 2
+                if sum <= 0.5:
+                    if i == m: # 如果下标已超过序号范围，则继续
+                        continue  # +1并continue到下个循环，不往delta_check中添加
+                    elif delta_time[i]>=1.2:
+                        i = i + 1
+                    else:
+                        sum = sum + delta_time[i] # 如果两项合并后仍不到0.6s,最多再合并一项,注意此时i已经更新
+                        i = i + 1
+                delta_check.append(round(sum,2))
+        else: # 若间隔时间超过1.2，则不往delta_check中添加
+            i = i + 1
 
+    peak_number_check = len(delta_check)+1
 
+    return delta_check, peak_number_check
 
 # 计算HRV值
+def cal_HRV(delta_check):
+    m = len(delta_check)
+    n = m-1
+    average = sum(delta_check)/m  # RR间隔平均值
+    sum1 = 0
+    sum2 = 0
+    # 计算SDNN
+    for i in range(0,m):
+        x = delta_check[i]-average
+        sum1 = sum1 + math.pow(x,2)
+    sum1 = round(math.sqrt(sum1/m),2)
+    # 计算RMSSD
+    for i in range(1,m):
+        y = delta_check[i]-delta_check[i-1]
+        sum2 = sum2 + math.pow(y,2)
+    sum2 = round(math.sqrt(sum2/n),2)
+
+    return sum1, sum2
 
 
 if __name__ == '__main__':
@@ -185,7 +233,7 @@ if __name__ == '__main__':
     data_list = []
     time_list = []
     delta_list = []
-    while L < 350:
+    while L < 500:
         # 返回封装帧和时间戳
         frame, current_time = create_frame()
         i = i + 1  # 循环一次加一次
@@ -217,6 +265,13 @@ if __name__ == '__main__':
     delta_time = delta_peak(delta_list, peak_pos, N)
     print("peak_number",N)
     print("delta_time:",delta_time)
+    delta_check, peak_number_check = check_RR(delta_time)
+    print("peak_number_check:", peak_number_check)
+    print("delta_check", delta_check)
+    sum1, sum2 = cal_HRV(delta_check)
+    print("SDNN:",sum1)
+    print("RMSSD",sum2)
+
     # plt.scatter(time_list, data_list, color='blue')
     plt.scatter(peak_time, peak_list, color='red')
     plt.plot(time_list, data_list, color='blue')
