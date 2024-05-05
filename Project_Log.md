@@ -11,6 +11,14 @@
 
 # 项目进度汇报
 ## Max
+2024年5月5日
+15点18分
+完成小程序最初加载的页面
+![loading](/fig4log/fig1.png)
+
+页面路径：software_test\mini_program_test\pages\login\init_loading.vue
+
+
 ## Jas
 ## Ljh
 ## Zy
