@@ -15,10 +15,13 @@
 15点18分
 完成小程序最初加载的页面
 ![loading](/fig4log/fig1.png)
-
 页面路径：software_test\mini_program_test\pages\login\init_loading.vue
 
+15点58分
+完成在学习板块的背景渐变设计，详见software_test\mini_program_test\App.vue中的globalStyle内容
 
+等待蓝牙连接页面完成半成品
+页面路径：software_test\mini_program_test\pages\learn\wait4bt.vue
 ## Jas
 ## Ljh
 ## Zy
