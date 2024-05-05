@@ -22,6 +22,11 @@
 
 等待蓝牙连接页面完成半成品
 页面路径：software_test\mini_program_test\pages\learn\wait4bt.vue
+
+2024年5月6日
+01点14分
+完成API对话功能python的demo演示，初步决定智学对话学习助手的交互形式
+
 ## Jas
 ## Ljh
 ## Zy
