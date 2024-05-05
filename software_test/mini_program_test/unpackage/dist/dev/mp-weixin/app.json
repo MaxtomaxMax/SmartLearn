@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/login/init_loading"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#7452FF"
+  },
+  "usingComponents": {}
+}
