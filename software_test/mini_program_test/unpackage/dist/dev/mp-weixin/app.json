@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/review/history",
     "pages/learn/bt_connected",
     "pages/learn/wait4bt",
     "pages/review/learning",

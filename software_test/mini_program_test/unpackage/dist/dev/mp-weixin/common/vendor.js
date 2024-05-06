@@ -7896,6 +7896,9 @@ const createSubpackageApp = initCreateSubpackageApp();
 }
 const pages = [
   {
+    path: "pages/review/history"
+  },
+  {
     path: "pages/learn/bt_connected"
   },
   {

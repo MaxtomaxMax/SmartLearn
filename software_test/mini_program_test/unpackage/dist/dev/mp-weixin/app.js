@@ -2,6 +2,7 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
 if (!Math) {
+  "./pages/review/history.js";
   "./pages/learn/bt_connected.js";
   "./pages/learn/wait4bt.js";
   "./pages/review/learning.js";
