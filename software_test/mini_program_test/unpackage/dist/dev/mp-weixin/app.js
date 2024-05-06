@@ -2,13 +2,16 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
 if (!Math) {
+  "./pages/learn/bt_connected.js";
+  "./pages/learn/wait4bt.js";
+  "./pages/review/learning.js";
+  "./pages/review/learned.js";
   "./pages/review/bookshelf.js";
   "./pages/login/init_loading.js";
   "./pages/login/sign_up_success.js";
   "./pages/login/sign_up.js";
   "./pages/login/log_in.js";
   "./pages/login/welcome.js";
-  "./pages/learn/wait4bt.js";
   "./uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate.js";
   "./uni_modules/uni-id-pages/pages/userinfo/userinfo.js";
   "./uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage.js";

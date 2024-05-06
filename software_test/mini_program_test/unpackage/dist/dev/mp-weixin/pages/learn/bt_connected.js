@@ -11,5 +11,5 @@ const _sfc_main = {
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {};
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2212fa0d"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/learn/wait4bt.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-059a7b1e"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/learn/bt_connected.vue"]]);
 wx.createPage(MiniProgramPage);

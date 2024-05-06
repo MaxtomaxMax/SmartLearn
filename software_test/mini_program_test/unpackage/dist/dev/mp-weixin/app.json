@@ -1,12 +1,15 @@
 {
   "pages": [
+    "pages/learn/bt_connected",
+    "pages/learn/wait4bt",
+    "pages/review/learning",
+    "pages/review/learned",
     "pages/review/bookshelf",
     "pages/login/init_loading",
     "pages/login/sign_up_success",
     "pages/login/sign_up",
     "pages/login/log_in",
     "pages/login/welcome",
-    "pages/learn/wait4bt",
     "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
     "uni_modules/uni-id-pages/pages/userinfo/userinfo",
     "uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage",
