@@ -1,5 +1,5 @@
 
-.content{
+.init_content{
 		/* 让页面全部铺满 */
 		height: 100vh;	
 		width: 100vw;

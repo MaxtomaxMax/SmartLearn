@@ -1,6 +1,6 @@
 <!-- 刚刚开启小程序的加载页面 -->
 <template>
-	<view class="content">
+	<view class="init_content">
 		<image class="logo_white" src="../../static/ui_icon/logo_white.png"></image>
 		<text class="logo_text">智学</text>
 	</view>
@@ -10,7 +10,7 @@
 </script>
 
 <style>
-	.content{
+	.init_content{
 		/* 让页面全部铺满 */
 		height: 100vh;	
 		width: 100vw;
