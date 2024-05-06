@@ -1,23 +1,20 @@
 
-.init_content{
-		/* 让页面全部铺满 */
-		height: 100vh;	
-		width: 100vw;
-		background: #7452FF;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;	/*水平居中*/
-		align-items: center;		/*垂直居中*/
+.page.data-v-a5035d99 {
+  padding: 675rpx 0 691.67rpx;
+  background-color: #7451ff;
+  border-radius: 58.33rpx;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 }
-.logo_white{
-		height: 200rpx;
-		width: 200rpx;
-		justify-content: center;
-		align-items: center;
+.image.data-v-a5035d99 {
+  width: 229.17rpx;
+  height: 208.33rpx;
 }
-.logo_text{
-		color: #FFFFFF;
-		font-size: 8vw;		/* 优先考虑相对大小*/
-		/* font-family: kaiti;	 */
-		font-family: lisu;
+.text.data-v-a5035d99 {
+  color: #ffffff;
+  font-size: 83.33rpx;
+  font-family: STLiti;
+  line-height: 57rpx;
 }

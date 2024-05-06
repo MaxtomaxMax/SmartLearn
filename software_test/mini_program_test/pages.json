@@ -1,21 +1,40 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/review/learning"
+		},
+		{
+			"path": "pages/review/learned"
+		},
+		{
+			"path": "pages/review/bookshelf"
+		},
+		{
+			"path": "pages/login/init_loading"
+		},
+		{
+			"path": "pages/login/sign_up_success"
+		},
+		{
+			"path": "pages/login/sign_up"
+		},
+		{
+			"path": "pages/login/log_in"
+		},
+		{
 			"path": "pages/login/welcome"
 		},
 		{
 			"path": "pages/learn/wait4bt"
 		},
-		{
-			"path": "pages/login/init_loading"
-		}
+		
 		// {
 		// 	"path": "pages/index/index",
 		// 	// "style": {
 		// 	// 	"navigationBarTitleText": "uni-app"
 		// 	// }
 		// }
-	,{
+	{
     "path": "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
     "style": {
         "navigationBarTitleText": "注销账号"
@@ -25,12 +44,6 @@
     "path": "uni_modules/uni-id-pages/pages/userinfo/userinfo",
     "style": {
         "navigationBarTitleText": "个人资料"
-    }
-}
-,{
-    "path": "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
-    "style": {
-        "navigationBarTitleText": "绑定手机号码"
     }
 }
 ,{
@@ -50,8 +63,14 @@
     "style": {
         "navigationBarTitleText": ""
     }
-}
-,{
+},
+		{
+			"path": "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
+			"style": {
+				"navigationBarTitleText": "绑定手机号码"
+			}
+		},
+{
     "path": "uni_modules/uni-id-pages/pages/login/login-smscode",
     "style": {
         "navigationBarTitleText": "手机验证码登录"

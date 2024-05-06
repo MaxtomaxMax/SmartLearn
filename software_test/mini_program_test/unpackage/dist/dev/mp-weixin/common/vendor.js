@@ -7896,13 +7896,25 @@ const createSubpackageApp = initCreateSubpackageApp();
 }
 const pages = [
   {
+    path: "pages/review/bookshelf"
+  },
+  {
+    path: "pages/login/init_loading"
+  },
+  {
+    path: "pages/login/sign_up_success"
+  },
+  {
+    path: "pages/login/sign_up"
+  },
+  {
+    path: "pages/login/log_in"
+  },
+  {
     path: "pages/login/welcome"
   },
   {
     path: "pages/learn/wait4bt"
-  },
-  {
-    path: "pages/login/init_loading"
   },
   {
     path: "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
@@ -7914,12 +7926,6 @@ const pages = [
     path: "uni_modules/uni-id-pages/pages/userinfo/userinfo",
     style: {
       navigationBarTitleText: "个人资料"
-    }
-  },
-  {
-    path: "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
-    style: {
-      navigationBarTitleText: "绑定手机号码"
     }
   },
   {
@@ -7938,6 +7944,12 @@ const pages = [
     path: "uni_modules/uni-id-pages/pages/login/login-withpwd",
     style: {
       navigationBarTitleText: ""
+    }
+  },
+  {
+    path: "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
+    style: {
+      navigationBarTitleText: "绑定手机号码"
     }
   },
   {
@@ -8306,7 +8318,7 @@ class v {
 function I(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "172.28.3.47"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "10.192.109.39"\n    ],\n    "debugPort": 9001,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let O = "";
 try {
   O = "__UNI__F218843";
