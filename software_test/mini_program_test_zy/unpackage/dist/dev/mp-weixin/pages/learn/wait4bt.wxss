@@ -1,0 +1,104 @@
+
+.mt-3.data-v-2212fa0d {
+  margin-top: 6.25rpx;
+}
+.page.data-v-2212fa0d {
+  background-color: #f4f2fc;
+  border-radius: 58.33rpx;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+.group.data-v-2212fa0d {
+  padding-top: 220.83rpx;
+  overflow-y: auto;
+}
+.text.data-v-2212fa0d {
+  color: #000000;
+  font-size: 50rpx;
+  font-family: PingFang SC;
+  font-weight: 600;
+  line-height: 47rpx;
+  letter-spacing: 8.33rpx;
+}
+.image-wrapper.data-v-2212fa0d {
+  margin-top: 66.67rpx;
+  padding: 125rpx 0;
+  filter: drop-shadow(0rpx 8.33rpx 4.17rpx #00000040);
+  background-color: #ffffff;
+  box-shadow: 0rpx 8.33rpx 6.25rpx #0000002e;
+  border-radius: 50%;
+  width: 416.67rpx;
+}
+.image_2.data-v-2212fa0d {
+  width: 185.42rpx;
+  height: 166.67rpx;
+}
+.text_2.data-v-2212fa0d {
+  margin-top: 58.33rpx;
+  color: #979797;
+  font-size: 33.33rpx;
+  font-family: ABeeZee;
+  line-height: 30.77rpx;
+}
+.text_3.data-v-2212fa0d {
+  margin-top: 141.67rpx;
+  color: #000000;
+  font-size: 100rpx;
+  font-family: ABeeZee;
+  line-height: 72.4rpx;
+  letter-spacing: 8.33rpx;
+}
+.equal-division.data-v-2212fa0d {
+  align-self: stretch;
+  margin-top: 237.5rpx;
+}
+.section.data-v-2212fa0d {
+  padding: 35.42rpx 0;
+  background-color: #ffffff;
+  border-radius: 58.33rpx;
+  box-shadow: 0rpx 1.04rpx 0rpx #0000002e inset;
+  -webkit-backdrop-filter: blur(0rpx);
+          backdrop-filter: blur(0rpx);
+}
+.section_2.data-v-2212fa0d {
+  flex: 1 1 188rpx;
+}
+.equal-division-item.data-v-2212fa0d {
+  padding: 8.33rpx 0;
+  background-color: #ffffff;
+  border-radius: 58.33rpx;
+  overflow: hidden;
+  height: 102.08rpx;
+}
+.image_3.data-v-2212fa0d {
+  width: 66.67rpx;
+  height: 66.67rpx;
+}
+.font.data-v-2212fa0d {
+  font-size: 20.83rpx;
+  font-family: PingFang SC;
+  line-height: 19.29rpx;
+  color: #a6a9b2;
+}
+.text_4.data-v-2212fa0d {
+  line-height: 19.21rpx;
+}
+.image_4.data-v-2212fa0d {
+  filter: drop-shadow(0rpx 2.08rpx 3.13rpx #7451ff);
+  width: 66.67rpx;
+  height: 66.67rpx;
+}
+.text_5.data-v-2212fa0d {
+  color: #7451ff;
+  line-height: 19.54rpx;
+}
+.image_5.data-v-2212fa0d {
+  border-radius: 8.33rpx;
+  width: 66.67rpx;
+  height: 66.67rpx;
+}
+.text_6.data-v-2212fa0d {
+  line-height: 19.13rpx;
+}
