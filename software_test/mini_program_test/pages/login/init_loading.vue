@@ -41,7 +41,7 @@
 		<image
 			class="image"
 			src="https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=a9c16dcda05db1bf7e35dd4bcca0d46d.png"
-		/>s
+		/>
 		<text class="mt-16 text">智学</text>
 	</view>
 </template>
