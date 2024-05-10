@@ -3,7 +3,7 @@
 <view class="flex-col items-center page">
   <image
     class="image"
-    src="https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=c7a2d4e570c6795d89ec48087ef546c9.png"
+    src="https://mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd.cdn.bspapp.com/SmartLearn_icon/logo_black.png"
   />
   <text class="text">注册成功</text>
   <text class="text_2">学者，当觅学之法，方能事半功倍</text>
