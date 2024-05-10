@@ -40,7 +40,8 @@ async function createUser(email, password){
 	}
 		
 	// 用户信息写入数据库
-	const result = await db.collection('user_info').add(user_info);
+	// const result = await db.collection('user_info').add(user_info); 这样写是添加一个user_info的实例
+	const result = await db.collection('SmartLearn_user').add(user_info);
 	
 	return {
 		user_info: user_info,
