@@ -76,7 +76,7 @@ export default {
 	    align-self: center;
 	    padding: 37.5rpx 0;
 	    border-radius: 104.17rpx;
-	    background-image: url('https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=dce008a8cbac753a176ce136f794f25f.png');
+	    background-image: url('https://ide.code.fun/api/image?token=663de04ad578370011c6ed01&name=dce008a8cbac753a176ce136f794f25f.png');
 	    background-size: 100% 100%;
 	    background-repeat: no-repeat;
 	    width: 264.58rpx;

@@ -3,7 +3,7 @@
     <view class="flex-col page">
         <image
             class="self-center image"
-            src="https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=c7a2d4e570c6795d89ec48087ef546c9.png"
+			src="https://ide.code.fun/api/image?token=663de04ad578370011c6ed01&name=c7a2d4e570c6795d89ec48087ef546c9.png"
         />
         <text class="self-center text">注册</text>
         <text class="self-center text_2">学者，当觅学之法，方能事半功倍</text>
@@ -28,15 +28,15 @@
             </view> -->
 			<view class="flex-col">
                 <text class="self-start font text_3">邮箱</text>
-                <input class="flex-col justify-start items-start text-wrapper input mt-5" type="text" placeholder="  请输入邮箱" style="font-size: 36.67rpx;"/>
+                <input v-model="email" class="flex-col justify-start items-start text-wrapper input mt-5" type="text" placeholder="  请输入邮箱" style="font-size: 36.67rpx;"/>
             </view>
             <view class="mt-20 flex-col">
                 <text class="self-start font text_6">密码</text>
-                <input class="flex-col justify-start items-start text-wrapper input mt-5" type="password" placeholder="  请输入密码" style="font-size: 36.67rpx;"/>
+                <input v-model="password" class="flex-col justify-start items-start text-wrapper input mt-5" type="password" placeholder="  请输入密码" style="font-size: 36.67rpx;"/>
             </view>
             <view class="mt-20 flex-col">
                 <text class="self-start font text_7">确认密码</text>
-                <input class="flex-col justify-start items-start text-wrapper input mt-5" type="password" placeholder="  请再次输入密码" style="font-size: 36.67rpx;"/>
+                <input v-model="confirmPassword" class="flex-col justify-start items-start text-wrapper input mt-5" type="password" placeholder="  请再次输入密码" style="font-size: 36.67rpx;"/>
             </view>
         </view>
         <!-- <view class="flex-col justify-start items-center button text-wrapper_2"><text class="text_9">注册</text></view> -->
@@ -54,14 +54,36 @@ export default {
     components: {},
     props: {},
     data() {
-        return {};
+        return {
+			email:"",
+			password:"",
+			confirmPassword:""
+		};
     },
 
     methods: {
 		// 注册按钮点击事件
-        signup() {
-            // 在这里添加注册逻辑，比如表单验证等
-            // 注册成功后跳转到其他页面
+        async signup() {
+			// 检查两次输入密码是否一致
+			if (this.password != this.confirmPassword){
+				console.log("两次输入密码不一致");
+				return;
+			}
+			
+			
+			try{
+				const res = await uniCloud.callFunction({
+					name:"signup",	// 云函数名
+					data:{
+						email: this.email,
+						password: this.password
+					}
+				})
+				console.log("完成注册", res)
+			} catch(err){
+				//TODO handle the exception
+				console.log("注册失败",err)
+			}
 			
 			// 暂时还没添加进一步的逻辑
             uni.navigateTo({

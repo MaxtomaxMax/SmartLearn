@@ -6,6 +6,14 @@ const _sfc_main = {
   data() {
     return {};
   },
+  // 延时2s之后跳转页面	
+  onLoad() {
+    setTimeout(() => {
+      common_vendor.index.navigateTo({
+        url: "welcome"
+      });
+    }, 2e3);
+  },
   methods: {}
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {

@@ -1,48 +1,59 @@
 
 .mt-27.data-v-b70b1c15 {
-  margin-top: 56.25rpx;
+        margin-top: 56.25rpx;
 }
 .mt-49.data-v-b70b1c15 {
-  margin-top: 102.08rpx;
+        margin-top: 102.08rpx;
 }
 .page.data-v-b70b1c15 {
-  padding: 995.83rpx 125rpx 172.92rpx;
-  background-color: #f4f2fc;
-  border-radius: 58.33rpx;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
+        padding: 995.83rpx 125rpx 172.92rpx;
+        background-color: #f4f2fc;
+        border-radius: 58.33rpx;
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 100%;
 }
 .text.data-v-b70b1c15 {
-  color: #000000;
-  font-size: 100rpx;
-  font-family: PingFang SC;
-  font-weight: 600;
-  line-height: 94.9rpx;
+        color: #000000;
+        font-size: 100rpx;
+        font-family: PingFang SC;
+        font-weight: 600;
+        line-height: 94.9rpx;
 }
 .text_2.data-v-b70b1c15 {
-  color: #000000;
-  font-size: 50rpx;
-  font-family: PingFang SC;
-  line-height: 60.42rpx;
-  text-align: center;
+        color: #000000;
+        font-size: 50rpx;
+        font-family: PingFang SC;
+        line-height: 60.42rpx;
+        text-align: center;
 }
 .button.data-v-b70b1c15 {
-  align-self: center;
+        align-self: center;
 }
-.text-wrapper.data-v-b70b1c15 {
-  padding: 37.5rpx 0;
-  border-radius: 104.17rpx;
-  background-image: url('https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=dce008a8cbac753a176ce136f794f25f.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  width: 264.58rpx;
+    /* .text-wrapper {
+        padding: 37.5rpx 0;
+        border-radius: 104.17rpx;
+        background-image: url('https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=dce008a8cbac753a176ce136f794f25f.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        width: 264.58rpx;
+    } */
+	/* 去除原来的 text-wrapper 样式 */
+	/* 改成新的样式 */
+.button.data-v-b70b1c15 {
+	    align-self: center;
+	    padding: 37.5rpx 0;
+	    border-radius: 104.17rpx;
+	    background-image: url('https://ide.code.fun/api/image?token=663de04ad578370011c6ed01&name=dce008a8cbac753a176ce136f794f25f.png');
+	    background-size: 100% 100%;
+	    background-repeat: no-repeat;
+	    width: 264.58rpx;
 }
 .text_3.data-v-b70b1c15 {
-  color: #ffffff;
-  font-size: 41.67rpx;
-  font-family: PingFang SC;
-  font-weight: 600;
-  line-height: 38.83rpx;
+        color: #ffffff;
+        font-size: 41.67rpx;
+        font-family: PingFang SC;
+        font-weight: 600;
+        line-height: 38.83rpx;
 }
