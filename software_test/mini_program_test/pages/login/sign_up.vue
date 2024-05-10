@@ -55,6 +55,7 @@ export default {
     props: {},
     data() {
         return {
+			username:'', // 用于测试
 			email:"",
 			password:"",
 			confirmPassword:""
