@@ -50,53 +50,63 @@
 </template>
 
 <script>
-export default {
-    components: {},
-    props: {},
-    data() {
-        return {
-			username:'', // 用于测试
-			email:"",
-			password:"",
-			confirmPassword:""
-		};
-    },
+	// 引入云对象进行注册
+	const signup_obj = uniCloud.importObject("signup")
+	export default {
+		components: {},
+		props: {},
+		data() {
+			return {
+				username:"", // 用于测试
+				email:"",
+				password:"",
+				confirmPassword:"",
+				hashPassword:""
+			};
+		},
 
-    methods: {
-		// 注册按钮点击事件
-        async signup() {
-			// 检查两次输入密码是否一致
-			if (this.password != this.confirmPassword){
-				console.log("两次输入密码不一致");
-				return;
-			}
-			
-			
-			try{
-				const res = await uniCloud.callFunction({
-					name:"signup",	// 云函数名
+		methods: {
+			async signup(){
+				// 检查两次输入密码是否一致
+				if (this.password != this.confirmPassword){
+					console.log("两次输入密码不一致");
+					return;
+				}
+				
+				uniCloud.callFunction({
+					name:"encrypt",
 					data:{
-						email: this.email,
 						password: this.password
 					}
+				}).then(res=>{
+					// console.log(res)
+					this.hashPassword = res.result
+					console.log(this.hashPassword)	
+					// 以下为未加密直接存储，上为测试加密算法
+					// return; // 测试才成功后注释
+					signup_obj.add({
+						// password: this.password,
+						password: this.hashPassword,
+						email: this.email
+					}).then(res=>{
+						console.log(res)
+						uni.navigateTo({
+							url:"/pages/login/sign_up_success"
+						})
+					}).catch(err=>{
+						console.log(err)
+					})
 				})
-				console.log("完成注册", res)
-			} catch(err){
-				//TODO handle the exception
-				console.log("注册失败",err)
-			}
+				
+				
+			},
 			
-			// 暂时还没添加进一步的逻辑
-            uni.navigateTo({
-                url: "/pages/login/sign_up_success"
-            });
-        },
-		enterLogin(){
-			uni.navigateTo({
-				url:"log_in"
-			});
-		}
-	},
+			enterLogin(){
+				uni.navigateTo({
+					url:"log_in"
+				});
+			}
+		},
 };
 </script>
 

@@ -1,59 +1,46 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/login/init_loading"
-		},
-		{
-			"path": "pages/user/user_main_page"
-		},
-		{
-			"path": "pages/review/learning"
-		},
-		{
-			"path": "pages/review/history"
-		},
-		{
-			"path": "pages/review/bookshelf"
-		},
-		
-		
-		{
-			"path": "pages/learn/bt_connected"
-		},
-		{
-			"path": "pages/learn/wait4bt"
-		},
-		
-		{
-			"path": "pages/review/learned"
-		},
-		
-		
-		{
-			"path": "pages/login/sign_up_success"
-		},
-		{
-			"path": "pages/login/sign_up"
-		},
-		{
-			"path": "pages/login/log_in"
-		},
-		{
-			"path": "pages/login/welcome"
-		}
-		
-		
-		// {
-		// 	"path": "pages/index/index",
-		// 	// "style": {
-		// 	// 	"navigationBarTitleText": "uni-app"
-		// 	// }
-		// }
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"navigationBarTitleText": "智学"
-	},
-	"uniIdRouter": {}
+    "pages": [
+        {
+            "path": "pages/login/init_loading"
+        },
+        {
+            "path": "pages/user/user_main_page"
+        },
+        {
+            "path": "pages/review/learning"
+        },
+        {
+            "path": "pages/review/history"
+        },
+        {
+            "path": "pages/review/bookshelf"
+        },
+        {
+            "path": "pages/learn/bt_connected"
+        },
+        {
+            "path": "pages/learn/wait4bt"
+        },
+        {
+            "path": "pages/review/learned"
+        },
+        {
+            "path": "pages/login/sign_up_success"
+        },
+        {
+            "path": "pages/login/sign_up"
+        },
+        {
+            "path": "pages/login/log_in"
+        },
+        {
+            "path": "pages/login/welcome"
+        }
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "navigationBarTitleText": "智学"
+    },
+    "uniIdRouter": {}
 }
