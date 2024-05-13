@@ -8,7 +8,10 @@ import pprint
 import requests
 
 DETECTION_URL = "http://workspace.featurize.cn:62938/v1/object-detection/yolov5s"
-IMAGE = "jasmine.jpg"
+# IMAGE = "jasmine.jpg"
+
+# 更新路径
+IMAGE = r"software_test\Yolo_flask_test\jasmine.jpg"
 
 # Read image
 with open(IMAGE, "rb") as f:
