@@ -7,14 +7,13 @@ exports.main = async (event, context) => {
 	console.log('event : ', event)
 	try{
 		// 获取客户端上传的信息
-		const {email, password} = event;
+		let {email, password} = event;
 		// 参数校验
 		if (!email || !password){
 			throw new Error("邮箱和密码不能为空！");
 		}
-		
 		// 调用函数进行数据库操作
-		const user = await createUser(email, password)
+		let user = await createUser(email, password)
 		
 		// 注册成功，返回用户信息
 		return {
@@ -28,9 +27,6 @@ exports.main = async (event, context) => {
 			message: err.message
 		};
 	}
-	
-	//返回数据给客户端
-	return event
 };
 
 async function createUser(email, password){

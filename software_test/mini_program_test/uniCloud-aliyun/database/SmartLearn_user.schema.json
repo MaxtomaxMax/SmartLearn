@@ -30,7 +30,7 @@
 				},
 				"email":{
 					"bsonType":"string",
-					"require": true,
+					"required": true,
 					"unique": true
 				},
 				"password":{

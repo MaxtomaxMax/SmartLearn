@@ -5,9 +5,12 @@
             <text class="self-stretch text_2 mt-27">智学系统，高效学习好伙伴！</text>
         </view>
         <!-- 将 text-wrapper 改成 button -->
-        <button class="flex-col justify-start items-center button mt-49" @click="enterLogin">
+        <!-- <button class="flex-col justify-start items-center button mt-49" @click="enterLogin">
             <text class="text_3">进入</text>
-        </button>
+        </button> -->
+		<button class="flex-col justify-start items-center button mt-49 text-wrapper_2" @click="enterLogin">
+		    <text class="text_3">进入</text>
+		</button>	
     </view>
 </template>
 
@@ -72,15 +75,27 @@ export default {
     } */
 	/* 去除原来的 text-wrapper 样式 */
 	/* 改成新的样式 */
-	.button {
+	
+	/* .button {
 	    align-self: center;
 	    padding: 37.5rpx 0;
 	    border-radius: 104.17rpx;
-	    background-image: url('https://ide.code.fun/api/image?token=663de04ad578370011c6ed01&name=dce008a8cbac753a176ce136f794f25f.png');
+	    background-image: url('https://mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd.cdn.bspapp.com/SmartLearn_icon/Rectangle.png');
 	    background-size: 100% 100%;
 	    background-repeat: no-repeat;
 	    width: 264.58rpx;
+	} */
+	
+	/* 发现除了这一页其它都没有用icon */
+	/* 调整到完全相同 */
+	
+	.text-wrapper_2 {
+	    padding: 37.5rpx 0;
+	    background-image: linear-gradient(180deg, #453099b3 0%, #7451ff 100%);
+	    border-radius: 104.17rpx;
+	    width: 264.58rpx;
 	}
+	
     .text_3 {
         color: #ffffff;
         font-size: 41.67rpx;

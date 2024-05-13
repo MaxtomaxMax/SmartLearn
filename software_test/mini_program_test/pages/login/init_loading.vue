@@ -38,9 +38,13 @@
 
 <template>
 	<view class="flex-col items-center page">
-		<image
+		<!-- <image
 			class="image"
 			src="https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=a9c16dcda05db1bf7e35dd4bcca0d46d.png"
+		/> 需要改成unicloud云存储的地址-->
+		<image
+			class="image"
+			src="https://mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd.cdn.bspapp.com/SmartLearn_icon/logo_white.png"
 		/>
 		<text class="mt-16 text">智学</text>
 	</view>
