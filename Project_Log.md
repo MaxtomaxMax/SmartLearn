@@ -17,7 +17,9 @@
 2024 年 5 月 5 日
 15 点 18 分
 完成小程序最初加载的页面
+
 ![loading](/fig4log/fig1.png)
+
 页面路径：software_test\mini_program_test\pages\login\init_loading.vue
 
 15 点 58 分
