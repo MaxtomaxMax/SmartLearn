@@ -60,7 +60,7 @@
     "borderStyle": "black",
     "list": [
       {
-        "pagePath": "pages/review/learned",
+        "pagePath": "pages/review/learning",
         "iconPath": "/static/ui_icon/wengu.png",
         "selectedIconPath": "/static/ui_icon/wengu.png",
         "text": "温故"
