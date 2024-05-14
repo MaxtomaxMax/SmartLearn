@@ -109,6 +109,39 @@
 - 异步调用要么在Promise对象返回后.then()里面调用后面的代码
 - 要么就async对应的代码之后老老实实await
 
+16点11分
+校验邮箱唯一性的时候出现问题，始终无法正常搜索数据库，代码如下：
+```js
+// 用于检测是否字段是否在数据库中唯一
+'use strict';
+const db = uniCloud.database()
+exports.main = async (event, context) => {
+	let {key, value} = event
+	
+	return await db.collection("SmartLearn_user").where({
+		key:value
+	}).get()
+};
+```
+
+**解决方案**：
+不能再对象{}内字面使用`key:value`，这样会`key`被视为字符串字面量而不是变量，此时实际上在查询`"key"`而不是`key`变量的值
+
+修改后代码：
+```js
+// 用于检测是否字段是否在数据库中唯一
+'use strict';
+const db = uniCloud.database()
+exports.main = async (event, context) => {
+	let {key, value} = event
+	let key_value = {}
+	key_value[key] = value	// 直接写key:value
+	
+	return await db.collection("SmartLearn_user").where(key_value).get()
+};
+
+```
+
 # 前端UI修改需求
 （未打勾表示未实现）
 - [ ] 登录页面添加微信登录页面入口
@@ -119,6 +152,7 @@
 - [ ] 绑定微信的页面
 - [ ] 绑定微信成功页面（跟注册成功相似但做一丢丢区分）
 - [ ] 添加一个能够让用户更改用户名的地方（新页面or图标）,后端默认用邮箱注册，用户名随机生成
+- [ ] 考虑在用户注册的部分添加邮箱验证功能（多一个输入框填写验证码）
 
 # 协同开发沟通
 

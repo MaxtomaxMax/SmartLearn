@@ -14,14 +14,14 @@
                     <text class="font_2 text_4 text_5">请输入邮箱</text>
                 </view> -->
 				<!-- 将文本输入框替换成输入邮箱的输入框 -->
-                <input class="flex-col justify-start items-start text-wrapper input mt-5" type="text" placeholder="  请输入邮箱" style="font-size: 36.67rpx;"/>
+                <input v-model="email" class="flex-col justify-start items-start text-wrapper input mt-5" type="text" placeholder="  请输入邮箱" style="font-size: 36.67rpx;"/>
             </view>
             <view class="mt-20 flex-col">
                 <text class="self-start font text_6">密码</text>
                 <!-- <view class="flex-col justify-start items-start text-wrapper input mt-5">
                     <text class="font_2 text_4">请输入密码</text>
                 </view> -->
-				<input class="flex-col justify-start items-start text-wrapper input mt-5" type="password" placeholder="  请输入密码" style="font-size: 36.67rpx;"/>
+				<input v-model="password" class="flex-col justify-start items-start text-wrapper input mt-5" type="password" placeholder="  请输入密码" style="font-size: 36.67rpx;"/>
             </view>
         </view>
         <button class="flex-col justify-start items-center button text-wrapper_2" @click="login">
@@ -36,17 +36,79 @@
 </template>
 
 <script>
-export default {
+	const db = uniCloud.database()
+	// const bcrypt = require('bcryptjs')
+	export default {
+		data(){
+			return {
+				email:"",
+				password:""
+			}
+		},
+		
 		methods: {
-            // 点击登录按钮
-            login() {
-                // 在这里添加登录逻辑
-                // 例如验证用户输入的用户名和密码，然后进行登录操作
-                // 最后跳转到其他页面
-                uni.navigateTo({
-                    url: 'pages/otherPage/otherPage'
-                });
-            },
+            // 点击登录按钮	
+    //         login() {				
+    //             login_obj.login({
+				// 	email: this.email,
+				// 	password: this.password
+				// }).then(res=>{
+				// 	console.log(res)
+				// }).catch(err=>{
+				// 	console.log(err)
+				// })
+				// },
+				
+			async login(){
+				// 查找邮箱并存储哈希密码
+				let emailRes = await db.collection("SmartLearn_user")
+					.where({
+						"email":this.email
+					})
+					.get()
+				
+				if (emailRes.result.data[0]){
+					console.log("邮箱匹配成功")
+					let pwd_stored = emailRes.result.data[0].password
+					// 验证密码是否正确
+					let valPwdRes = await uniCloud.callFunction({
+						name:"val_pwd",
+						data:{
+							password: this.password,
+							pwd_stored
+						}
+					})
+					
+					// console.log(valPwdRes)
+					if (valPwdRes.result.code == 0){
+						console.log("密码匹配成功")
+						uni.showToast({
+							title:"成功登录"
+						})
+						
+						// 成功登录后页面跳转
+						
+						// 成功登录后将_id存储到localStorage
+						let userId = emailRes.result.data[0]._id
+						uni.setStorageSync('user_id', userId)
+						console.log("用户登录信息成功存储")
+						
+						
+					} else{
+						console.log("密码匹配失败")
+						uni.showToast({
+							icon:"error",
+							title:"密码不正确"
+						})
+					}
+					
+					
+				} else{
+					console.log("数据库中未匹配到该邮箱")
+				}
+				
+			},	
+        
             // 跳转到注册页面
             enterSignup() {
                 uni.navigateTo({
