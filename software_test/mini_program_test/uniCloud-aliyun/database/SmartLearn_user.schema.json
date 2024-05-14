@@ -1,53 +1,30 @@
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
 	"bsonType": "object",
-	"required": [],
+	"required": ["email", "password"],
 	"permission": {
-		"read": false,
+		"read": true,
 		"create": false,
 		"update": false,
 		"delete": false
 	},
 	"properties": {
-		"user_info":{
-			// 用户信息集合
-			"fields":{
-				"_id": {
-					// 默认索引
-					"description": "ID，系统自动生成",
-					"required": true,
-					"permission": {
-					            "read": false,
-					            "create": false,
-					            "update": false,
-					            "delete": false
-					}
-					
-				},
-				"username":{
-					"bsonType": "string",
-					"required": true	// 表示字段是必需的	
-				},
-				"email":{
-					"bsonType":"string",
-					"required": true,
-					"unique": true
-				},
-				"password":{
-					"bsonType": "string",
-					"required": true
-				}
-			},
-			"indexes":{
-				// 自定义的索引，默认为_id索引
-				"username_index":{
-					"fields":["username"]
-				},
-				"email_index":{
-					"fields":["email"]
-				}
-
-			}
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"email":{
+			"bsonType": "string",
+			"title": "邮箱",
+			"trim":"both"
+		},
+		"password":{
+			"bsonType": "string",
+			"title": "密码",
+			"trim": "both"
+		},
+		"username":{
+			"bsonType": "string",
+			"title": "用户名"
 		}
 		
 	}
