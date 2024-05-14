@@ -1,58 +1,88 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/login/init_loading"
-		},
-		{
-			"path": "pages/user/user_main_page"
-		},
-		{
-			"path": "pages/review/learning"
-		},
-		{
-			"path": "pages/review/history"
-		},
-		{
-			"path": "pages/review/bookshelf"
-		},
-		
-		
-		{
-			"path": "pages/learn/bt_connected"
-		},
-		{
-			"path": "pages/learn/wait4bt"
-		},
-		
-		{
-			"path": "pages/review/learned"
-		},
-	
-		{
-			"path": "pages/login/sign_up_success"
-		},
-		{
-			"path": "pages/login/sign_up"
-		},
-		{
-			"path": "pages/login/log_in"
-		},
-		{
-			"path": "pages/login/welcome"
-		}
-		
-		
-		// {
-		// 	"path": "pages/index/index",
-		// 	// "style": {
-		// 	// 	"navigationBarTitleText": "uni-app"
-		// 	// }
-		// }
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"navigationBarTitleText": "智学"
-	},
-	"uniIdRouter": {}
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/login/init_loading"
+    },
+    {
+      "path": "pages/user/user_main_page"
+    },
+    {
+      "path": "pages/review/learning"
+    },
+    {
+      "path": "pages/review/history"
+    },
+    {
+      "path": "pages/review/bookshelf"
+    },
+
+    {
+      "path": "pages/learn/bt_connected"
+    },
+    {
+      "path": "pages/learn/wait4bt"
+    },
+
+    {
+      "path": "pages/review/learned"
+    },
+
+    {
+      "path": "pages/login/sign_up_success"
+    },
+    {
+      "path": "pages/login/sign_up"
+    },
+    {
+      "path": "pages/login/log_in"
+    },
+    {
+      "path": "pages/login/welcome"
+    }
+
+    // {
+    // 	"path": "pages/index/index",
+    // 	// "style": {
+    // 	// 	"navigationBarTitleText": "uni-app"
+    // 	// }
+    // }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTitleText": "智学"
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#7451ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/review/learned",
+        "iconPath": "/static/ui_icon/wengu.png",
+        "selectedIconPath": "/static/ui_icon/wengu.png",
+        "text": "温故"
+      },
+      {
+        "pagePath": "pages/learn/wait4bt",
+        "iconPath": "/static/ui_icon/zhixin.png",
+        "selectedIconPath": "/static/ui_icon/zhixin.png",
+        "text": "知新"
+      },
+      {
+        "pagePath": "pages/reflection/reflection",
+        "iconPath": "/static/ui_icon/sanxing.png",
+        "selectedIconPath": "/static/ui_icon/sanxing.png",
+        "text": "三省"
+      },
+      {
+        "pagePath": "pages/user/user_main_page",
+        "iconPath": "/static/ui_icon/wushen.png",
+        "selectedIconPath": "/static/ui_icon/wushen.png",
+        "text": "吾身"
+      }
+    ]
+  }
 }

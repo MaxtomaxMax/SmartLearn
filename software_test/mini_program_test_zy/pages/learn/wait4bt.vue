@@ -33,36 +33,6 @@
           <button @tap="connectTo(device.deviceId)">{{ device.name }}</button>
         </block>
       </scroll-view>
-      <view class="flex-row equal-division section">
-        <view class="flex-col items-center section_2 equal-division-item">
-          <image
-            class="shrink-0 image_3"
-            src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=3807e5ce846f1a122c99fa99f0f2ff32.png"
-          />
-          <text class="font text_4">温故</text>
-        </view>
-        <view class="flex-col items-center section_2 equal-division-item">
-          <image
-            class="shrink-0 image_4"
-            src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=447c9226d59ea4dd46e7f54fb27260b4.png"
-          />
-          <text class="font text_5">知新</text>
-        </view>
-        <view class="flex-col items-center section_2 equal-division-item">
-          <image
-            class="shrink-0 image_5"
-            src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=a28466b963e1bce1c140eaa66dfc8c13.png"
-          />
-          <text class="font text_6">三省</text>
-        </view>
-        <view class="flex-col items-center section_2 equal-division-item">
-          <image
-            class="shrink-0 image_3"
-            src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=248a963a79e2bce3d28e2766eede344f.png"
-          />
-          <text class="font mt-3">吾身</text>
-        </view>
-      </view>
     </view>
   </view>
 </template>

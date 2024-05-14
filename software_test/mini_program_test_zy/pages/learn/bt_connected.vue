@@ -19,36 +19,6 @@
       <text class="self-center text_2">点击开始计时</text>
       <text class="self-center text_3">00:00:00</text>
     </view>
-    <view class="flex-row tab-bar">
-      <view class="flex-col items-center section_1">
-        <image
-          class="image_2"
-          src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=c27e47588fc51f198750cf896df6d092.png"
-        />
-        <text class="font_2 text_4">温故</text>
-      </view>
-      <view class="flex-col items-center section_2">
-        <image
-          class="image_2"
-          src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=95939757903d5fea0ce0279fd67d3926.png"
-        />
-        <text class="mt-2 font_2 text_5">知新</text>
-      </view>
-      <view class="flex-col items-center section_4">
-        <image
-          class="image_2"
-          src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=199555151d0ab2676d0571f82052a737.png"
-        />
-        <text class="font_2 text_6">三省</text>
-      </view>
-      <view class="flex-col items-center section_3">
-        <image
-          class="image_2"
-          src="https://ide.code.fun/api/image?token=663e5372d578370011c704fb&name=086346215073334eefa1a267175b8d92.png"
-        />
-        <text class="mt-6 font_2">吾身</text>
-      </view>
-    </view>
   </view>
 </template>
 
