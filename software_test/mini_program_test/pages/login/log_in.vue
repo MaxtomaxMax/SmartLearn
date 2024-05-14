@@ -3,7 +3,7 @@
     <view class="flex-col page">
         <image
             class="self-center image"
-            src="https://mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd.cdn.bspapp.com/SmartLearn_icon/logo_black.png"
+            src="../../static/ui_icon/logo_black.png"
         />
         <text class="self-center text">欢迎回来</text>
         <text class="self-center text_2">学者，当觅学之法，方能事半功倍</text>

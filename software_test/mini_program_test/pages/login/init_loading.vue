@@ -44,7 +44,7 @@
 		/> 需要改成unicloud云存储的地址-->
 		<image
 			class="image"
-			src="https://mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd.cdn.bspapp.com/SmartLearn_icon/logo_white.png"
+			src="/static/ui_icon/logo_white.png"
 		/>
 		<text class="mt-16 text">智学</text>
 	</view>
