@@ -54,7 +54,7 @@
         "setting" : {
             "urlCheck" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
         "permission": {
             "scope.bluetooth": {
                 "desc": "你的应用需要使用蓝牙"  // 蓝牙权限的描述

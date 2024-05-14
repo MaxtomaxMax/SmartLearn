@@ -17,7 +17,9 @@
 2024 年 5 月 5 日
 15 点 18 分
 完成小程序最初加载的页面
+
 ![loading](/fig4log/fig1.png)
+
 页面路径：software_test\mini_program_test\pages\login\init_loading.vue
 
 15 点 58 分
@@ -34,12 +36,16 @@
 18 点 30 分
 完成了前端登录页面简单的跳转逻辑实现
 
-22 点 18 分
+22点18分
 完成了数据库用户最基本信息的设计
 
-2024 年 5 月 10 日
-17 点 57 分
-数据库 API 接口调试基本完成
+2024年5月10日
+17点57分
+数据库API接口调试基本完成
+
+2024年5月14日
+17点56分
+完成用户注册登录系统的后端开发
 
 ## Jas
 
@@ -123,22 +129,55 @@
 经过排查发现是 this.hashPassword 变量收不到值，最终排查出错误之后结合 GPT 问答发现是异步调用问题
 
 注意：
+- 异步调用要么在Promise对象返回后.then()里面调用后面的代码
+- 要么就async对应的代码之后老老实实await
 
-- 异步调用要么在 Promise 对象返回后.then()里面调用后面的代码
-- 要么就 async 对应的代码之后老老实实 await
+16点11分
+校验邮箱唯一性的时候出现问题，始终无法正常搜索数据库，代码如下：
+```js
+// 用于检测是否字段是否在数据库中唯一
+'use strict';
+const db = uniCloud.database()
+exports.main = async (event, context) => {
+	let {key, value} = event
+	
+	return await db.collection("SmartLearn_user").where({
+		key:value
+	}).get()
+};
+```
+
+**解决方案**：
+不能再对象{}内字面使用`key:value`，这样会`key`被视为字符串字面量而不是变量，此时实际上在查询`"key"`而不是`key`变量的值
+
+修改后代码：
+```js
+// 用于检测是否字段是否在数据库中唯一
+'use strict';
+const db = uniCloud.database()
+exports.main = async (event, context) => {
+	let {key, value} = event
+	let key_value = {}
+	key_value[key] = value	// 直接写key:value
+	
+	return await db.collection("SmartLearn_user").where(key_value).get()
+};
+
+```
 
 # 前端 UI 修改需求
 
 （未打勾表示未实现）
 
-- [ ] 登录页面添加微信登录页面入口
-- [ ] 微信一键登录页面
+<!-- - [ ] 登录页面添加微信登录页面入口
+- [ ] 微信一键登录页面 -->
 - [ ] 邮箱登录输入密码的文本输入框加一个小眼睛（显示密码的）（主要是需要这个图标）
 - [ ] 5 月 7 日提出的若干问题
 - [ ] 注册成功的地方添加一个绑定微信的按钮，引入绑定微信的页面
 - [ ] 绑定微信的页面
 - [ ] 绑定微信成功页面（跟注册成功相似但做一丢丢区分）
-- [ ] 添加一个能够让用户更改用户名的地方（新页面 or 图标）,后端默认用邮箱注册，用户名随机生成
+- [ ] 添加一个能够让用户更改用户名的地方（新页面or图标）,后端默认用邮箱注册，用户名随机生成
+- [ ] 考虑在用户注册的部分添加邮箱验证功能（多一个输入框填写验证码）
 
 # 协同开发沟通
 

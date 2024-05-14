@@ -3,7 +3,7 @@
     <view class="flex-col page">
         <image
             class="self-center image"
-			src="https://mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd.cdn.bspapp.com/SmartLearn_icon/logo_black.png"
+			src="../../static/ui_icon/logo_black.png"	
         />
         <text class="self-center text">注册</text>
         <text class="self-center text_2">学者，当觅学之法，方能事半功倍</text>
@@ -50,14 +50,12 @@
 </template>
 
 <script>
-	// 引入云对象进行注册
-	const signup_obj = uniCloud.importObject("signup")
+	const db = uniCloud.database()
 	export default {
 		components: {},
 		props: {},
 		data() {
 			return {
-				username:"", // 用于测试
 				email:"",
 				password:"",
 				confirmPassword:"",
@@ -65,41 +63,79 @@
 			};
 		},
 
-		methods: {
-			async signup(){
-				// 检查两次输入密码是否一致
-				if (this.password != this.confirmPassword){
-					console.log("两次输入密码不一致");
-					return;
-				}
-				
-				uniCloud.callFunction({
-					name:"encrypt",
-					data:{
-						password: this.password
-					}
-				}).then(res=>{
-					// console.log(res)
-					this.hashPassword = res.result
-					console.log(this.hashPassword)	
-					// 以下为未加密直接存储，上为测试加密算法
-					// return; // 测试才成功后注释
-					signup_obj.add({
-						// password: this.password,
-						password: this.hashPassword,
-						email: this.email
-					}).then(res=>{
-						console.log(res)
+		methods: {	
+			async signup() {
+			    try {
+			        // 检查两次输入密码是否一致
+			        if (this.password !== this.confirmPassword) {
+			            console.log("两次输入密码不一致");
+			            return;
+			        }
+			
+			        // 校验密码长度
+			        if (this.password.length < 6 || this.password.length > 16) {
+			            console.log("密码长度应在6-16位");
+			            return;
+			        }
+			
+			        // 校验邮箱是否唯一
+			        const checkUniResult = await uniCloud.callFunction({
+			            name: "check_uni",
+			            data: {
+			                key: "email",
+			                value: this.email
+			            }
+			        });
+			
+			        if (checkUniResult.result.data.length !== 0) {
+						console.log("该邮箱已经被注册")
+			            uni.showToast({
+			                icon: "error",
+			                title: "该邮箱已经被注册"
+			            });
+			            return;
+			        }
+			
+			        // 完成校验，开始存储
+			        const encryptResult = await uniCloud.callFunction({
+			            name: "encrypt",
+			            data: {
+			                password: this.password
+			            }
+			        });
+			
+			        console.log("加密完成");
+			        this.hashPassword = encryptResult.result;
+			
+			        const dbResult = await db.collection("SmartLearn_user").add({
+			            email: this.email,
+			            password: this.hashPassword
+			        });
+			
+			        console.log("注册成功");
+			        uni.showToast({
+			            title: "注册成功"
+			        });
+			
+			        // 跳转页面
+					setTimeout(() =>{
 						uni.navigateTo({
 							url:"/pages/login/sign_up_success"
-						})
-					}).catch(err=>{
-						console.log(err)
-					})
-				})
-				
-				
+						});
+					}, 1500)
+			        
+			
+			    } catch (err) {
+			        console.log(err);
+			        // 在需要的地方也可以添加适当的错误处理提示
+			        uni.showToast({
+			            icon: "error",
+			            title: "注册失败，请稍后再试"
+			        });
+			    }
 			},
+
+			
 			
 			enterLogin(){
 				uni.navigateTo({

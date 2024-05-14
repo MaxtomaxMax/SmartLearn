@@ -1,0 +1,7 @@
+{
+  "name": "check_uni",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
