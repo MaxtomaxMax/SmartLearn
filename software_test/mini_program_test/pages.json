@@ -35,7 +35,10 @@
         },
         {
             "path": "pages/login/welcome"
-        }
+        },
+		{
+			"path": "pages/user/chat"
+		}
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",
