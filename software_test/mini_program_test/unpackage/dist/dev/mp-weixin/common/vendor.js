@@ -7528,6 +7528,9 @@ const pages = [
   },
   {
     path: "pages/login/welcome"
+  },
+  {
+    path: "pages/user/chat"
   }
 ];
 const globalStyle = {
@@ -7535,10 +7538,43 @@ const globalStyle = {
   navigationBarBackgroundColor: "#F8F8F8",
   navigationBarTitleText: "智学"
 };
+const tabBar = {
+  color: "#666",
+  selectedColor: "#7451ff",
+  backgroundColor: "#ffffff",
+  borderStyle: "black",
+  list: [
+    {
+      pagePath: "pages/review/learned",
+      iconPath: "static/ui_icon/project.png",
+      selectedIconPath: "static/ui_icon/project_selected.png",
+      text: "温故"
+    },
+    {
+      pagePath: "pages/learn/wait4bt",
+      iconPath: "static/ui_icon/learn.png",
+      selectedIconPath: "static/ui_icon/learn_selected.png",
+      text: "知新"
+    },
+    {
+      pagePath: "pages/review/learning",
+      iconPath: "static/ui_icon/review.png",
+      selectedIconPath: "static/ui_icon/review_selected.png",
+      text: "三省"
+    },
+    {
+      pagePath: "pages/user/user_main_page",
+      iconPath: "static/ui_icon/self.png",
+      selectedIconPath: "static/ui_icon/self_selected.png",
+      text: "吾身"
+    }
+  ]
+};
 const uniIdRouter = {};
 const e = {
   pages,
   globalStyle,
+  tabBar,
   uniIdRouter
 };
 var define_process_env_UNI_SECURE_NETWORK_CONFIG_default = [];
@@ -7830,7 +7866,7 @@ class v {
 function I(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "10.192.104.127"\n    ],\n    "debugPort": 9001,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "10.192.105.118"\n    ],\n    "debugPort": 9001,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let O = "";
 try {
   O = "__UNI__F218843";
@@ -10234,6 +10270,8 @@ let Bs = new class {
     return Es(Bs);
   } }), bs(Bs), Bs.addInterceptor = N, Bs.removeInterceptor = D, Bs.interceptObject = F;
 })();
+var Ws = Bs;
+exports.Ws = Ws;
 exports._export_sfc = _export_sfc;
 exports.createSSRApp = createSSRApp;
 exports.f = f$1;

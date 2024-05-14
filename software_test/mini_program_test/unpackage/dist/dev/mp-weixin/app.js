@@ -14,6 +14,7 @@ if (!Math) {
   "./pages/login/sign_up.js";
   "./pages/login/log_in.js";
   "./pages/login/welcome.js";
+  "./pages/user/chat.js";
 }
 const _sfc_main = {
   onLaunch: function() {

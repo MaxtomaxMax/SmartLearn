@@ -11,12 +11,45 @@
     "pages/login/sign_up_success",
     "pages/login/sign_up",
     "pages/login/log_in",
-    "pages/login/welcome"
+    "pages/login/welcome",
+    "pages/user/chat"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#F8F8F8",
     "navigationBarTitleText": "智学"
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#7451ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/review/learned",
+        "iconPath": "static/ui_icon/project.png",
+        "selectedIconPath": "static/ui_icon/project_selected.png",
+        "text": "温故"
+      },
+      {
+        "pagePath": "pages/learn/wait4bt",
+        "iconPath": "static/ui_icon/learn.png",
+        "selectedIconPath": "static/ui_icon/learn_selected.png",
+        "text": "知新"
+      },
+      {
+        "pagePath": "pages/review/learning",
+        "iconPath": "static/ui_icon/review.png",
+        "selectedIconPath": "static/ui_icon/review_selected.png",
+        "text": "三省"
+      },
+      {
+        "pagePath": "pages/user/user_main_page",
+        "iconPath": "static/ui_icon/self.png",
+        "selectedIconPath": "static/ui_icon/self_selected.png",
+        "text": "吾身"
+      }
+    ]
   },
   "usingComponents": {}
 }

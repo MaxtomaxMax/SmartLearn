@@ -48,36 +48,6 @@
             </view>
             <view class="shrink-0 group_4"></view>
         </view>
-        <view class="flex-row tab-bar">
-            <view class="flex-col items-center group_5">
-                <image
-                    class="shrink-0 image_3"
-                    src="https://ide.code.fun/api/image?token=66430f927a1eb60011e683de&name=7daeca97dedfe56358762a1311aae86a.png"
-                />
-                <text class="font_5 text_9">温故</text>
-            </view>
-            <view class="flex-col items-center section_4">
-                <image
-                    class="shrink-0 image_3"
-                    src="https://ide.code.fun/api/image?token=66430f927a1eb60011e683de&name=302b9c13da61d12b84b17285da4b7b0d.png"
-                />
-                <text class="mt-2 font_5 text_10">知新</text>
-            </view>
-            <view class="flex-col items-center section_7">
-                <image
-                    class="shrink-0 image_3"
-                    src="https://ide.code.fun/api/image?token=66430f927a1eb60011e683de&name=199555151d0ab2676d0571f82052a737.png"
-                />
-                <text class="font_5 text_11">三省</text>
-            </view>
-            <view class="flex-col items-center section_5">
-                <image
-                    class="shrink-0 image_3"
-                    src="https://ide.code.fun/api/image?token=66430f927a1eb60011e683de&name=086346215073334eefa1a267175b8d92.png"
-                />
-                <text class="mt-6 font_5 text_12">吾身</text>
-            </view>
-        </view>
     </view>
 </template>
 
