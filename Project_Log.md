@@ -36,15 +36,15 @@
 18 点 30 分
 完成了前端登录页面简单的跳转逻辑实现
 
-22点18分
+22 点 18 分
 完成了数据库用户最基本信息的设计
 
-2024年5月10日
-17点57分
-数据库API接口调试基本完成
+2024 年 5 月 10 日
+17 点 57 分
+数据库 API 接口调试基本完成
 
-2024年5月14日
-17点56分
+2024 年 5 月 14 日
+17 点 56 分
 完成用户注册登录系统的后端开发
 
 2024年5月15日
@@ -78,6 +78,8 @@
 ###
 
 4.完成了 tabBar 的设计，在 tabBar 设计时遇到问题：图片的链接需要使用本地的而非网络 url 格式链接，由 codefun 设计的静态 ui 图片链接均为网络 url、链接，我初步只更改了 tabBar 的几个图片的本地连接，后续有需要再更改其它
+
+5.完成了 user 页面的逻辑跳转和组件功能，有待和数据库进行 api 调用数据交互
 
 # 开发遇到的问题＆解决方案
 
@@ -133,21 +135,26 @@
 经过排查发现是 this.hashPassword 变量收不到值，最终排查出错误之后结合 GPT 问答发现是异步调用问题
 
 注意：
-- 异步调用要么在Promise对象返回后.then()里面调用后面的代码
-- 要么就async对应的代码之后老老实实await
 
-16点11分
+- 异步调用要么在 Promise 对象返回后.then()里面调用后面的代码
+- 要么就 async 对应的代码之后老老实实 await
+
+16 点 11 分
 校验邮箱唯一性的时候出现问题，始终无法正常搜索数据库，代码如下：
+
 ```js
 // 用于检测是否字段是否在数据库中唯一
-'use strict';
-const db = uniCloud.database()
+"use strict";
+const db = uniCloud.database();
 exports.main = async (event, context) => {
-	let {key, value} = event
-	
-	return await db.collection("SmartLearn_user").where({
-		key:value
-	}).get()
+  let { key, value } = event;
+
+  return await db
+    .collection("SmartLearn_user")
+    .where({
+      key: value,
+    })
+    .get();
 };
 ```
 
@@ -155,18 +162,18 @@ exports.main = async (event, context) => {
 不能再对象{}内字面使用`key:value`，这样会`key`被视为字符串字面量而不是变量，此时实际上在查询`"key"`而不是`key`变量的值
 
 修改后代码：
+
 ```js
 // 用于检测是否字段是否在数据库中唯一
-'use strict';
-const db = uniCloud.database()
+"use strict";
+const db = uniCloud.database();
 exports.main = async (event, context) => {
-	let {key, value} = event
-	let key_value = {}
-	key_value[key] = value	// 直接写key:value
-	
-	return await db.collection("SmartLearn_user").where(key_value).get()
-};
+  let { key, value } = event;
+  let key_value = {};
+  key_value[key] = value; // 直接写key:value
 
+  return await db.collection("SmartLearn_user").where(key_value).get();
+};
 ```
 
 # 前端 UI 修改需求
@@ -175,12 +182,13 @@ exports.main = async (event, context) => {
 
 <!-- - [ ] 登录页面添加微信登录页面入口
 - [ ] 微信一键登录页面 -->
+
 - [ ] 邮箱登录输入密码的文本输入框加一个小眼睛（显示密码的）（主要是需要这个图标）
 - [ ] 5 月 7 日提出的若干问题
 - [ ] 注册成功的地方添加一个绑定微信的按钮，引入绑定微信的页面
 - [ ] 绑定微信的页面
 - [ ] 绑定微信成功页面（跟注册成功相似但做一丢丢区分）
-- [ ] 添加一个能够让用户更改用户名的地方（新页面or图标）,后端默认用邮箱注册，用户名随机生成
+- [ ] 添加一个能够让用户更改用户名的地方（新页面 or 图标）,后端默认用邮箱注册，用户名随机生成
 - [ ] 考虑在用户注册的部分添加邮箱验证功能（多一个输入框填写验证码）
 
 # 协同开发沟通
