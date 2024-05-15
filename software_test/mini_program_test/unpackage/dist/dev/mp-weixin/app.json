@@ -12,7 +12,8 @@
     "pages/login/sign_up",
     "pages/login/log_in",
     "pages/login/welcome",
-    "pages/user/chat"
+    "pages/user/chat",
+    "pages/user/chat_test"
   ],
   "window": {
     "navigationBarTextStyle": "black",

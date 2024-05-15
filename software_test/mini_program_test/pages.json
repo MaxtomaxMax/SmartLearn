@@ -38,6 +38,9 @@
         },
 		{
 			"path": "pages/user/chat"
+		},
+		{
+			"path": "pages/user/chat_test"
 		}
     ],
     "globalStyle": {

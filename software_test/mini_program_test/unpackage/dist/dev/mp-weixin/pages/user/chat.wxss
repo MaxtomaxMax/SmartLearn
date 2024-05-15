@@ -1,17 +1,104 @@
 
+.userMsg.data-v-e32e353c{
+	justify-content: flex-end;
+	margin: 20rpx 0;
+}
+.botMsg.data-v-e32e353c{
+	justify-content: flex-start;
+	margin: 20rpx 0;
+}
+.msgRight.data-v-e32e353c {
+    position: relative;
+    max-width: 486rpx;
+    border-radius: 8rpx;
+    word-wrap: break-word;
+    padding: 24rpx 24rpx;
+    margin: 0 24rpx;
+    background-color: #C2DCFF;
+    font-size: 32rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 42rpx;
+    border-radius: 5px;
+}
+.msgRight.data-v-e32e353c::after {
+	/* 这个是聊天信息框右边尖尖的三角 */
+    position: absolute;
+    display: inline-block;
+    content: '';
+    width: 0;
+    height: 0;
+    left: 100%;
+    top: 10px;
+    border: 12rpx solid transparent;
+    border-left: 12rpx solid #C2DCFF;
+}
+.msgLeft.data-v-e32e353c {
+    position: relative;
+    max-width: 486rpx;
+    border-radius: 8rpx;
+    word-wrap: break-word;
+    padding: 24rpx 24rpx;
+    margin: 0 24rpx;
+    background-color: #FFFFFF;
+    font-size: 32rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 42rpx;
+    border-radius: 5px;
+}
+.msgLeft.data-v-e32e353c::after {
+    position: absolute;
+    display: inline-block;
+    content: '';
+    width: 0;
+    height: 0;
+    top: 10px;
+    right: 100%;
+    border: 12rpx solid transparent;
+    border-right: 12rpx solid #FFFFFF;
+}
+.avatar.data-v-e32e353c{
+	display: flex;
+	justify-content: center;
+	width: 78rpx;
+	height: 78rpx;
+	border-radius: 50rpx;
+	overflow: hidden;
+}
+	
+	
+/* 聊天消息区域样式 */
+.chat-content.data-v-e32e353c{
+	/* 隐藏默认滚动条 */
+	/* -webkit-overflow-scrolling: touch; */
+	overflow-y: scroll;
+	scrollbar-width: none; /* 对 Firefox 有效 */
+	-ms-overflow-style: none;  /* 对 IE 和 Edge 有效 */
+}
+.chat-content.data-v-e32e353c::-webkit-scrollbar {
+    display: none; /* 对 Webkit 有效 */
+}
+.input-box.data-v-e32e353c{
+	height: 60rpx;
+	border-radius: 58.33rpx;
+	bottom: 0;
+/* 	position: absolute; */
+}
 .mt-7.data-v-e32e353c {
     margin-top: 14.58rpx;
 }
 .page.data-v-e32e353c {
+	padding: 15.67rpx 20.67rpx 37.5rpx;
     background-color: #f4f2fc;
     border-radius: 58.33rpx;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
-}
-.group_2.data-v-e32e353c {
-    overflow-y: auto;
+	position: relative;
 }
 .header.data-v-e32e353c {
     margin-top: -91.67rpx;
@@ -19,14 +106,22 @@
     background-color: #f4f2fc;
 }
 .group.data-v-e32e353c {
-    padding: 0 27.67rpx;
+    padding: 0 17.67rpx;
+	width: 100%;
 }
-/* .group_3 {
-    padding: 0 41.67rpx 18.5rpx 41.67rpx;
-} */
 .group_3.data-v-e32e353c {
-    padding: 995.83rpx 125rpx 172.92rpx;
+	height: 60rpx;
+    padding: 0 41.67rpx 18.5rpx 41.67rpx;
+    position: absolute;
+    bottom: 0;
+    width: 90%; /* 根据需要调整宽度 */
+    z-index: 1000; /* 确保在其他内容之上 */
 }
+
+/* .group_3 {
+    padding: 995.83rpx 125rpx 172.92rpx;
+	border-radius: 58.33rpx;
+} */
 .image-wrapper.data-v-e32e353c {
     width: 68.75rpx;
 }
@@ -227,11 +322,17 @@
 }
 .textarea-field.data-v-e32e353c {
   width: 90%;
-  height: 50rpx;
+  min-height: 50rpx;
+  /* height: 60rpx; */
   padding: 10rpx;
   border-radius: 20rpx;
   border: 1rpx solid #dcdcdc;
   resize: none;
   background-color: #FFFFFF;
+  overflow-y: hidden; /* Ensure no scrollbars are shown */
+  box-sizing: border-box; /* Ensure padding is included in height calculation */
 }
-
+.chat-container.data-v-e32e353c{
+	padding: 30rpx 0 0 0;
+	border-radius: 58.33rpx;
+}

@@ -10,7 +10,8 @@ const _sfc_main = {
     // 跳转的login界面
     enterLogin() {
       common_vendor.index.navigateTo({
-        url: "log_in"
+        // url:"log_in"
+        url: "/pages/user/chat"
       });
     }
   }

@@ -58,7 +58,7 @@
 		return {};
 		},
 		// 延时2s之后跳转页面	
-		onLoad() {
+		onShow() {
 			setTimeout(()=>{
 				uni.navigateTo({
 					url:"welcome"

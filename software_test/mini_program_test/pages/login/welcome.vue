@@ -25,7 +25,8 @@ export default {
 		// 跳转的login界面
 		enterLogin(){
 			uni.navigateTo({
-				url:"log_in"
+				// url:"log_in"
+				url:"/pages/user/chat"
 			});
 		}
 	},

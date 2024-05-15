@@ -7,7 +7,7 @@ const _sfc_main = {
     return {};
   },
   // 延时2s之后跳转页面	
-  onLoad() {
+  onShow() {
     setTimeout(() => {
       common_vendor.index.navigateTo({
         url: "welcome"
