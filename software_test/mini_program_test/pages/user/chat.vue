@@ -1,51 +1,26 @@
 <template>
     <view class="flex-col page">
-        <view class="flex-col flex-1 group_2">
+        <view class="flex-col flex-1 group_2 ">
             <view class="flex-col justify-start relative header">
                 <view class="flex-row items-center group">
                     <view class="flex-col justify-start items-center image-wrapper">
                         <image
                             class="image_2"
-                            src="https://ide.code.fun/api/image?token=66430f927a1eb60011e683de&name=2e5f9f83fccc486ba3b7781bd271c017.png"
-                        />
+                            src="../../static/ui_icon/exit.png"
+                        />	
                     </view>
                     <view class="flex-col justify-start text-wrapper"><text class="font text">答疑</text></view>
                     <view class="flex-col justify-start text-wrapper_2"><text class="font text_2">历史</text></view>
                 </view>
             </view>
             <view class="flex-col group_3">
-                <view class="flex-col justify-start self-end text-wrapper_3">
-                    <text class="font_2 text_3">五世而斩上一句是什么</text>
-                </view>
-                <view class="mt-12 flex-col self-stretch section">
-                    <view class="flex-col justify-start self-stretch text-wrapper_4">
-                        <text class="font_3">
-                            “五世而斩”的上一句是**“君子之泽”**。这句话出自《孟子·离娄章句下》，意思是：一个品行高尚，能力出众的君子，辛辛苦苦成就了事业，留给后代的恩惠福禄，经过几代人就消耗殆尽了。这句话也可以理解为，君子的品行和家风经过几代人之后，就不复存在了；或者先辈积累的财富家产经过几代人就会败光。
-                        </text>
-                    </view>
-                    <text class="self-start font_4 text_4 text_1 mt-7">归类：毛概</text>
-                </view>
-                <view class="mt-12 flex-col justify-start self-end text-wrapper_5">
-                    <text class="font_2 text_5">“君子之泽”的具体含义是什么</text>
-                </view>
-                <view class="mt-12 flex-col self-stretch section_2">
-                    <view class="flex-col justify-start self-stretch text-wrapper_6">
-                        <text class="font_3 text_6">
-                            “君子之泽”的具体含义是指一个品行高尚、能力出众的君子所创造和积累的物质财富和精神财富对后世的影响力。这包括君子辛苦打拼的事业所带来的好处与福泽，以及他们的品行和家风对后代的影响。然而，这种影响力并不是永恒的，经过几代人的传承，这些恩惠和家风可能会逐渐消退，即“五世而斩”。这也提醒我们，无论是财富还是家风，都需要后代的努力和维护，才能长久地延续下去。
-                        </text>
-                    </view>
-                    <text class="self-start font_4 text_4 text_15 mt-7">归类：毛概</text>
-                </view>
-                <view class="mt-12 flex-col input section_3">
-                    <text class="self-start text_7">点击进行归类</text>
-                    <view class="self-stretch divider"></view>
-                    <text class="self-start font text_8">向我提问吧~</text>
-                    <image
-                        class="image_2 pos"
-                        src="https://ide.code.fun/api/image?token=66430f927a1eb60011e683de&name=f688a6eca2ad2da68ab7a7429e5ed94e.png"
-                    />
-                </view>
+               <!-- <view class="mt-12 flex-col input section_3">
+                    <text class="self-start font text_8">向我提问吧~</text>	
+                </view> -->
+				<textarea class="textarea-field" @input="autoResize"></textarea>
             </view>
+			
+
             <view class="shrink-0 group_4"></view>
         </view>
     </view>
@@ -59,7 +34,15 @@ export default {
         return {};
     },
 
-    methods: {},
+    methods: {
+		autoResize(event) {
+		      const textarea = this.$refs.textarea;
+		      const pixelValue = textarea.scrollHeight;
+		      const rpxValue = pixelValue * (750 / wx.getSystemInfoSync().windowWidth);
+		      textarea.style.height = 'auto'; // 重置高度
+		      textarea.style.height = rpxValue + 'rpx'; // 根据内容调整高度
+		    }
+	},
 };
 </script>
 
@@ -86,6 +69,14 @@ export default {
 .group {
     padding: 0 27.67rpx;
 }
+/* .group_3 {
+    padding: 0 41.67rpx 18.5rpx 41.67rpx;
+} */
+.group_3 {
+    padding: 995.83rpx 125rpx 172.92rpx;
+}
+
+
 .image-wrapper {
     width: 68.75rpx;
 }
@@ -112,9 +103,7 @@ export default {
 .text_2 {
     line-height: 30.54rpx;
 }
-.group_3 {
-    padding: 0 41.67rpx 18.5rpx 41.67rpx;
-}
+
 .text-wrapper_3 {
     padding: 24rpx 0 21.08rpx;
     background-color: #7451ff99;
@@ -215,6 +204,7 @@ export default {
     margin-left: 61.94rpx;
     margin-top: 16.25rpx;
 }
+
 .pos {
     position: absolute;
     left: 62.5rpx;
@@ -286,4 +276,14 @@ export default {
 .text_12 {
     line-height: 19.29rpx;
 }
+.textarea-field {
+  width: 90%;
+  height: 50rpx;
+  padding: 10rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #dcdcdc;
+  resize: none;
+  background-color: #FFFFFF;
+}
+
 </style>

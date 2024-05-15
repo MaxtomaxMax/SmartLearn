@@ -21,6 +21,12 @@
 .group.data-v-e32e353c {
     padding: 0 27.67rpx;
 }
+/* .group_3 {
+    padding: 0 41.67rpx 18.5rpx 41.67rpx;
+} */
+.group_3.data-v-e32e353c {
+    padding: 995.83rpx 125rpx 172.92rpx;
+}
 .image-wrapper.data-v-e32e353c {
     width: 68.75rpx;
 }
@@ -46,9 +52,6 @@
 }
 .text_2.data-v-e32e353c {
     line-height: 30.54rpx;
-}
-.group_3.data-v-e32e353c {
-    padding: 0 41.67rpx 18.5rpx 41.67rpx;
 }
 .text-wrapper_3.data-v-e32e353c {
     padding: 24rpx 0 21.08rpx;
@@ -222,3 +225,13 @@
 .text_12.data-v-e32e353c {
     line-height: 19.29rpx;
 }
+.textarea-field.data-v-e32e353c {
+  width: 90%;
+  height: 50rpx;
+  padding: 10rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #dcdcdc;
+  resize: none;
+  background-color: #FFFFFF;
+}
+
