@@ -7866,7 +7866,7 @@ class v {
 function I(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "10.192.105.118"\n    ],\n    "debugPort": 9001,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "172.28.123.130"\n    ],\n    "debugPort": 9001,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let O = "";
 try {
   O = "__UNI__F218843";
@@ -10277,3 +10277,4 @@ exports.createSSRApp = createSSRApp;
 exports.f = f$1;
 exports.index = index;
 exports.o = o$1;
+exports.wx$1 = wx$1;
