@@ -26,23 +26,25 @@
 						</view>
 						<view class="flex-row botMsg" v-if="item.botContent != ''">
 							<!-- 机器人发的信息 -->
-							<image class="avatar" src="../../static/logo.png"></image>
+							<image class="avatar" src="../../static/ui_icon/logo_black.png"></image>
 							<view class="msgLeft">
-								{{item.botContent}}
+								<!-- {{item.botContent}} -->
+								{{kimi_res}}
 							</view>
 							
 						</view>
 					</view>
 				</view>
-			
-			
-			
 			</scroll-view>
+			
 		</view>
-
+		
 	
 		<view class="flex-row group_3">
-			<uni-easyinput class="input-box" type="text" @iconClick="sendMsg"
+			<uni-easyinput class="input-box"
+			:disabled="input_disable"
+			type="text"
+			@iconClick="sendMsg"
 			suffix-icon="paperplane"
 			v-model="inputMsg" placeholder="向智学学习助手提问吧~"></uni-easyinput>
 		</view>
@@ -50,102 +52,134 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      inputMsg: "",
-      keyboardHeight: 0,
-      bottomHeight: 0,
-      scrollTop: 0, // 滚动距离
-      userId: '',
-      msgList: [
-        {
-          botContent: "Hi, Jas! My name is Max~",
-          userContent: ""
-        }
-        // 以上为测试信息
-      ]
-    };
-  },
-  computed: {
-    windowHeight() {
-      return this.rpxTopx(uni.getSystemInfoSync().windowHeight);
-    },
-    // 键盘弹起来的高度+发送框高度
-    inputHeight() {
-      return this.bottomHeight + this.keyboardHeight;
-    }
-  },
-  mounted() {
-    // 初始化时调用 sendHeight 监视发送栏高度
-    this.sendHeight();
+	export default {
+		data() {
+			return {
+				input_disable: false, // 默认情况下
+				inputMsg: "",		// input框发送的信息
+				keyboardHeight: 0,
+				bottomHeight: 0,
+				scrollTop: 0, // 滚动距离
+				userId: '',
+				msgList: [],
+				//-----测试kimi-------
+				kimi_res:'',
+				history: [],
+				//-----测试kimi--------
+			  
+			};
+		},
+		computed: {
+			windowHeight() {
+				return this.rpxTopx(uni.getSystemInfoSync().windowHeight);
+			},
+			// 键盘弹起来的高度+发送框高度
+			inputHeight() {
+				return this.bottomHeight + this.keyboardHeight;
+			}
+		},
+		mounted() {
+			// 初始化时调用 sendHeight 监视发送栏高度
+			this.sendHeight();
 
-    // 监听键盘高度变化
-    // 注: 这个在 H5 端不能使用
-    // #ifndef H5
-    uni.onKeyboardHeightChange(res => {
-      this.keyboardHeight = this.rpxTopx(res.height);
-      if (this.keyboardHeight < 0) this.keyboardHeight = 0;
-    });
-    // #endif
-  },
-  updated() {
-    // 页面更新时调用聊天消息定位到最底部
-    this.scrollToBottom();
-    // 保证高度正确
-    this.sendHeight();
-  },
-  methods: {
-    sendMsg() {
-      if (this.inputMsg.trim() === "") {
-        uni.showToast({
-                  title: '不能发送空白消息',
-                  icon: 'none'
-                });
-                return;
-      }
-      this.msgList.push({
-        botContent: "",
-        userContent: this.inputMsg
-      });
-      this.inputMsg = "";
-      this.scrollToBottom();
-    },
-    // rpx 转换成 px
-    rpxTopx(px) {
-      let deviceWidth = uni.getSystemInfoSync().windowWidth;
-      let rpx = (750 / deviceWidth) * Number(px);
-      return Math.floor(rpx);
-    },
-    // 滚动至聊天底部
-    scrollToBottom() {
-      setTimeout(() => {
-        let query = uni.createSelectorQuery().in(this);
-        query.select('#scrollview').boundingClientRect();
-        query.select('#msgList-container').boundingClientRect();
-        query.exec((res) => {
-          if (res && res[0] && res[1] && res[1].height > res[0].height) {
-            this.scrollTop = this.rpxTopx(res[1].height - res[0].height);
-          }
-        });
-      }, 15);
-    },
-    // 监视聊天发送栏高度
-    sendHeight() {
-      setTimeout(() => {
-        let query = uni.createSelectorQuery();
-        query.select('.group_3').boundingClientRect();
-        query.exec(res => {
-          if (res && res[0] && res[0].height) {
-            this.bottomHeight = this.rpxTopx(res[0].height);
-          } else {
-            console.warn("Failed to retrieve .group_3 height.");
-          }
-        });
-      }, 10);
-    }
-  }
-};
+			// 监听键盘高度变化
+			// 注: 这个在 H5 端不能使用
+			// #ifndef H5
+			uni.onKeyboardHeightChange(res => {
+				this.keyboardHeight = this.rpxTopx(res.height);
+				if (this.keyboardHeight < 0) this.keyboardHeight = 0;
+			});
+			// #endif
+		},
+		updated() {
+			// 页面更新时调用聊天消息定位到最底部
+			this.scrollToBottom();
+			// 保证高度正确
+			this.sendHeight();
+		},
+		methods: {
+			async askKimi(prompt){
+				
+			},
+			async sendMsg() {
+				if (this.inputMsg.trim() == "") {
+					uni.showToast({
+							title: '不能发送空白消息',
+							icon: 'none'
+						});
+						return;
+				}
+				let prompt = this.inputMsg
+				this.inputMsg = "";
+				this.scrollToBottom();
+				this.msgList.push({
+					botContent: "",
+					userContent: prompt
+				});
+				this.input_disable = true;
+				
+				let res = await uniCloud.callFunction({
+					name:"kimi_chat",
+					data:{
+						prompt,
+						history: this.history
+					},
+				});
+				
+				// 测试节点
+				// console.log(res)
+				// return;
+				
+				if (res.result.success) {
+					this.kimi_res = res.result.message;
+					this.history = res.result.history;
+					console.log(res)
+				} else {
+					console.error(res.result.error)
+				}
+				
+				this.msgList.push({
+					botContent: this.kimi_res,
+					userContent: ""
+				});
+				this.input_disable = false
+				console.log(this.msgList)
+			},
+			// rpx 转换成 px
+			rpxTopx(px) {
+				let deviceWidth = uni.getSystemInfoSync().windowWidth;
+				let rpx = (750 / deviceWidth) * Number(px);
+				return Math.floor(rpx);
+			},
+			// 滚动至聊天底部
+			scrollToBottom() {
+				setTimeout(() => {
+					let query = uni.createSelectorQuery().in(this);
+					query.select('#scrollview').boundingClientRect();
+					query.select('#msgList-container').boundingClientRect();
+					query.exec((res) => {
+						if (res && res[0] && res[1] && res[1].height > res[0].height) {
+							this.scrollTop = this.rpxTopx(res[1].height - res[0].height);
+					  }
+					});
+				}, 15);
+			},
+			// 监视聊天发送栏高度
+			sendHeight() {
+			  setTimeout(() => {
+				let query = uni.createSelectorQuery();
+				query.select('.group_3').boundingClientRect();
+				query.exec(res => {
+				  if (res && res[0] && res[0].height) {
+					this.bottomHeight = this.rpxTopx(res[0].height);
+				  } else {
+					console.warn("Failed to retrieve .group_3 height.");
+				  }
+				});
+			  }, 10);
+			}
+	  }
+	};
 </script>
 
 
@@ -167,7 +201,7 @@ export default {
     word-wrap: break-word;
     padding: 24rpx 24rpx;
     margin: 0 24rpx;
-    background-color: #C2DCFF;
+    background-color: #C5B6FF;
     font-size: 32rpx;
     font-family: PingFang SC;
     font-weight: 500;
@@ -186,7 +220,7 @@ export default {
     left: 100%;
     top: 10px;
     border: 12rpx solid transparent;
-    border-left: 12rpx solid #C2DCFF;
+    border-left: 12rpx solid #C5B6FF;
 }
 .msgLeft {
     position: relative;
