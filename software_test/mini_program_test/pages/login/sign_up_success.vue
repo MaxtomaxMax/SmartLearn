@@ -7,7 +7,7 @@
   />
   <text class="text">注册成功</text>
   <text class="text_2">学者，当觅学之法，方能事半功倍</text>
-  <view class="flex-col justify-start items-center button text-wrapper"><text class="text_3">开启智学之旅</text></view>
+  <view class="flex-col justify-start items-center button text-wrapper" @click="enterMainPage"><text class="text_3">开启智学之旅</text></view>
 </view>
 </template>
 
@@ -19,7 +19,13 @@ export default {
     return {};
   },
 
-  methods: {},
+  methods: {
+	  enterMainPage(){
+		  uni.navigateTo({
+		  	url:'/pages/user/chat'
+		  })
+	  }
+  },
 };
 </script>
 

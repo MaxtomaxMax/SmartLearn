@@ -87,6 +87,9 @@
 						})
 						
 						// 成功登录后页面跳转
+						uni.navigateTo({
+							url:"sign_up_success"
+						})
 						
 						// 成功登录后将_id存储到localStorage
 						let userId = emailRes.result.data[0]._id

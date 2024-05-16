@@ -4,8 +4,8 @@
 	"required": ["userId", "posttime", "content"],
 	"permission": {
 		"read": true,
-		"create": false,
-		"update": false,
+		"create": true,
+		"update": true,
 		"delete": false
 	},
 	"properties": {

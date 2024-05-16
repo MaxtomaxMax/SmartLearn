@@ -20,20 +20,30 @@
 						<view class="flex-row userMsg" v-if="item.userContent != ''">
 							<!-- 用户发的信息 -->
 							<view class="msgRight">
-								{{item.userContent}}
+								<text class="text-style">{{item.userContent}}</text>
 							</view>
 							<image class="avatar" src="../../static/logo.png"></image>
 						</view>
 						<view class="flex-row botMsg" v-if="item.botContent != ''">
-							<!-- 机器人发的信息 -->
+							<!-- kimi的信息 -->
 							<image class="avatar" src="../../static/ui_icon/logo_black.png"></image>
 							<view class="msgLeft">
-								<!-- {{item.botContent}} -->
-								{{kimi_res}}
+								<zero-markdown-view :markdown="item.botContent" themeColor="#000000"></zero-markdown-view>
+								<!-- <text class="text-style">{{item.botContent}}</text> -->
 							</view>
-							
 						</view>
 					</view>
+					<view class="flex-row botMsg" v-if="this.input_disable">
+						<image class="avatar" src="../../static/ui_icon/logo_black.png"></image>
+						<view class="loading-msgLeft" >
+							{{}}
+						</view>
+						<view class='flex-col self-stretch loading'>
+							<uni-icons class="loading" type="spinner-cycle" size="30"></uni-icons>	
+						</view>
+						
+					</view>
+					
 				</view>
 			</scroll-view>
 			
@@ -41,17 +51,18 @@
 		
 	
 		<view class="flex-row group_3">
-			<uni-easyinput class="input-box"
+			<uni-easyinput class="input-box"	
 			:disabled="input_disable"
 			type="text"
 			@iconClick="sendMsg"
 			suffix-icon="paperplane"
-			v-model="inputMsg" placeholder="向智学学习助手提问吧~"></uni-easyinput>
+			v-model="inputMsg" :placeholder="input_disable?'智学AI助手正在准备回答...':'向智学学习助手提问吧~'"></uni-easyinput>
 		</view>
     </view>
 </template>
 
 <script>
+	const db = uniCloud.database();
 	export default {
 		data() {
 			return {
@@ -118,6 +129,17 @@
 				});
 				this.input_disable = true;
 				
+				// 存信息到云数据库
+				const userId = uni.getStorageSync('user_id')
+				console.log(userId)
+				if (userId){
+					const inputStoredRes = await db.collection("chat_data").add({
+						userId,
+						posttime: Date.now(),
+						content: prompt	
+					})
+					console.log(inputStoredRes)
+				}
 				let res = await uniCloud.callFunction({
 					name:"kimi_chat",
 					data:{
@@ -134,6 +156,16 @@
 					this.kimi_res = res.result.message;
 					this.history = res.result.history;
 					console.log(res)
+					
+					// 存信息到云数据库
+					if (userId){
+						const outputStoredRes = await db.collection("chat_data").add({
+							userId,
+							posttime:Date.now(),
+							content: this.kimi_res
+						})
+						console.log(outputStoredRes)
+					}
 				} else {
 					console.error(res.result.error)
 				}
@@ -143,6 +175,7 @@
 					userContent: ""
 				});
 				this.input_disable = false
+				this.scrollToBottom();	//生成完后也要滚到最底下
 				console.log(this.msgList)
 			},
 			// rpx 转换成 px
@@ -152,18 +185,47 @@
 				return Math.floor(rpx);
 			},
 			// 滚动至聊天底部
-			scrollToBottom() {
-				setTimeout(() => {
+			// scrollToBottom() {
+			// 	setTimeout(() => {
+			// 		let query = uni.createSelectorQuery().in(this);
+			// 		query.select('#scrollview').boundingClientRect();
+			// 		query.select('#msgList-container').boundingClientRect();
+			// 		query.exec((res) => {
+			// 			if (res && res[0] && res[1] && res[1].height > res[0].height) {
+			// 				this.scrollTop = this.rpxTopx(res[1].height - res[0].height);
+			// 		  }
+			// 		});
+			// 	}, 15);
+			// },
+			// 滚动至聊天底部
+			scrollToBottom(e){
+				setTimeout(()=>{
 					let query = uni.createSelectorQuery().in(this);
 					query.select('#scrollview').boundingClientRect();
 					query.select('#msgList-container').boundingClientRect();
-					query.exec((res) => {
-						if (res && res[0] && res[1] && res[1].height > res[0].height) {
-							this.scrollTop = this.rpxTopx(res[1].height - res[0].height);
-					  }
-					});
-				}, 15);
+					query.exec((res) =>{
+						if(res[1].height > res[0].height){
+							this.scrollTop = this.rpxTopx(res[1].height - res[0].height)
+						}
+					})
+				},15)
 			},
+			// scrollToBottom() {
+			//             setTimeout(() => {
+			//                 let query = uni.createSelectorQuery().in(this);
+			//                 query.select('#scrollview').boundingClientRect();
+			//                 query.select('#msgList-container').boundingClientRect();
+			//                 query.exec((res) => {
+			//                     if (res && res[0] && res[1] && res[1].height > res[0].height) {
+			//                         let scrollTop = res[1].height - res[0].height;
+			//                         uni.pageScrollTo({
+			//                             scrollTop,
+			//                             duration: 300
+			//                         });
+			//                     }
+			//                 });
+			//             }, 50);
+			//         },
 			// 监视聊天发送栏高度
 			sendHeight() {
 			  setTimeout(() => {
@@ -185,6 +247,40 @@
 
 
 <style scoped lang="css">
+.text-style{
+	font-size: 25rpx;
+}
+.loading-msgLeft {
+    position: relative;
+    max-width: 486rpx;
+    border-radius: 8rpx;
+    word-wrap: break-word;
+    padding: 24rpx 24rpx;
+    margin: 0 0 0 24rpx;
+    background-color: #FFFFFF;
+    font-size: 32rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 42rpx;
+    border-radius: 5px;
+}
+
+.loading-msgLeft::after {
+    position: absolute;
+    display: inline-block;
+    content: '';
+    width: 0;
+    height: 0;
+    top: 10px;
+    right: 100%;
+    border: 12rpx solid transparent;
+    border-right: 12rpx solid #FFFFFF;
+}	
+
+.loading{
+	justify-content: center;
+}
 .userMsg{
 	justify-content: flex-end;
 	margin: 20rpx 0;
@@ -227,7 +323,7 @@
     max-width: 486rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
-    padding: 24rpx 24rpx;
+    padding: 0 12rpx 0 12rpx;
     margin: 0 24rpx;
     background-color: #FFFFFF;
     font-size: 32rpx;
@@ -281,9 +377,6 @@
 /* 	position: absolute; */
 }
 	
-.mt-7 {
-    margin-top: 14.58rpx;
-}
 .page {
 	padding: 15.67rpx 20.67rpx 37.5rpx;
     background-color: #f4f2fc;
@@ -294,11 +387,8 @@
     height: 100%;
 	position: relative;
 }
-.header {
-    margin-top: -91.67rpx;
-    padding: 91.67rpx 0 22.92rpx;
-    background-color: #f4f2fc;
-}
+
+	
 .group {
     padding: 0 17.67rpx;
 	width: 100%;
@@ -311,11 +401,6 @@
     width: 90%; /* 根据需要调整宽度 */
     z-index: 1000; /* 确保在其他内容之上 */
 }
-
-/* .group_3 {
-    padding: 995.83rpx 125rpx 172.92rpx;
-	border-radius: 58.33rpx;
-} */
 
 
 .image-wrapper {
@@ -344,51 +429,12 @@
 .text_2 {
     line-height: 30.54rpx;
 }
-
-.text-wrapper_3 {
-    padding: 24rpx 0 21.08rpx;
-    background-color: #7451ff99;
-    border-radius: 0 0 0rpx 33.33rpx;
-}
-.font_2 {
-    font-size: 29.17rpx;
-    font-family: PingFang SC;
-    line-height: 26.92rpx;
-    font-weight: 300;
-    color: #000000;
-}
-.text_3 {
-    margin-left: 20.48rpx;
-    margin-right: 19.1rpx;
-}
 .section {
     padding: 0 14.58rpx 28.17rpx;
     background-color: #eaeaea;
     border-radius: 33.33rpx 33.33rpx 33.33rpx 0rpx;
 }
-.text-wrapper_4 {
-    margin-right: 11.48rpx;
-    padding-top: 17.25rpx;
-    height: 368.75rpx;
-    border-bottom: solid 2.08rpx #d7d7d7;
-}
-.font_3 {
-    font-size: 29.17rpx;
-    font-family: PingFang SC;
-    line-height: 50rpx;
-    font-weight: 300;
-    color: #000000;
-}
-.font_4 {
-    font-size: 20.83rpx;
-    font-family: PingFang SC;
-    line-height: 19.9rpx;
-    font-weight: 100;
-    color: #979797;
-}
-.text_4 {
-    transform: rotate(0.7deg);
-}
+
 .text_1 {
     margin-left: 7.6rpx;
 }
@@ -402,120 +448,19 @@
     margin-right: 19.42rpx;
     line-height: 27.33rpx;
 }
-.section_2 {
-    padding: 0 15.6rpx 13.58rpx;
-    background-color: #eaeaea;
-    border-radius: 33.33rpx 33.33rpx 33.33rpx 0rpx;
-}
-.text-wrapper_6 {
-    margin-right: 5.23rpx;
-    padding-top: 14.79rpx;
-    height: 466.29rpx;
-    border-bottom: solid 2.08rpx #d7d7d7;
-}
-.text_6 {
-    margin-right: 5.23rpx;
-}
-.text_15 {
-    margin-left: 6.58rpx;
-}
 .input {
     position: relative;
     align-self: stretch;
-}
-.section_3 {
-    padding: 19.13rpx 52.02rpx 19.54rpx 54.17rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
-}
-.text_7 {
-    margin-left: 59.46rpx;
-    color: #979797;
-    font-size: 25rpx;
-    font-family: PingFang SC;
-    line-height: 23rpx;
 }
 .divider {
     margin-top: 14.13rpx;
     background-color: #d7d7d7;
     height: 2.08rpx;
 }
-.text_8 {
-    margin-left: 61.94rpx;
-    margin-top: 16.25rpx;
-}
-
 .pos {
     position: absolute;
     left: 62.5rpx;
     top: 8.33rpx;
-}
-.group_4 {
-    margin-bottom: -172.92rpx;
-    opacity: 0.95;
-    height: 172.92rpx;
-}
-.tab-bar {
-    padding: 35.42rpx 0 35.42rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    box-shadow: 0rpx 1.04rpx 0rpx #0000002e inset;
-    backdrop-filter: blur(0rpx);
-}
-.group_5 {
-    padding: 16.75rpx 0 10.29rpx;
-    flex: 1 1 188rpx;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.image_3 {
-    width: 54rpx;
-    height: 54rpx;
-}
-.section_4 {
-    padding: 14.67rpx 0 10.33rpx;
-    flex: 1 1 188rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.section_7 {
-    padding: 16.75rpx 0 10.44rpx;
-    flex: 1 1 188rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.section_5 {
-    padding: 6.33rpx 0 10.38rpx;
-    flex: 1 1 188rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.font_5 {
-    font-size: 20.83rpx;
-    font-family: PingFang SC;
-    line-height: 19.9rpx;
-    color: #a6a9b2;
-}
-.text_11 {
-    line-height: 19.13rpx;
-}
-.text_10 {
-    line-height: 19.44rpx;
-}
-.text_9 {
-    color: #7451ff;
-    line-height: 19.31rpx;
-}
-.text_12 {
-    line-height: 19.29rpx;
 }
 .textarea-field {
   width: 90%;
@@ -535,3 +480,5 @@
 	border-radius: 58.33rpx;
 }
 </style>
+
+
