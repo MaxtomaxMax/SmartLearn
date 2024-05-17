@@ -44,6 +44,9 @@
 		},
 		{
 			"path": "pages/user/chat_history"
+		},
+		{
+			"path": "pages/user/knowledgeMap"
 		}
     ],
     "globalStyle": {

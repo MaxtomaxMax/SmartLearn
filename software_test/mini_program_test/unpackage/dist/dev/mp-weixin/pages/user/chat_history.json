@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "uni-data-select": "../../uni_modules/uni-data-select/components/uni-data-select/uni-data-select"
+    "uni-data-select": "../../uni_modules/uni-data-select/components/uni-data-select/uni-data-select",
+    "ua-markdown": "../../components/ua-markdown/ua-markdown"
   }
 }

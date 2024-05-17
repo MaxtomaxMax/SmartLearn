@@ -1,9 +1,45 @@
 
+.date-text.data-v-68eaa597{
+	font-size: 18rpx;
+	text-align: right;
+}
+.date-container.data-v-68eaa597{
+	height: 20rpx;
+	padding-right: 20rpx;
+}
+.history-text.data-v-68eaa597{
+	font-size: 25rpx;
+}
+.history-item.data-v-68eaa597{
+	margin: 20rpx 0 10rpx 0;
+	padding-right: 20rpx;
+}
+	
+/* 需要修改uni-ui的深层样式 */
+.select-container.data-v-68eaa597 .uni-select {
+	padding: 0 20px;
+	padding-left: 10px;
+}
+.history-container.data-v-68eaa597{
+	height: 70vh;
+	/* width: 90%; */
+	padding-left: 40rpx;
+	padding-right: 20rpx;
+}
+.chat-history.data-v-68eaa597{
+	height: 100%;
+}
 .select-label.data-v-68eaa597{
 	width: 90rpx;
 }
 .select-container.data-v-68eaa597{
-	width: 180rpx;
+	width: 240rpx;
+	background-color: #FFFFFF
+}
+.divider.data-v-68eaa597 {
+    margin-top: 14.13rpx;
+    background-color: #d7d7d7;
+    height: 2.08rpx;
 }
 .ml-5.data-v-68eaa597 {
     margin-left: 10.42rpx;
@@ -25,7 +61,7 @@
     height: 100%;
 }
 .group.data-v-68eaa597 {
-    padding: 58.33rpx 0 625rpx;
+    padding: 58.33rpx 0 25rpx;
     overflow-y: auto;
 }
 .group_2.data-v-68eaa597 {
@@ -71,7 +107,7 @@
     padding: 8.33rpx 5rpx;
 }
 .font_2.data-v-68eaa597 {
-    font-size: 30	rpx;
+    font-size: 28rpx;
     font-family: SF Pro Text;
     line-height: 26.69rpx;
     color: #000000;

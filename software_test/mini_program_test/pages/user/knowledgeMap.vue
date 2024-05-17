@@ -21,13 +21,6 @@
 				id = "scrollview">
 				<view class="chatList-container" id="msgList-container">
 					<view v-for="(item,index) in msgList" :key="index">
-						<view class="flex-row userMsg" v-if="item.userContent != ''">
-							<!-- 用户发的信息 -->
-							<view class="msgRight">
-								<text class="text-style">{{item.userContent}}</text>
-							</view>
-							<image class="avatar" src="../../static/logo.png"></image>
-						</view>
 						<view class="flex-row botMsg" v-if="item.botContent != ''">
 							<!-- kimi的信息 -->
 							<image class="avatar" src="../../static/ui_icon/logo_black.png"></image>
@@ -50,17 +43,49 @@
 				</view>
 				<view class="scroll-target" id="scrollTarget"></view>
 			</scroll-view>
-			
 		</view>
 		
 	
-		<view class="flex-row group_3">
-			<uni-easyinput class="input-box"	
+		<view class="flex-col group_3">
+			<view class="select-container">
+				<uni-data-select
+				      v-model="project_value"
+				      :localdata="project_range"
+				      @change="project_change"
+					  :disabled="enableSubProject"
+					  placeholder="请选择学习项目"
+					  placement="top"
+				    ></uni-data-select>
+			</view>
+			
+			<view class="select-container">
+				<uni-data-select
+				      v-model="subProject_value"
+				      :localdata="subProject_range"
+				      @change="subProject_change"
+					  placeholder="请选择子学习项目"
+					  placement="top"
+				    ></uni-data-select>
+			</view>
+			
+			<uni-easyinput	
 			:disabled="input_disable"
 			type="text"
 			@iconClick="sendMsg"
-			suffix-icon="paperplane"
-			v-model="inputMsg" :placeholder="input_disable?'智学AI助手正在准备回答...':'向智学学习助手提问吧~'"></uni-easyinput>
+			v-model="inputMsg" :placeholder="input_disable?'智学AI助手正在准备回答...':'请输入知识点关键词~'"></uni-easyinput>
+			
+			<view class="flex-row justify-center button-container">
+				<view class="preKnowledgeButton">
+					<button class="button-style" :disabled="button_disable">
+						<text class="button-text">生成前置知识</text>
+					</button>
+				</view>
+				<view class="advancedKnowledgeButton">
+					<button class="button-style" :disabled="button_disable">
+						<text class="button-text">生成进阶知识</text>
+					</button>
+				</view>
+			</view>
 		</view>
     </view>
 </template>
@@ -80,6 +105,20 @@
 				kimi_res:'',
 				history: [],
 				scroll_anchor:'',
+				
+				// 选择框
+				project_value:0,
+				project_range:[
+					{ value: 1, text: "信号与系统" },
+					{ value: 2, text: "电子系统综合设计" },
+					{ value: 3, text: "通信原理" },
+				],
+				subProject_value:0,
+				subProject_range:[],
+				enableSubProject: false,
+				
+				// 按钮是否禁用的变量
+				button_disable:true
 			};
 		},
 		computed: {
@@ -111,6 +150,13 @@
 			this.sendHeight();
 		},
 		methods: {
+			project_change(){
+				return;
+			},
+			subProject_change(){
+				return;
+			},
+			
 			enterChatHistory(){
 				uni.redirectTo({
 					url:"/pages/user/chat_history"
@@ -228,6 +274,33 @@
 
 
 <style scoped lang="css">
+.button-text{
+	color: #FFFFFF;
+	font-family: kaiti;
+}
+.button-style{
+	background-image: linear-gradient(180deg, #453099b3 0%, #7451ff 100%);
+	border-radius: 104.17rpx;
+	
+}
+.preKnowledgeButton{
+	padding-right: 40rpx;
+	width: 32	0rpx;
+}
+.advancedKnowledgeButton{
+	padding-left: 40rpx;
+	width: 320rpx;
+}
+.button-container{
+	height: 80rpx;
+}
+.select-container >>> .uni-select {
+	padding: 0 20px;
+	padding-left: 10px;
+}
+.select-container{
+	background-color: #FFFFFF;
+}
 .scroll-target{
 	height: 0;
 	width:0;
@@ -356,12 +429,6 @@
     display: none; /* 对 Webkit 有效 */
 }
 
-.input-box{
-	height: 60rpx;
-	border-radius: 58.33rpx;
-	bottom: 0;
-/* 	position: absolute; */
-}
 	
 .page {
 	padding: 15.67rpx 20.67rpx 37.5rpx;
@@ -380,7 +447,7 @@
 	width: 100%;
 }
 .group_3 {
-	height: 60rpx;
+	height: 360rpx;
     padding: 0 41.67rpx 18.5rpx 41.67rpx;
     position: absolute;
     bottom: 0;

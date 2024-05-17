@@ -16,7 +16,19 @@ const _sfc_main = {
       msgList: [],
       kimi_res: "",
       history: [],
-      scroll_anchor: ""
+      scroll_anchor: "",
+      // 选择框
+      project_value: 0,
+      project_range: [
+        { value: 1, text: "信号与系统" },
+        { value: 2, text: "电子系统综合设计" },
+        { value: 3, text: "通信原理" }
+      ],
+      subProject_value: 0,
+      subProject_range: [],
+      enableSubProject: false,
+      // 按钮是否禁用的变量
+      button_disable: true
     };
   },
   computed: {
@@ -41,6 +53,12 @@ const _sfc_main = {
     this.sendHeight();
   },
   methods: {
+    project_change() {
+      return;
+    },
+    subProject_change() {
+      return;
+    },
     enterChatHistory() {
       common_vendor.index.redirectTo({
         url: "/pages/user/chat_history"
@@ -136,32 +154,30 @@ const _sfc_main = {
 if (!Array) {
   const _easycom_ua_markdown2 = common_vendor.resolveComponent("ua-markdown");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
+  const _easycom_uni_data_select2 = common_vendor.resolveComponent("uni-data-select");
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
-  (_easycom_ua_markdown2 + _easycom_uni_icons2 + _easycom_uni_easyinput2)();
+  (_easycom_ua_markdown2 + _easycom_uni_icons2 + _easycom_uni_data_select2 + _easycom_uni_easyinput2)();
 }
 const _easycom_ua_markdown = () => "../../components/ua-markdown/ua-markdown.js";
 const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
+const _easycom_uni_data_select = () => "../../uni_modules/uni-data-select/components/uni-data-select/uni-data-select.js";
 const _easycom_uni_easyinput = () => "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 if (!Math) {
-  (_easycom_ua_markdown + _easycom_uni_icons + _easycom_uni_easyinput)();
+  (_easycom_ua_markdown + _easycom_uni_icons + _easycom_uni_data_select + _easycom_uni_easyinput)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
     a: common_vendor.o((...args) => $options.enterChatHistory && $options.enterChatHistory(...args)),
     b: common_vendor.f($data.msgList, (item, index, i0) => {
       return common_vendor.e({
-        a: item.userContent != ""
-      }, item.userContent != "" ? {
-        b: common_vendor.t(item.userContent)
-      } : {}, {
-        c: item.botContent != ""
+        a: item.botContent != ""
       }, item.botContent != "" ? {
-        d: "e32e353c-0-" + i0,
-        e: common_vendor.p({
+        b: "85f07247-0-" + i0,
+        c: common_vendor.p({
           source: item.botContent
         })
       } : {}, {
-        f: index
+        d: index
       });
     }),
     c: this.input_disable
@@ -174,16 +190,34 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   } : {}, {
     f: `${$options.windowHeight - $options.inputHeight - 180}rpx`,
     g: $data.scroll_anchor,
-    h: common_vendor.o($options.sendMsg),
-    i: common_vendor.o(($event) => $data.inputMsg = $event),
+    h: common_vendor.o($options.project_change),
+    i: common_vendor.o(($event) => $data.project_value = $event),
     j: common_vendor.p({
+      localdata: $data.project_range,
+      disabled: $data.enableSubProject,
+      placeholder: "请选择学习项目",
+      placement: "top",
+      modelValue: $data.project_value
+    }),
+    k: common_vendor.o($options.subProject_change),
+    l: common_vendor.o(($event) => $data.subProject_value = $event),
+    m: common_vendor.p({
+      localdata: $data.subProject_range,
+      placeholder: "请选择子学习项目",
+      placement: "top",
+      modelValue: $data.subProject_value
+    }),
+    n: common_vendor.o($options.sendMsg),
+    o: common_vendor.o(($event) => $data.inputMsg = $event),
+    p: common_vendor.p({
       disabled: $data.input_disable,
       type: "text",
-      ["suffix-icon"]: "paperplane",
-      placeholder: $data.input_disable ? "智学AI助手正在准备回答..." : "向智学学习助手提问吧~",
+      placeholder: $data.input_disable ? "智学AI助手正在准备回答..." : "请输入知识点关键词~",
       modelValue: $data.inputMsg
-    })
+    }),
+    q: $data.button_disable,
+    r: $data.button_disable
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-e32e353c"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/chat.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-85f07247"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/knowledgeMap.vue"]]);
 wx.createPage(MiniProgramPage);
