@@ -37,20 +37,31 @@
 							      @change="group_change"
 							    ></uni-data-select>
 						</view>
-                        
                     </view>
-                    
-                </view>
-                <view class="flex-col group_4">
-                    <!-- 内容 -->
                 </view>
             </view>
+			<view class="flex-col history-container">
+			    <!-- 内容 -->
+				<scroll-view scroll-y="true" class="chat-history"
+				:style="{height: `${windowHeight - inputHeight - 180}rpx`}">
+					<view v-for="(item,index) in showList" :key="index" >
+						<view class="history-item">
+							<!-- <text class="history-text">{{item.content}}</text> -->
+							<ua-markdown :source="item.content"></ua-markdown>
+						</view>
+						<view class="flex-row date-container justify-end">
+							<text class="date-text">{{getDateString(item.posttime)}}</text>
+						</view>
+						<view class="self-stretch divider"></view>
+					</view>
+				</scroll-view>
+			</view>
         </view>
-        
     </view>
 </template>
 
 <script>
+const db = uniCloud.database()
 export default {
     components: {},
     props: {},
@@ -64,34 +75,186 @@ export default {
 			],
 			group_value: 0,
 			group_range : [],	// 需要获取云数据库的用户分组
+			
+			keyboardHeight: 0,
+			bottomHeight: 0,
+			
+			userId : '',
+			// 登录的用户总的数据列表
+			msgList:[],
+			msgToday:[],
+			// 一周内的数据
+			msgInWeek:[],
+			// 一周以前的数据
+			msgBydWeek:[],
+			// 当前展示的数据
+			showList:[]
+			
         };
     },
+	computed: {
+		windowHeight() {
+			return this.rpxTopx(uni.getSystemInfoSync().windowHeight);
+		},
+		// 键盘弹起来的高度+发送框高度
+		inputHeight() {
+			return this.bottomHeight + this.keyboardHeight;
+		}
+	},
+	async onLoad() {
+		this.userId = uni.getStorageSync("user_id")
+		const userChatDataRes = await db.collection("chat_data")
+			.where({
+				userId: this.userId
+			})
+			.get()
+		// console.log(userChatDataRes)
+		// console.log(userChatDataRes.result.data)
+		this.msgList = userChatDataRes.result.data
+		// console.log(this.msgList)
+		
+		// 比较日期来划分成不同的子列表
+		// 使用 new Date() 所创造的对象可以用于比较
+		const today = new Date()
+		console.log("当前时间：",today)
+		
+		// 测试函数 dateDiffInDays
+		// let testDate = new Date('2023-4-16')
+		// let dateDiff = this.dateDiffInDays(today, today)
+		// console.log(dateDiff)
+		// return;
+		
+		for (let i = 0; i < this.msgList.length; i++) {
+			let postDate = new Date(this.msgList[i].posttime);
+			let dateDiff = this.dateDiffInDays(today, postDate);
+			// console.log(this.msgList[i])
+			if (dateDiff > 7){
+				this.msgBydWeek.push(this.msgList[i]);
+				continue;
+			}
+			if (dateDiff < 7 && dateDiff > 0){
+				this.msgInWeek.push(this.msgList[i]);
+				continue;
+			}
+			
+			if (dateDiff == 0){
+				this.msgToday.push(this.msgList[i])
+				continue;
+			}
+		}
+		// console.log(this.msgToday)
+	},
 
     methods: {
+		getDateString(posttime){
+			// 由Date对象获取对应的日期的字符串
+			const date = new Date(posttime);
+			
+			const year = date.getFullYear();
+			const month = date.getMonth();
+			const day = date.getDate();
+			return `${year}-${month}-${day}`;
+		},
+		dateDiffInDays(date1, date2){
+			// 提取年、月、日
+			const year1 = date1.getFullYear();
+			const month1 = date1.getMonth();
+			const day1 = date1.getDate();
+			
+			const year2 = date2.getFullYear();
+			const month2 = date2.getMonth();
+			const day2 = date2.getDate();
+			
+			// 创建新的日期对象，只使用年、月、日
+			const startDate = new Date(year1, month1, day1);
+			const endDate = new Date(year2, month2, day2);
+			
+			// 计算日期差异，使用 Date.UTC 来确保时区差异不影响结果
+			const diffTime = Math.abs(Date.UTC(year2, month2, day2) - Date.UTC(year1, month1, day1));
+			const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+			
+			return diffDays;
+		},
 		enterChat(){
 			uni.redirectTo({
 				url:"/pages/user/chat"
 			})
 		},
-		time_change(e) {
-		      console.log("e:", e);
+		time_change(time_value) {
+			console.log("time_value:", time_value);
+			if (time_value == 1){
+				this.showList = this.msgToday
+				return;
+			}
+			if (time_value == 2){
+				this.showList = this.msgInWeek
+				return;
+			}
+			if (time_value == 3){
+				this.showList = this.msgBydWeek
+				return;
+			}
+			
 		},
+		
+		// 稍后再开发
 		group_change(e) {
-		      console.log("e:", e);
+			console.log("e:", e);
 		},
-		time_change(e) {
-		      console.log("e:", e);
+
+		// rpx 转换成 px
+		rpxTopx(px) {
+			let deviceWidth = uni.getSystemInfoSync().windowWidth;
+			let rpx = (750 / deviceWidth) * Number(px);
+			return Math.floor(rpx);
 		},
 	},
 };
 </script>
 
 <style scoped lang="css">
+.date-text{
+	font-size: 18rpx;
+	text-align: right;
+}
+.date-container{
+	height: 20rpx;
+	padding-right: 20rpx;
+}
+.history-text{
+	font-size: 25rpx;
+}
+.history-item{
+	margin: 20rpx 0 10rpx 0;
+	padding-right: 20rpx;
+}
+	
+/* 需要修改uni-ui的深层样式 */
+.select-container >>> .uni-select {
+	padding: 0 20px;
+	padding-left: 10px;
+}
+.history-container{
+	height: 70vh;
+	/* width: 90%; */
+	padding-left: 40rpx;
+	padding-right: 20rpx;
+	
+}
+.chat-history{
+	height: 100%;
+}
 .select-label{
 	width: 90rpx;
 }
 .select-container{
-	width: 180rpx;
+	width: 240rpx;
+	background-color: #FFFFFF
+}
+.divider {
+    margin-top: 14.13rpx;
+    background-color: #d7d7d7;
+    height: 2.08rpx;
 }
 .ml-5 {
     margin-left: 10.42rpx;
@@ -113,7 +276,7 @@ export default {
     height: 100%;
 }
 .group {
-    padding: 58.33rpx 0 625rpx;
+    padding: 58.33rpx 0 25rpx;
     overflow-y: auto;
 }
 .group_2 {
@@ -159,7 +322,7 @@ export default {
     padding: 8.33rpx 5rpx;
 }
 .font_2 {
-    font-size: 30	rpx;
+    font-size: 28rpx;
     font-family: SF Pro Text;
     line-height: 26.69rpx;
     color: #000000;

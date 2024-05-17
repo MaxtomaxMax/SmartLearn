@@ -531,6 +531,7 @@
 		/* #endif */
 		flex: 1;
 		position: relative;
+		// position: absolute;
 		text-align: left;
 		color: #333;
 		font-size: 14px;

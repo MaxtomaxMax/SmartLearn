@@ -1,7 +1,7 @@
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
 	"bsonType": "object",
-	"required": ["userId", "posttime", "content", "isUser"],
+	"required": [],
 	"permission": {
 		"read": true,
 		"create": true,
@@ -20,17 +20,21 @@
 		"posttime":{
 			"bsonType": "timestamp",
 			"title": "时间戳",
-			"description": "可以是用户发送的时间，也可以是收到答复的时间"
+			"description": "可以是用户发送的时间"
 		},
-		"content":{
+		"project":{
 			"bsonType": "string",
-			"title": "对话内容",
-			"description": "对话内容：包括提问和回答"
+			"title": "项目",
+			"description": "提问的项目"
 		},
-		"isUser":{
-			"bsonType": "bool",
-			"title": "是否为用户",
-			"description": "判断对话内容是用户还是AI"
+		"subProject":{
+			"bsonType": "string",
+			"title": "子项目"
+		},
+		"answer":{
+			"bsonType": "string",
+			"title": "回答",
+			"description": "AI作出的回答"
 		}
 	}
 }
