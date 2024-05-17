@@ -39,6 +39,9 @@ const _sfc_main = {
           common_vendor.index.showToast({
             title: "成功登录"
           });
+          common_vendor.index.navigateTo({
+            url: "sign_up_success"
+          });
           let userId = emailRes.result.data[0]._id;
           common_vendor.index.setStorageSync("user_id", userId);
           console.log("用户登录信息成功存储");

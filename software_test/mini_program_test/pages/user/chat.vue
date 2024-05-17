@@ -8,12 +8,15 @@
 				/>	
 			</view>
 			<view class="flex-col justify-start text-wrapper"><text class="font text">答疑</text></view>
-			<view class="flex-col justify-start text-wrapper_2"><text class="font text_2">历史</text></view>
+			<view class="flex-col justify-start text-wrapper_2" @click="enterChatHistory"><text class="font text_2">历史</text></view>
 		</view>
 		<view class="self-stretch divider"></view>
 		<view class="chat-container">
 			<scroll-view scroll-y="true" class="chat-content" 
 				:style="{height: `${windowHeight - inputHeight - 180}rpx`}"
+				:scroll-into-view="scroll_anchor"
+				scroll-with-animation
+				ref= "scrollview"
 				id = "scrollview">
 				<view class="chatList-container" id="msgList-container">
 					<view v-for="(item,index) in msgList" :key="index">
@@ -28,9 +31,10 @@
 							<!-- kimi的信息 -->
 							<image class="avatar" src="../../static/ui_icon/logo_black.png"></image>
 							<view class="msgLeft">
-								<zero-markdown-view :markdown="item.botContent" themeColor="#000000"></zero-markdown-view>
-								<!-- <text class="text-style">{{item.botContent}}</text> -->
-							</view>
+								<!-- <zero-markdown-view :markdown="item.botContent" themeColor="#000000"></zero-markdown-view> -->
+								<!-- <text class="text-style" selectable="true">{{item.botContent}}</text> -->
+								<ua-markdown :source="item.botContent"></ua-markdown>
+							</view>	
 						</view>
 					</view>
 					<view class="flex-row botMsg" v-if="this.input_disable">
@@ -41,10 +45,9 @@
 						<view class='flex-col self-stretch loading'>
 							<uni-icons class="loading" type="spinner-cycle" size="30"></uni-icons>	
 						</view>
-						
 					</view>
-					
 				</view>
+				<view class="scroll-target" id="scrollTarget"></view>
 			</scroll-view>
 			
 		</view>
@@ -73,11 +76,9 @@
 				scrollTop: 0, // 滚动距离
 				userId: '',
 				msgList: [],
-				//-----测试kimi-------
 				kimi_res:'',
 				history: [],
-				//-----测试kimi--------
-			  
+				scroll_anchor:'',
 			};
 		},
 		computed: {
@@ -109,8 +110,10 @@
 			this.sendHeight();
 		},
 		methods: {
-			async askKimi(prompt){
-				
+			enterChatHistory(){
+				uni.redirectTo({
+					url:"/pages/user/chat_history"
+				})
 			},
 			async sendMsg() {
 				if (this.inputMsg.trim() == "") {
@@ -122,12 +125,14 @@
 				}
 				let prompt = this.inputMsg
 				this.inputMsg = "";
-				this.scrollToBottom();
 				this.msgList.push({
 					botContent: "",
 					userContent: prompt
 				});
 				this.input_disable = true;
+				
+				// 返回页面底部
+				this.scrollToBottom();
 				
 				// 存信息到云数据库
 				const userId = uni.getStorageSync('user_id')
@@ -138,7 +143,8 @@
 						posttime: Date.now(),
 						content: prompt	
 					})
-					console.log(inputStoredRes)
+					// console.log(inputStoredRes)
+					console.log("输入存储成功")
 				}
 				let res = await uniCloud.callFunction({
 					name:"kimi_chat",
@@ -164,19 +170,24 @@
 							posttime:Date.now(),
 							content: this.kimi_res
 						})
-						console.log(outputStoredRes)
+						// console.log(outputStoredRes)
+						console.log("输出存储成功")
 					}
 				} else {
 					console.error(res.result.error)
 				}
 				
+				this.scrollToBottom();
 				this.msgList.push({
 					botContent: this.kimi_res,
 					userContent: ""
 				});
-				this.input_disable = false
-				this.scrollToBottom();	//生成完后也要滚到最底下
 				console.log(this.msgList)
+				this.input_disable = false
+				
+				//生成完后也要滚到最底下
+				this.scrollToBottom();	
+				
 			},
 			// rpx 转换成 px
 			rpxTopx(px) {
@@ -184,48 +195,16 @@
 				let rpx = (750 / deviceWidth) * Number(px);
 				return Math.floor(rpx);
 			},
+			
 			// 滚动至聊天底部
-			// scrollToBottom() {
-			// 	setTimeout(() => {
-			// 		let query = uni.createSelectorQuery().in(this);
-			// 		query.select('#scrollview').boundingClientRect();
-			// 		query.select('#msgList-container').boundingClientRect();
-			// 		query.exec((res) => {
-			// 			if (res && res[0] && res[1] && res[1].height > res[0].height) {
-			// 				this.scrollTop = this.rpxTopx(res[1].height - res[0].height);
-			// 		  }
-			// 		});
-			// 	}, 15);
-			// },
-			// 滚动至聊天底部
-			scrollToBottom(e){
-				setTimeout(()=>{
-					let query = uni.createSelectorQuery().in(this);
-					query.select('#scrollview').boundingClientRect();
-					query.select('#msgList-container').boundingClientRect();
-					query.exec((res) =>{
-						if(res[1].height > res[0].height){
-							this.scrollTop = this.rpxTopx(res[1].height - res[0].height)
-						}
-					})
-				},15)
+			scrollToBottom() {
+			    this.$nextTick(() => {
+			        this.scroll_anchor = "scrollTarget"
+			    });
+				this.scroll_anchor = '';
 			},
-			// scrollToBottom() {
-			//             setTimeout(() => {
-			//                 let query = uni.createSelectorQuery().in(this);
-			//                 query.select('#scrollview').boundingClientRect();
-			//                 query.select('#msgList-container').boundingClientRect();
-			//                 query.exec((res) => {
-			//                     if (res && res[0] && res[1] && res[1].height > res[0].height) {
-			//                         let scrollTop = res[1].height - res[0].height;
-			//                         uni.pageScrollTo({
-			//                             scrollTop,
-			//                             duration: 300
-			//                         });
-			//                     }
-			//                 });
-			//             }, 50);
-			//         },
+
+			
 			// 监视聊天发送栏高度
 			sendHeight() {
 			  setTimeout(() => {
@@ -247,6 +226,11 @@
 
 
 <style scoped lang="css">
+.scroll-target{
+	height: 0;
+	width:0;
+}
+	
 .text-style{
 	font-size: 25rpx;
 }

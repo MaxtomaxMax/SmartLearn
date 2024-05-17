@@ -41,6 +41,9 @@
 		},
 		{
 			"path": "pages/user/chat_test"
+		},
+		{
+			"path": "pages/user/chat_history"
 		}
     ],
     "globalStyle": {

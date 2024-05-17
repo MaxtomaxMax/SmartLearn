@@ -1,4 +1,40 @@
 
+.scroll-target.data-v-e32e353c{
+	height: 0;
+	width:0;
+}
+.text-style.data-v-e32e353c{
+	font-size: 25rpx;
+}
+.loading-msgLeft.data-v-e32e353c {
+    position: relative;
+    max-width: 486rpx;
+    border-radius: 8rpx;
+    word-wrap: break-word;
+    padding: 24rpx 24rpx;
+    margin: 0 0 0 24rpx;
+    background-color: #FFFFFF;
+    font-size: 32rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 42rpx;
+    border-radius: 5px;
+}
+.loading-msgLeft.data-v-e32e353c::after {
+    position: absolute;
+    display: inline-block;
+    content: '';
+    width: 0;
+    height: 0;
+    top: 10px;
+    right: 100%;
+    border: 12rpx solid transparent;
+    border-right: 12rpx solid #FFFFFF;
+}
+.loading.data-v-e32e353c{
+	justify-content: center;
+}
 .userMsg.data-v-e32e353c{
 	justify-content: flex-end;
 	margin: 20rpx 0;
@@ -14,7 +50,7 @@
     word-wrap: break-word;
     padding: 24rpx 24rpx;
     margin: 0 24rpx;
-    background-color: #C2DCFF;
+    background-color: #C5B6FF;
     font-size: 32rpx;
     font-family: PingFang SC;
     font-weight: 500;
@@ -32,14 +68,14 @@
     left: 100%;
     top: 10px;
     border: 12rpx solid transparent;
-    border-left: 12rpx solid #C2DCFF;
+    border-left: 12rpx solid #C5B6FF;
 }
 .msgLeft.data-v-e32e353c {
     position: relative;
     max-width: 486rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
-    padding: 24rpx 24rpx;
+    padding: 0 12rpx 0 12rpx;
     margin: 0 24rpx;
     background-color: #FFFFFF;
     font-size: 32rpx;
@@ -87,9 +123,6 @@
 	bottom: 0;
 /* 	position: absolute; */
 }
-.mt-7.data-v-e32e353c {
-    margin-top: 14.58rpx;
-}
 .page.data-v-e32e353c {
 	padding: 15.67rpx 20.67rpx 37.5rpx;
     background-color: #f4f2fc;
@@ -99,11 +132,6 @@
     overflow-x: hidden;
     height: 100%;
 	position: relative;
-}
-.header.data-v-e32e353c {
-    margin-top: -91.67rpx;
-    padding: 91.67rpx 0 22.92rpx;
-    background-color: #f4f2fc;
 }
 .group.data-v-e32e353c {
     padding: 0 17.67rpx;
@@ -117,11 +145,6 @@
     width: 90%; /* 根据需要调整宽度 */
     z-index: 1000; /* 确保在其他内容之上 */
 }
-
-/* .group_3 {
-    padding: 995.83rpx 125rpx 172.92rpx;
-	border-radius: 58.33rpx;
-} */
 .image-wrapper.data-v-e32e353c {
     width: 68.75rpx;
 }
@@ -148,49 +171,10 @@
 .text_2.data-v-e32e353c {
     line-height: 30.54rpx;
 }
-.text-wrapper_3.data-v-e32e353c {
-    padding: 24rpx 0 21.08rpx;
-    background-color: #7451ff99;
-    border-radius: 0 0 0rpx 33.33rpx;
-}
-.font_2.data-v-e32e353c {
-    font-size: 29.17rpx;
-    font-family: PingFang SC;
-    line-height: 26.92rpx;
-    font-weight: 300;
-    color: #000000;
-}
-.text_3.data-v-e32e353c {
-    margin-left: 20.48rpx;
-    margin-right: 19.1rpx;
-}
 .section.data-v-e32e353c {
     padding: 0 14.58rpx 28.17rpx;
     background-color: #eaeaea;
     border-radius: 33.33rpx 33.33rpx 33.33rpx 0rpx;
-}
-.text-wrapper_4.data-v-e32e353c {
-    margin-right: 11.48rpx;
-    padding-top: 17.25rpx;
-    height: 368.75rpx;
-    border-bottom: solid 2.08rpx #d7d7d7;
-}
-.font_3.data-v-e32e353c {
-    font-size: 29.17rpx;
-    font-family: PingFang SC;
-    line-height: 50rpx;
-    font-weight: 300;
-    color: #000000;
-}
-.font_4.data-v-e32e353c {
-    font-size: 20.83rpx;
-    font-family: PingFang SC;
-    line-height: 19.9rpx;
-    font-weight: 100;
-    color: #979797;
-}
-.text_4.data-v-e32e353c {
-    transform: rotate(0.7deg);
 }
 .text_1.data-v-e32e353c {
     margin-left: 7.6rpx;
@@ -205,120 +189,19 @@
     margin-right: 19.42rpx;
     line-height: 27.33rpx;
 }
-.section_2.data-v-e32e353c {
-    padding: 0 15.6rpx 13.58rpx;
-    background-color: #eaeaea;
-    border-radius: 33.33rpx 33.33rpx 33.33rpx 0rpx;
-}
-.text-wrapper_6.data-v-e32e353c {
-    margin-right: 5.23rpx;
-    padding-top: 14.79rpx;
-    height: 466.29rpx;
-    border-bottom: solid 2.08rpx #d7d7d7;
-}
-.text_6.data-v-e32e353c {
-    margin-right: 5.23rpx;
-}
-.text_15.data-v-e32e353c {
-    margin-left: 6.58rpx;
-}
 .input.data-v-e32e353c {
     position: relative;
     align-self: stretch;
-}
-.section_3.data-v-e32e353c {
-    padding: 19.13rpx 52.02rpx 19.54rpx 54.17rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
-}
-.text_7.data-v-e32e353c {
-    margin-left: 59.46rpx;
-    color: #979797;
-    font-size: 25rpx;
-    font-family: PingFang SC;
-    line-height: 23rpx;
 }
 .divider.data-v-e32e353c {
     margin-top: 14.13rpx;
     background-color: #d7d7d7;
     height: 2.08rpx;
 }
-.text_8.data-v-e32e353c {
-    margin-left: 61.94rpx;
-    margin-top: 16.25rpx;
-}
 .pos.data-v-e32e353c {
     position: absolute;
     left: 62.5rpx;
     top: 8.33rpx;
-}
-.group_4.data-v-e32e353c {
-    margin-bottom: -172.92rpx;
-    opacity: 0.95;
-    height: 172.92rpx;
-}
-.tab-bar.data-v-e32e353c {
-    padding: 35.42rpx 0 35.42rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    box-shadow: 0rpx 1.04rpx 0rpx #0000002e inset;
-    -webkit-backdrop-filter: blur(0rpx);
-            backdrop-filter: blur(0rpx);
-}
-.group_5.data-v-e32e353c {
-    padding: 16.75rpx 0 10.29rpx;
-    flex: 1 1 188rpx;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.image_3.data-v-e32e353c {
-    width: 54rpx;
-    height: 54rpx;
-}
-.section_4.data-v-e32e353c {
-    padding: 14.67rpx 0 10.33rpx;
-    flex: 1 1 188rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.section_7.data-v-e32e353c {
-    padding: 16.75rpx 0 10.44rpx;
-    flex: 1 1 188rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.section_5.data-v-e32e353c {
-    padding: 6.33rpx 0 10.38rpx;
-    flex: 1 1 188rpx;
-    background-color: #ffffff;
-    border-radius: 58.33rpx;
-    overflow: hidden;
-    height: 102.08rpx;
-}
-.font_5.data-v-e32e353c {
-    font-size: 20.83rpx;
-    font-family: PingFang SC;
-    line-height: 19.9rpx;
-    color: #a6a9b2;
-}
-.text_11.data-v-e32e353c {
-    line-height: 19.13rpx;
-}
-.text_10.data-v-e32e353c {
-    line-height: 19.44rpx;
-}
-.text_9.data-v-e32e353c {
-    color: #7451ff;
-    line-height: 19.31rpx;
-}
-.text_12.data-v-e32e353c {
-    line-height: 19.29rpx;
 }
 .textarea-field.data-v-e32e353c {
   width: 90%;

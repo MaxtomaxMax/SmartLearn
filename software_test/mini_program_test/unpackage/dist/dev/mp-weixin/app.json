@@ -13,7 +13,8 @@
     "pages/login/log_in",
     "pages/login/welcome",
     "pages/user/chat",
-    "pages/user/chat_test"
+    "pages/user/chat_test",
+    "pages/user/chat_history"
   ],
   "window": {
     "navigationBarTextStyle": "black",
