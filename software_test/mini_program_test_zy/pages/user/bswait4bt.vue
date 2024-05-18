@@ -54,7 +54,7 @@
       <text class="self-center text_6">全部点亮配置成功哦~</text>
 
       <scroll-view class="device-list" scroll-y="true" style="height: 300px">
-        <block v-for="(device, index) in devices" :key="device.deviceId">
+        <block v-for="(device, index) in device" :key="device.deviceId">
           <button @tap="connectTo(device.deviceId)">{{ device.name }}</button>
         </block>
       </scroll-view>
@@ -99,8 +99,8 @@ export default {
   data() {
     return {
       info: "",
-      devices: [],
-      services: [],
+      device: [],
+      service: [],
       isBluetoothAdapter: false,
       isBluetoothSearch: false,
       isBluetoothInfo: false,
@@ -208,15 +208,15 @@ export default {
       const that = this;
       uni.getBluetoothDevices({
         success(res) {
-          that.devices = res.devices.map((device) => ({
+          that.device = res.devices.map((device) => ({
             deviceId: device.deviceId,
             name: device.name || "未命名设备",
           }));
-          that.info = "搜索到的蓝牙数目：" + res.devices.length;
+
           (that.isBluetoothInfo = true),
             uni.showModal({
               title: "搜索蓝牙数目:",
-              content: `找到 ${res.devices.length} 个蓝牙设备`,
+              content: `找到 ${res.device.length} 个蓝牙设备`,
               showCancel: false,
             }); // 移除多余的逗号
         },
@@ -235,8 +235,6 @@ export default {
       uni.createBLEConnection({
         deviceId: deviceId,
         success(res) {
-          console.log("连接设备成功", res);
-          that.info = "已连接设备ID：" + deviceId;
           uni.showModal({
             title: "连接设备成功:",
             content: `已连接设备ID：${deviceId}, 点击确认跳转`,
@@ -244,7 +242,7 @@ export default {
             success: function (modalRes) {
               if (modalRes.confirm) {
                 uni.navigateTo({
-                  url: "/pages/learn/learntiming?deviceId=" + deviceId, // 修改为你的目标页面路径
+                  url: "/pages/user/detecting60s?deviceId=" + deviceId, // 修改为你的目标页面路径
                 });
               }
             },
