@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "uni-easyinput": "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput"
+  }
 }

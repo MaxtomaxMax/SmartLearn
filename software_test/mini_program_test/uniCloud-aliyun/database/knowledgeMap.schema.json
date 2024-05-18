@@ -27,10 +27,15 @@
 			"title": "项目",
 			"description": "提问的项目"
 		},
-		"subProject":{
+		"keyword":{
 			"bsonType": "string",
-			"title": "子项目"
+			"title": "关键词"
 		},
+		"flag":{
+			"bsonType": "int",
+			"title": "判断标志",
+			"description": "0为前置知识，1为进阶知识"
+		}
 		"answer":{
 			"bsonType": "string",
 			"title": "回答",

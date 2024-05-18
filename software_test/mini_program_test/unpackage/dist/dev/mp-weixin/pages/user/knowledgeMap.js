@@ -5,7 +5,7 @@ const _sfc_main = {
   data() {
     return {
       input_disable: false,
-      // 默认情况下
+      // 默认情况下	
       inputMsg: "",
       // input框发送的信息
       keyboardHeight: 0,
@@ -24,11 +24,8 @@ const _sfc_main = {
         { value: 2, text: "电子系统综合设计" },
         { value: 3, text: "通信原理" }
       ],
-      subProject_value: 0,
-      subProject_range: [],
-      enableSubProject: false,
-      // 按钮是否禁用的变量
-      button_disable: true
+      // 发给kimi的prompt
+      prompt: ""
     };
   },
   computed: {
@@ -53,6 +50,104 @@ const _sfc_main = {
     this.sendHeight();
   },
   methods: {
+    enterChat() {
+      common_vendor.index.navigateTo({
+        url: "/pages/user/chat"
+      });
+    },
+    exit() {
+      common_vendor.index.navigateTo({
+        url: "/pages/login/welcome"
+      });
+    },
+    async callPreKnowledge() {
+      if (this.project_value == 0 || this.inputMsg == "") {
+        common_vendor.index.showToast({
+          title: "请选择学习项目与知识点关键词~",
+          icon: "error"
+        });
+        return;
+      }
+      this.input_disable = true;
+      let project = this.project_range[this.project_value - 1].text;
+      let keyword = this.inputMsg;
+      let res = await common_vendor.Ws.callFunction({
+        name: "callKnowledgeMap",
+        data: {
+          project,
+          keyword,
+          flag: 0
+          // 表示生成前置知识的flag
+        }
+      });
+      if (res.result.success) {
+        this.kimi_res = res.result.message;
+        this.history = res.result.history;
+        console.log(res);
+        this.userId = common_vendor.index.getStorageSync("user_id");
+        if (this.userId) {
+          await db.collection("knowledgeMap").add({
+            userId: this.userId,
+            posttime: Date.now(),
+            project,
+            keyword,
+            flag: 0,
+            answer: this.kimi_res
+          });
+          console.log("数据存储成功");
+        }
+      } else {
+        console.error(res.result.error);
+      }
+      this.msgList.push({
+        botContent: this.kimi_res
+      });
+      this.input_disable = false;
+      this.scrollToBottom();
+    },
+    async callAdvancedKnowledge() {
+      if (this.project_value == 0 || this.inputMsg == "") {
+        common_vendor.index.showToast({
+          title: "请选择学习项目与知识点关键词~",
+          icon: "error"
+        });
+        return;
+      }
+      this.input_disable = true;
+      let res = await common_vendor.Ws.callFunction({
+        name: "callKnowledgeMap",
+        data: {
+          project: this.project_range[this.project_value - 1].text,
+          keyword: this.inputMsg,
+          flag: 1
+          // 表示生成进阶知识的flag
+        }
+      });
+      if (res.result.success) {
+        this.kimi_res = res.result.message;
+        this.history = res.result.history;
+        console.log(res);
+        this.userId = common_vendor.index.getStorageSync("user_id");
+        if (this.userId) {
+          await db.collection("knowledgeMap").add({
+            userId: this.userId,
+            posttime: Date.now(),
+            project: this.project_range[this.project_value - 1].text,
+            keyword: this.inputMsg,
+            flag: 1,
+            answer: this.kimi_res
+          });
+          console.log("数据存储成功");
+        }
+      } else {
+        console.error(res.result.error);
+      }
+      this.msgList.push({
+        botContent: this.kimi_res
+      });
+      this.input_disable = false;
+      this.scrollToBottom();
+    },
     project_change() {
       return;
     },
@@ -63,64 +158,6 @@ const _sfc_main = {
       common_vendor.index.redirectTo({
         url: "/pages/user/chat_history"
       });
-    },
-    async sendMsg() {
-      if (this.inputMsg.trim() == "") {
-        common_vendor.index.showToast({
-          title: "不能发送空白消息",
-          icon: "none"
-        });
-        return;
-      }
-      let prompt = this.inputMsg;
-      this.inputMsg = "";
-      this.msgList.push({
-        botContent: "",
-        userContent: prompt
-      });
-      this.input_disable = true;
-      this.scrollToBottom();
-      this.userId = common_vendor.index.getStorageSync("user_id");
-      console.log(this.userId);
-      if (this.userId) {
-        await db.collection("chat_data").add({
-          userId: this.userId,
-          posttime: Date.now(),
-          content: prompt,
-          isUser: true
-        });
-        console.log("输入存储成功");
-      }
-      let res = await common_vendor.Ws.callFunction({
-        name: "kimi_chat",
-        data: {
-          prompt,
-          history: this.history
-        }
-      });
-      if (res.result.success) {
-        this.kimi_res = res.result.message;
-        this.history = res.result.history;
-        console.log(res);
-        if (this.userId) {
-          await db.collection("chat_data").add({
-            userId: this.userId,
-            posttime: Date.now(),
-            content: this.kimi_res,
-            isUser: false
-          });
-          console.log("输出存储成功");
-        }
-      } else {
-        console.error(res.result.error);
-      }
-      this.msgList.push({
-        botContent: this.kimi_res,
-        userContent: ""
-      });
-      console.log(this.msgList);
-      this.input_disable = false;
-      this.scrollToBottom();
     },
     // rpx 转换成 px
     rpxTopx(px) {
@@ -167,8 +204,10 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: common_vendor.o((...args) => $options.enterChatHistory && $options.enterChatHistory(...args)),
-    b: common_vendor.f($data.msgList, (item, index, i0) => {
+    a: common_vendor.o((...args) => $options.exit && $options.exit(...args)),
+    b: common_vendor.o((...args) => $options.enterChat && $options.enterChat(...args)),
+    c: common_vendor.o((...args) => $options.enterChatHistory && $options.enterChatHistory(...args)),
+    d: common_vendor.f($data.msgList, (item, index, i0) => {
       return common_vendor.e({
         a: item.botContent != ""
       }, item.botContent != "" ? {
@@ -180,43 +219,36 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         d: index
       });
     }),
-    c: this.input_disable
+    e: this.input_disable
   }, this.input_disable ? {
-    d: common_vendor.t(),
-    e: common_vendor.p({
+    f: common_vendor.t(),
+    g: common_vendor.p({
       type: "spinner-cycle",
       size: "30"
     })
   } : {}, {
-    f: `${$options.windowHeight - $options.inputHeight - 180}rpx`,
-    g: $data.scroll_anchor,
-    h: common_vendor.o($options.project_change),
-    i: common_vendor.o(($event) => $data.project_value = $event),
-    j: common_vendor.p({
+    h: `${$options.windowHeight - $options.inputHeight - 180}rpx`,
+    i: $data.scroll_anchor,
+    j: common_vendor.o($options.project_change),
+    k: common_vendor.o(($event) => $data.project_value = $event),
+    l: common_vendor.p({
       localdata: $data.project_range,
-      disabled: $data.enableSubProject,
       placeholder: "请选择学习项目",
       placement: "top",
       modelValue: $data.project_value
     }),
-    k: common_vendor.o($options.subProject_change),
-    l: common_vendor.o(($event) => $data.subProject_value = $event),
-    m: common_vendor.p({
-      localdata: $data.subProject_range,
-      placeholder: "请选择子学习项目",
-      placement: "top",
-      modelValue: $data.subProject_value
-    }),
-    n: common_vendor.o($options.sendMsg),
-    o: common_vendor.o(($event) => $data.inputMsg = $event),
-    p: common_vendor.p({
+    m: common_vendor.o(($event) => $data.inputMsg = $event),
+    n: common_vendor.p({
       disabled: $data.input_disable,
+      clearable: false,
       type: "text",
       placeholder: $data.input_disable ? "智学AI助手正在准备回答..." : "请输入知识点关键词~",
       modelValue: $data.inputMsg
     }),
-    q: $data.button_disable,
-    r: $data.button_disable
+    o: $data.input_disable,
+    p: common_vendor.o((...args) => $options.callPreKnowledge && $options.callPreKnowledge(...args)),
+    q: $data.input_disable,
+    r: common_vendor.o((...args) => $options.callAdvancedKnowledge && $options.callAdvancedKnowledge(...args))
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-85f07247"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/knowledgeMap.vue"]]);

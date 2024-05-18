@@ -9,9 +9,8 @@ const _sfc_main = {
   methods: {
     // 跳转的login界面
     enterLogin() {
-      common_vendor.index.navigateTo({
-        // url:"log_in"
-        url: "/pages/user/knowledgeMap"
+      common_vendor.index.switchTab({
+        url: "/pages/review/learning"
       });
     }
   }

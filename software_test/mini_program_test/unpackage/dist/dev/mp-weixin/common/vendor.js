@@ -7657,7 +7657,10 @@ const pages = [
     path: "pages/user/user_main_page"
   },
   {
-    path: "pages/review/learning"
+    path: "pages/review/learning",
+    style: {
+      enablePullDownRefresh: true
+    }
   },
   {
     path: "pages/review/history"

@@ -2,13 +2,15 @@
     <view class="flex-col page">
 		<view class="flex-row items-center group">
 			<view class="flex-col justify-start items-center image-wrapper">
-				<image
-					class="image_2"
-					src="../../static/ui_icon/exit.png"
-				/>	
+					<image
+						class="image_2"
+						src="../../static/ui_icon/exit.png"
+						@click="exit"
+					/>
 			</view>
-			<view class="flex-col justify-start text-wrapper"><text class="font text">答疑</text></view>
-			<view class="flex-col justify-start text-wrapper_2" @click="enterChatHistory"><text class="font text_2">历史</text></view>
+			<view class="flex-col justify-start text-wrapper" @click="enterChat"><text class="font text_2" >自由问答</text></view>
+			<view class="flex-col justify-start text-wrapper"><text class="font text">知识框架</text></view>
+			<view class="flex-col justify-start text-wrapper" ><text class="font text_2" @click="enterChatHistory">历史</text></view>
 		</view>
 		<view class="self-stretch divider"></view>
 		
@@ -52,36 +54,26 @@
 				      v-model="project_value"
 				      :localdata="project_range"
 				      @change="project_change"
-					  :disabled="enableSubProject"
 					  placeholder="请选择学习项目"
-					  placement="top"
-				    ></uni-data-select>
-			</view>
-			
-			<view class="select-container">
-				<uni-data-select
-				      v-model="subProject_value"
-				      :localdata="subProject_range"
-				      @change="subProject_change"
-					  placeholder="请选择子学习项目"
 					  placement="top"
 				    ></uni-data-select>
 			</view>
 			
 			<uni-easyinput	
 			:disabled="input_disable"
+			:clearable="false"
 			type="text"
-			@iconClick="sendMsg"
-			v-model="inputMsg" :placeholder="input_disable?'智学AI助手正在准备回答...':'请输入知识点关键词~'"></uni-easyinput>
+			v-model="inputMsg" 
+			:placeholder="input_disable?'智学AI助手正在准备回答...':'请输入知识点关键词~'"></uni-easyinput>
 			
 			<view class="flex-row justify-center button-container">
 				<view class="preKnowledgeButton">
-					<button class="button-style" :disabled="button_disable">
+					<button class="button-style" :disabled="input_disable" @click="callPreKnowledge">
 						<text class="button-text">生成前置知识</text>
 					</button>
 				</view>
 				<view class="advancedKnowledgeButton">
-					<button class="button-style" :disabled="button_disable">
+					<button class="button-style" :disabled="input_disable" @click="callAdvancedKnowledge">
 						<text class="button-text">生成进阶知识</text>
 					</button>
 				</view>
@@ -95,7 +87,7 @@
 	export default {
 		data() {
 			return {
-				input_disable: false, // 默认情况下
+				input_disable: false, // 默认情况下	
 				inputMsg: "",		// input框发送的信息
 				keyboardHeight: 0,
 				bottomHeight: 0,
@@ -113,12 +105,9 @@
 					{ value: 2, text: "电子系统综合设计" },
 					{ value: 3, text: "通信原理" },
 				],
-				subProject_value:0,
-				subProject_range:[],
-				enableSubProject: false,
 				
-				// 按钮是否禁用的变量
-				button_disable:true
+				// 发给kimi的prompt
+				prompt:"",
 			};
 		},
 		computed: {
@@ -150,10 +139,135 @@
 			this.sendHeight();
 		},
 		methods: {
+			enterChat(){
+				uni.navigateTo({
+					url:"/pages/user/chat"
+				})
+			},
+			exit(){
+				uni.navigateTo({
+					url:"/pages/login/welcome"
+				})
+			},
+			async callPreKnowledge(){
+				// 确认是否完成选择和输入
+				if (this.project_value == 0 || this.inputMsg == "" ){
+					uni.showToast({
+						title:"请选择学习项目与知识点关键词~",
+						icon:"error"
+					});
+					return;
+				};
+					
+				// 调用云函数获取kimi回复
+				this.input_disable = true;
+				// 赋值后可以防止按下按钮后更改影响生成
+				let project = this.project_range[this.project_value - 1].text;
+				let keyword = this.inputMsg
+				let res = await uniCloud.callFunction({
+					name:"callKnowledgeMap",
+					data:{
+						project,
+						keyword,
+						flag:0	// 表示生成前置知识的flag
+					}
+				});
+				// console.log(res);
+				if (res.result.success) {
+					this.kimi_res = res.result.message;
+					this.history = res.result.history;
+					console.log(res)
+					
+					// 将信息存到云数据库
+					this.userId = uni.getStorageSync("user_id");
+					if (this.userId){
+						const storageRes = await db.collection("knowledgeMap").add({
+							userId: this.userId,
+							posttime: Date.now(),
+							project,
+							keyword,
+							flag:0,
+							answer: this.kimi_res
+						});
+						// console.log(storageRes);
+						console.log("数据存储成功")
+					}
+				} else{
+					console.error(res.result.error)
+				}
+				
+				this.msgList.push({
+					botContent: this.kimi_res
+				});
+				// console.log(this.msgList);
+				
+				this.input_disable = false;
+				// 滚动到最底下
+				this.scrollToBottom();
+				
+			},
+			async callAdvancedKnowledge(){
+				// 确认是否完成选择和输入
+				if (this.project_value == 0 || this.inputMsg == "" ){
+					uni.showToast({
+						title:"请选择学习项目与知识点关键词~",
+						icon:"error"
+					});
+					return;
+				};
+					
+				// 调用云函数获取kimi回复
+				this.input_disable = true;
+				let res = await uniCloud.callFunction({
+					name:"callKnowledgeMap",
+					data:{
+						project: this.project_range[this.project_value - 1].text,
+						keyword: this.inputMsg,
+						flag:1	// 表示生成进阶知识的flag
+					}
+				});
+				// console.log(res);
+				if (res.result.success) {
+					this.kimi_res = res.result.message;
+					this.history = res.result.history;
+					console.log(res)
+					
+					// 将信息存到云数据库
+					this.userId = uni.getStorageSync("user_id");
+					if (this.userId){
+						const storageRes = await db.collection("knowledgeMap").add({
+							userId: this.userId,
+							posttime: Date.now(),
+							project: this.project_range[this.project_value - 1].text,
+							keyword: this.inputMsg,
+							flag:1,
+							answer: this.kimi_res,
+						});
+						// console.log(storageRes);
+						console.log("数据存储成功")
+					}
+				} else{
+					console.error(res.result.error)
+				}
+				
+				this.msgList.push({
+					botContent: this.kimi_res
+				});
+				// console.log(this.msgList);
+				
+				this.input_disable = false;
+				// 滚动到最底下
+				this.scrollToBottom();
+			},
 			project_change(){
+				
+				// 存相应的token
+				
+				// 获取对应的子项目
 				return;
 			},
 			subProject_change(){
+				// 更改对应的token
 				return;
 			},
 			
@@ -161,81 +275,6 @@
 				uni.redirectTo({
 					url:"/pages/user/chat_history"
 				})
-			},
-			async sendMsg() {
-				if (this.inputMsg.trim() == "") {
-					uni.showToast({
-							title: '不能发送空白消息',
-							icon: 'none'
-						});
-						return;
-				}
-				let prompt = this.inputMsg
-				this.inputMsg = "";
-				this.msgList.push({
-					botContent: "",
-					userContent: prompt
-				});
-				this.input_disable = true;
-				
-				// 返回页面底部
-				this.scrollToBottom();
-				
-				// 存信息到云数据库
-				this.userId = uni.getStorageSync('user_id')
-				console.log(this.userId)
-				if (this.userId){
-					const inputStoredRes = await db.collection("chat_data").add({
-						userId : this.userId,
-						posttime: Date.now(),
-						content: prompt	,
-						isUser: true 
-					})
-					// console.log(inputStoredRes)
-					console.log("输入存储成功")
-				}
-				let res = await uniCloud.callFunction({
-					name:"kimi_chat",
-					data:{
-						prompt,
-						history: this.history
-					},
-				});
-				
-				// 测试节点
-				// console.log(res)
-				// return;
-				
-				if (res.result.success) {
-					this.kimi_res = res.result.message;
-					this.history = res.result.history;
-					console.log(res)
-					
-					// 存信息到云数据库
-					if (this.userId){
-						const outputStoredRes = await db.collection("chat_data").add({
-							userId: this.userId,
-							posttime:Date.now(),
-							content: this.kimi_res,
-							isUser: false
-						})
-						// console.log(outputStoredRes)
-						console.log("输出存储成功")
-					}
-				} else {
-					console.error(res.result.error)
-				}
-				
-				this.msgList.push({
-					botContent: this.kimi_res,
-					userContent: ""
-				});
-				console.log(this.msgList)
-				this.input_disable = false
-				
-				//生成完后也要滚到最底下
-				this.scrollToBottom();	
-				
 			},
 			// rpx 转换成 px
 			rpxTopx(px) {
@@ -293,6 +332,7 @@
 }
 .button-container{
 	height: 80rpx;
+	padding-top: 20rpx;
 }
 .select-container >>> .uni-select {
 	padding: 0 20px;
@@ -437,7 +477,7 @@
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 100%;
+    height: 1700rpx;
 	position: relative;
 }
 
@@ -447,12 +487,14 @@
 	width: 100%;
 }
 .group_3 {
-	height: 360rpx;
-    padding: 0 41.67rpx 18.5rpx 41.67rpx;
+	height: 300rpx;
+    padding: 10rpx 41.67rpx 18.5rpx 41.67rpx;
     position: absolute;
     bottom: 0;
     width: 90%; /* 根据需要调整宽度 */
     z-index: 1000; /* 确保在其他内容之上 */
+	opacity: 1;	 /*完全不透明 */
+	background-color: #f4f2fc; 
 }
 
 
@@ -464,7 +506,7 @@
     height: 41.67rpx;
 }
 .text-wrapper {
-    margin-left: 140.44rpx;
+    margin-left: 60rpx;
 }
 .font {
     font-size: 33.33rpx;
@@ -475,9 +517,6 @@
 .text {
     color: #7451ff;
     line-height: 31.29rpx;
-}
-.text-wrapper_2 {
-    margin-left: 158.17rpx;
 }
 .text_2 {
     line-height: 30.54rpx;
@@ -515,21 +554,10 @@
     left: 62.5rpx;
     top: 8.33rpx;
 }
-.textarea-field {
-  width: 90%;
-  min-height: 50rpx;
-  /* height: 60rpx; */
-  padding: 10rpx;
-  border-radius: 20rpx;
-  border: 1rpx solid #dcdcdc;
-  resize: none;
-  background-color: #FFFFFF;
-  overflow-y: hidden; /* Ensure no scrollbars are shown */
-  box-sizing: border-box; /* Ensure padding is included in height calculation */
-}
+
 
 .chat-container{
-	padding: 30rpx 0 0 0;
+	padding: 30rpx 0 20rpx 0;
 	border-radius: 58.33rpx;
 }
 </style>

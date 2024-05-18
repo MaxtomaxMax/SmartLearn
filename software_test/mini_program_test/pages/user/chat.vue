@@ -1,14 +1,16 @@
 <template>
     <view class="flex-col page">
 		<view class="flex-row items-center group">
-			<view class="flex-col justify-start items-center image-wrapper">
+			<view class="flex-col justify-start items-center image-wrapper" @click="exit">
 				<image
 					class="image_2"
 					src="../../static/ui_icon/exit.png"
-				/>	
+					@click="exit"
+				/>
 			</view>
-			<view class="flex-col justify-start text-wrapper"><text class="font text">答疑</text></view>
-			<view class="flex-col justify-start text-wrapper_2" @click="enterChatHistory"><text class="font text_2">历史</text></view>
+			<view class="flex-col justify-start text-wrapper"><text class="font text" >自由问答</text></view>
+			<view class="flex-col justify-start text-wrapper"><text class="font text_2" @click="enterKnowledgeMap">知识框架</text></view>
+			<view class="flex-col justify-start text-wrapper" ><text class="font text_2" @click="enterChatHistory">历史</text></view>
 		</view>
 		<view class="self-stretch divider"></view>
 		
@@ -111,6 +113,16 @@
 			this.sendHeight();
 		},
 		methods: {
+			exit(){
+				uni.navigateTo({
+					url:"/pages/login/welcome"
+				})
+			},
+			enterKnowledgeMap(){
+				uni.navigateTo({
+					url:"/pages/user/knowledgeMap"
+				})
+			},
 			enterChatHistory(){
 				uni.redirectTo({
 					url:"/pages/user/chat_history"
@@ -381,7 +393,7 @@
 }
 .group_3 {
 	height: 60rpx;
-    padding: 0 41.67rpx 18.5rpx 41.67rpx;
+    padding: 10rpx 41.67rpx 18.5rpx 41.67rpx;
     position: absolute;
     bottom: 0;
     width: 90%; /* 根据需要调整宽度 */
@@ -397,7 +409,7 @@
     height: 41.67rpx;
 }
 .text-wrapper {
-    margin-left: 140.44rpx;
+    margin-left: 60rpx;
 }
 .font {
     font-size: 33.33rpx;
@@ -409,9 +421,7 @@
     color: #7451ff;
     line-height: 31.29rpx;
 }
-.text-wrapper_2 {
-    margin-left: 158.17rpx;
-}
+
 .text_2 {
     line-height: 30.54rpx;
 }
@@ -462,7 +472,7 @@
 }
 
 .chat-container{
-	padding: 30rpx 0 0 0;
+	padding: 30rpx 0 20rpx 0;
 	border-radius: 58.33rpx;
 }
 </style>

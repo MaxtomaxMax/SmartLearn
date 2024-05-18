@@ -529,7 +529,6 @@
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		/* #endif */
-		flex: 1;
 		position: relative;
 		// position: absolute;
 		text-align: left;

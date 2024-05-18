@@ -41,6 +41,16 @@ const _sfc_main = {
     this.sendHeight();
   },
   methods: {
+    exit() {
+      common_vendor.index.navigateTo({
+        url: "/pages/login/welcome"
+      });
+    },
+    enterKnowledgeMap() {
+      common_vendor.index.navigateTo({
+        url: "/pages/user/knowledgeMap"
+      });
+    },
     enterChatHistory() {
       common_vendor.index.redirectTo({
         url: "/pages/user/chat_history"
@@ -147,8 +157,11 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: common_vendor.o((...args) => $options.enterChatHistory && $options.enterChatHistory(...args)),
-    b: common_vendor.f($data.msgList, (item, index, i0) => {
+    a: common_vendor.o((...args) => $options.exit && $options.exit(...args)),
+    b: common_vendor.o((...args) => $options.exit && $options.exit(...args)),
+    c: common_vendor.o((...args) => $options.enterKnowledgeMap && $options.enterKnowledgeMap(...args)),
+    d: common_vendor.o((...args) => $options.enterChatHistory && $options.enterChatHistory(...args)),
+    e: common_vendor.f($data.msgList, (item, index, i0) => {
       return common_vendor.e({
         a: item.userContent != ""
       }, item.userContent != "" ? {
@@ -164,19 +177,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         f: index
       });
     }),
-    c: this.input_disable
+    f: this.input_disable
   }, this.input_disable ? {
-    d: common_vendor.t(),
-    e: common_vendor.p({
+    g: common_vendor.t(),
+    h: common_vendor.p({
       type: "spinner-cycle",
       size: "30"
     })
   } : {}, {
-    f: `${$options.windowHeight - $options.inputHeight - 180}rpx`,
-    g: $data.scroll_anchor,
-    h: common_vendor.o($options.sendMsg),
-    i: common_vendor.o(($event) => $data.inputMsg = $event),
-    j: common_vendor.p({
+    i: `${$options.windowHeight - $options.inputHeight - 180}rpx`,
+    j: $data.scroll_anchor,
+    k: common_vendor.o($options.sendMsg),
+    l: common_vendor.o(($event) => $data.inputMsg = $event),
+    m: common_vendor.p({
       disabled: $data.input_disable,
       type: "text",
       ["suffix-icon"]: "paperplane",

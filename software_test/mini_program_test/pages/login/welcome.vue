@@ -24,10 +24,15 @@ export default {
     methods: {
 		// 跳转的login界面
 		enterLogin(){
-			uni.navigateTo({
-				// url:"log_in"
-				url:"/pages/user/knowledgeMap"
-			});
+			// uni.navigateTo({
+			// 	// url:"log_in"
+			// 	// url:"/pages/user/knowledgeMap"
+			// 	// url:"/pages/review/bookshelf"
+			// 	// url:"/pages/review/learning"
+			// });
+			uni.switchTab({
+				url:"/pages/review/learning"
+			})
 		}
 	},
 };
