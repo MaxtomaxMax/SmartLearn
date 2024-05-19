@@ -1,4 +1,7 @@
 
+.baseline-container.data-v-234aa2de{
+	padding: 30rpx 0 0 0;
+}
 .ml-11.data-v-234aa2de {
   margin-left: 22.92rpx;
 }
@@ -11,7 +14,7 @@
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 100%;
+  height: 100vh;
 }
 .group_2.data-v-234aa2de {
   padding-bottom: 77.08rpx;
@@ -19,7 +22,7 @@
 }
 .header.data-v-234aa2de {
   margin-top: -91.67rpx;
-  padding: 91.67rpx 0 22.92rpx;
+  padding: 120rpx 0 22.92rpx;
 }
 .group.data-v-234aa2de {
   padding-left: 41.67rpx;
@@ -37,16 +40,13 @@
   margin: 10.42rpx 41.67rpx 0 41.67rpx;
 }
 .group_3.data-v-234aa2de {
+  align-items: center;
   padding-bottom: 25rpx;
 }
 .image_4.data-v-234aa2de {
   border-radius: 50%;
   width: 100rpx;
   height: 100rpx;
-}
-.group_4.data-v-234aa2de {
-  margin-right: 40rpx;
-  margin-top: 25rpx;
 }
 .text.data-v-234aa2de {
   margin-left: 5.21rpx;
@@ -130,17 +130,12 @@
 }
 .grid.data-v-234aa2de {
   margin: 41.67rpx 41.67rpx 0 41.67rpx;
-  height: 366.67rpx;
+  height: 180rpx;
   display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(1, minmax(0, 1fr));
   grid-template-columns: repeat(2, minmax(0, 1fr));
   row-gap: 35.33rpx;
   column-gap: 35.33rpx;
-}
-.grid-item_1.data-v-234aa2de {
-  padding: 25rpx 25.67rpx 28.38rpx 25.67rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
 }
 .image_6.data-v-234aa2de {
   border-radius: 50%;
@@ -287,4 +282,53 @@
 .text_21.data-v-234aa2de {
   color: #7451ff;
   line-height: 19.42rpx;
+}
+.list.data-v-234aa2de {
+  margin: 27.08rpx 0 -95.83rpx;
+}
+.list-item.data-v-234aa2de {
+  padding: 33.33rpx 41.67rpx;
+  background-color: #ffffff;
+}
+.image_35.data-v-234aa2de {
+  margin-right: 41.67rpx;
+  width: 18.75rpx;
+  height: 25rpx;
+}
+.list-item.data-v-234aa2de:first-child {
+  margin-top: 0;
+}
+.font_33.data-v-234aa2de {
+  font-size: 20.83rpx;
+  font-family: PingFang SC;
+  line-height: 19.31rpx;
+  color: #000000;
+}
+.text_31.data-v-234aa2de {
+  line-height: 19.29rpx;
+}
+.section_30.data-v-234aa2de {
+  background-color: #f4f2fc;
+  border-radius: 8.33rpx;
+}
+.section_31.data-v-234aa2de {
+  background-image: linear-gradient(180deg, #ff9328 0%, #7451ff 100%);
+  border-radius: 8.33rpx;
+  width: 6.25rpx;
+  height: 116.67rpx;
+}
+.image_34.data-v-234aa2de {
+  filter: drop-shadow(0rpx 2.08rpx 4.17rpx #00000040);
+  width: 79.17rpx;
+  height: 75rpx;
+}
+.font_34.data-v-234aa2de {
+  font-size: 25rpx;
+  font-family: PingFang SC;
+  line-height: 23.48rpx;
+  font-weight: 600;
+  color: #000000;
+}
+.text_32.data-v-234aa2de {
+  line-height: 18.54rpx;
 }

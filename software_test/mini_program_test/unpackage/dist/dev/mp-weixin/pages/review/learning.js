@@ -28,7 +28,7 @@ const _sfc_main = {
     this.setContainerSize();
     this.inProgressRecords = [];
     this.userId = common_vendor.index.getStorageSync("user_id");
-    if (this.userId == "") {
+    if (!this.userId) {
       common_vendor.index.showToast({
         title: "尚未登录，无学习项目展示",
         icon: "error"
@@ -72,6 +72,11 @@ const _sfc_main = {
     }
   },
   methods: {
+    enterReview(name, index) {
+      common_vendor.index.navigateTo({
+        url: `/pages/review/review?id=${index}&name=${name}`
+      });
+    },
     setContainerSize() {
       try {
         const res = common_vendor.index.getSystemInfoSync();
@@ -145,11 +150,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["prefix-icon"]: "search",
       modelValue: $data.searchMsg
     }),
-    d: common_vendor.f($options.filteredProjects, (image, index, i0) => {
+    d: common_vendor.f($options.filteredProjects, (item, index, i0) => {
       return {
-        a: image.src,
-        b: common_vendor.t(image.text),
-        c: index
+        a: item.src,
+        b: common_vendor.t(item.text),
+        c: index,
+        d: common_vendor.o(($event) => $options.enterReview(item.text, index), index)
       };
     }),
     e: common_vendor.o((...args) => $options.addNewImage && $options.addNewImage(...args)),

@@ -1,90 +1,95 @@
-<!-- 等待蓝牙链接页面 -->
-<!-- wait for bluetooth -->
-<!--
 <template>
-	<view class="learn_bg">
-		
-		<!-- <view class="text1_container">
-			<text class="text1">请连接蓝牙</text>
-		</view>
-		
-		<view class="connect_bt">
-			<image class="bt_icon" src="../../static/ui_icon/bluetooth.png"></image>
-		</view>
-		
-		<view class="text2_container">
-			<text class="text2">点击连接蓝牙</text>
-		</view>
-	</view>
-</template>
+  <view class="flex-col page">
+    <view class="flex-col flex-1 group">
+      <text class="self-center text_2">请配置设备</text>
+      <view class="self-stretch relative section_5">
+        <view
+          :class="{
+            'flex-col items-center section_6_2 pos selected':
+              isBluetoothAdapter,
+            'flex-col items-center section_6_1 pos unselected':
+              !isBluetoothAdapter,
+          }"
+          @click="openBluetoothAdapter"
+        >
+          <image
+            class="image_5"
+            src="../../static/ui_icon/bt_logo.png"
+          />
+          <text class="font text_3 mt-9">打开蓝牙</text>
+        </view>
 
-<script>
-</script>
+        <view
+          :class="{
+            'flex-col items-center .section_7_2 pos_2 selected':
+              isBluetoothSearch,
+            'flex-col items-center section_7_1 pos_2 unselected':
+              !isBluetoothSearch,
+          }"
+          @click="searchBluetoothDevices"
+        >
+          <image
+            class="image_6"
+            src="../../static/ui_icon/equip_search.png"
+          />
+          <text class="mt-8 font text_4">搜索设备</text>
+        </view>
 
-<style>
-	.bt_icon{
-		height: 300rpx;
-		width: 300rpx;
-	}
-	.connect_bt{
-		height: 100vh;
-		width: 100vw;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;	/*水平居中*/
-		align-items: center;		/*垂直居中*/
-	}
-	/* .text1_container{
-		display: flex;
-		flex-direction: column;
-		height: 25%;
-	} */
-</style>
--->
-<template>
-<view class="flex-col page">
-  <view class="flex-col flex-1 group">
-    <text class="self-center text">请链接蓝牙</text>
-    <view class="flex-col justify-start items-center self-center image-wrapper">
-      <image
-        class="image_2"
-        src="https://ide.code.fun/api/image?token=663911a4bba59d0011c27cd0&name=a559292b52c6d5675a881601d876b37a.png"
-      />
+        <view
+          :class="{
+            'flex-col justify-start items-center text-wrapper_2 pos_4 selected':
+              isBluetoothInfo,
+            'flex-col justify-start items-center text-wrapper_1 pos_4 unselected':
+              !isBluetoothInfo,
+          }"
+          @click="connectBluetooth"
+        >
+          <image
+            class="image_7 pos_3"
+            src="../../static/ui_icon/getInfo.png"
+          />
+          <text class="font text_5">获取信息</text>
+        </view>
+      </view>
+      <text class="self-center text_6">全部点亮配置成功哦~</text>
+
+      <scroll-view class="device-list" scroll-y="true" style="height: 300px">
+        <block v-for="(device, index) in devices" :key="device.deviceId">
+          <button @tap="connectTo(device.deviceId)">{{ device.name }}</button>
+        </block>
+      </scroll-view>
     </view>
-    <text class="self-center text_2">点击链接蓝牙</text>
-    <text class="self-center text_3">00:00:00</text>
-    <view class="flex-row equal-division section">
-      <view class="flex-col items-center section_2 equal-division-item">
-        <image
-          class="shrink-0 image_3"
-          src="https://ide.code.fun/api/image?token=663911a4bba59d0011c27cd0&name=3807e5ce846f1a122c99fa99f0f2ff32.png"
-        />
-        <text class="font text_4">温故</text>
-      </view>
-      <view class="flex-col items-center section_2 equal-division-item">
-        <image
-          class="shrink-0 image_4"
-          src="https://ide.code.fun/api/image?token=663911a4bba59d0011c27cd0&name=447c9226d59ea4dd46e7f54fb27260b4.png"
-        />
-        <text class="font text_5">知新</text>
-      </view>
-      <view class="flex-col items-center section_2 equal-division-item">
-        <image
-          class="shrink-0 image_5"
-          src="https://ide.code.fun/api/image?token=663911a4bba59d0011c27cd0&name=a28466b963e1bce1c140eaa66dfc8c13.png"
-        />
-        <text class="font text_6">三省</text>
-      </view>
-      <view class="flex-col items-center section_2 equal-division-item">
-        <image
-          class="shrink-0 image_3"
-          src="https://ide.code.fun/api/image?token=663911a4bba59d0011c27cd0&name=248a963a79e2bce3d28e2766eede344f.png"
-        />
-        <text class="font mt-3">吾身</text>
-      </view>
-    </view>
+    <!--<view class="flex-row tab-bar">
+            <view class="flex-col items-center section_8">
+                <image
+                    class="shrink-0 image_8"
+                    src="https://ide.code.fun/api/image?token=6644a6da7a1eb60011e6e14f&name=805e88d24b0e0f44626c56046bcb8ae7.png"
+                />
+                <text class="font_2 text_8">温故</text>
+            </view>
+            <view class="flex-col items-center section_8">
+                <image
+                    class="shrink-0 image_8"
+                    src="https://ide.code.fun/api/image?token=6644a6da7a1eb60011e6e14f&name=71bb645a12d9751a8fe561928fe04ee0.png"
+                />
+                <text class="mt-2 font_2 text_9">知新</text>
+            </view>
+            <view class="flex-col items-center section_8">
+                <image
+                    class="shrink-0 image_8"
+                    src="https://ide.code.fun/api/image?token=6644a6da7a1eb60011e6e14f&name=896ea994c007f533c244d7c2a1bbfab3.png"
+                />
+                <text class="font_2 text_10">三省</text>
+            </view>
+            <view class="flex-col items-center section_9">
+                <image
+                    class="shrink-0 image_8"
+                    src="https://ide.code.fun/api/image?token=6644a6da7a1eb60011e6e14f&name=0f87aac748005d33623018ac42a002ae.png"
+                />
+                <text class="mt-6 font_2 text_11">吾身</text>
+            </view>
+        </view>-->
   </view>
-</view>
 </template>
 
 <script>
@@ -92,58 +97,305 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      info: "",
+      devices: [],
+      services: [],
+      isBluetoothAdapter: false,
+      isBluetoothSearch: false,
+      isBluetoothInfo: false,
+    };
   },
+  methods: {
+    //打开蓝牙适配器
+    openBluetoothAdapter() {
+      const that = this;
+      if (!that.isBluetoothAdapter) {
+        uni.openBluetoothAdapter({
+          success(res) {
+            console.log("初始化蓝牙适配器成功", JSON.stringify(res));
+            that.info = "初始化蓝牙适配器成功" + JSON.stringify(res);
+            uni.showModal({
+              title: "蓝牙适配情况",
+              content: "初始化蓝牙适配器成功",
+              showCancel: false,
+            });
+            that.isBluetoothAdapter = true;
+          },
+          fail(res) {
+            console.log("初始化蓝牙适配器失败", JSON.stringify(res));
+            that.info = "初始化蓝牙适配器失败" + JSON.stringify(res);
+            uni.showModal({
+              title: "蓝牙适配情况",
+              content: "蓝牙适配失败，请检查手机蓝牙和定位功能是否打开",
+              showCancel: false,
+            });
+          },
+          complete() {
+            console.log("初始化蓝牙适配器完成");
+          },
+        });
+      } else {
+        uni.closeBluetoothAdapter({
+          success(res) {
+            console.log("关闭蓝牙适配器成功", res);
+            uni.showToast({
+              title: "蓝牙适配器已关闭",
+              icon: "success",
+              duration: 1000,
+            });
+            that.isBluetoothAdapter = false;
+          },
+          fail(err) {
+            console.log("关闭蓝牙适配器失败", err);
+            uni.showToast({
+              title: "关闭失败",
+              icon: "none",
+              duration: 1000,
+            });
+          },
+        });
+      }
+    },
+    //搜索蓝牙设备
+    searchBluetoothDevices() {
+      const that = this;
 
-  methods: {},
+      if (!that.isBluetoothSearch) {
+        uni.startBluetoothDevicesDiscovery({
+          success(res) {
+            console.log("开始搜索蓝牙设备", res);
+            uni.showModal({
+              title: "蓝牙搜索",
+              content: "已成功开启蓝牙搜索",
+              showCancel: false,
+            });
+            that.isBluetoothSearch = true;
+          },
+          fail(res) {
+            console.log("搜索设备失败", JSON.stringify(res));
+            uni.showModal({
+              title: "蓝牙搜索",
+              content: "未成功开启蓝牙搜索",
+              showCancel: false,
+            });
+          },
+        });
+      } else {
+        uni.stopBluetoothDevicesDiscovery({
+          success(res) {
+            console.log("关闭蓝牙搜索成功", res);
+            uni.showModal({
+              title: "蓝牙搜索",
+              content: "已成功关闭蓝牙搜索",
+              showCancel: false,
+            });
+            that.isBluetoothSearch = false;
+          },
+          fail(res) {
+            console.log("关闭蓝牙搜索失败", res);
+            uni.showModal({
+              title: "蓝牙搜索",
+              content: "未成功关闭蓝牙搜索",
+              showCancel: false,
+            });
+          },
+        });
+      }
+    },
+    //点击连接蓝牙获取蓝牙设备信息
+    connectBluetooth() {
+      const that = this;
+      uni.getBluetoothDevices({
+        success(res) {
+          that.devices = res.devices.map((device) => ({
+            deviceId: device.deviceId,
+            name: device.name || "未命名设备",
+          }));
+          that.info = "搜索到的蓝牙数目：" + res.devices.length;
+          (that.isBluetoothInfo = true),
+            uni.showModal({
+              title: "搜索蓝牙数目:",
+              content: `找到 ${res.devices.length} 个蓝牙设备`,
+              showCancel: false,
+            }); // 移除多余的逗号
+        },
+        fail(err) {
+          uni.showModal({
+            title: "搜索蓝牙数目:",
+            content: "获取蓝牙设备列表失败",
+            showCancel: false,
+          }); // 此处增加结束括号
+        },
+      });
+    },
+    //点击设备连接蓝牙
+    connectTo(deviceId) {
+      const that = this;
+      uni.createBLEConnection({
+        deviceId: deviceId,
+        success(res) {
+          console.log("连接设备成功", res);
+          that.info = "已连接设备ID：" + deviceId;
+          uni.showModal({
+            title: "连接设备成功:",
+            content: `已连接设备ID：${deviceId}, 点击确认跳转`,
+            showCancel: false,
+            success: function (modalRes) {
+              if (modalRes.confirm) {
+                uni.navigateTo({
+                  url: "/pages/learn/learntiming?deviceId=" + deviceId, // 修改为你的目标页面路径
+                });
+              }
+            },
+          });
+        },
+        fail(err) {
+          console.error("连接设备失败", err);
+          that.info = "连接失败";
+          uni.showModal({
+            title: "连接设备失败:",
+            content: `未能成功连接设备ID：${deviceId}`,
+            showCancel: false,
+          });
+        },
+      });
+    },
+  },
 };
 </script>
 
 <style scoped lang="css">
-.mt-3 {
-  margin-top: 6.25rpx;
+.mt-9 {
+  margin-top: 18.75rpx;
 }
 .page {
   background-color: #f4f2fc;
-  border-radius: 58.33rpx;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 100%;
+  height: 100vh;
 }
 .group {
-  padding-top: 220.83rpx;
+  padding: 245.83rpx 120.83rpx 237.5rpx 141.67rpx;
   overflow-y: auto;
 }
-.text {
+.text_2 {
   color: #000000;
   font-size: 50rpx;
   font-family: PingFang SC;
   font-weight: 600;
-  line-height: 47rpx;
+  line-height: 47.21rpx;
   letter-spacing: 8.33rpx;
 }
-.image-wrapper {
-  margin-top: 66.67rpx;
-  padding: 125rpx 0;
-  filter: drop-shadow(0rpx 8.33rpx 4.17rpx #00000040);
-  background-color: #ffffff;
+.section_5 {
+  margin: 66.67rpx 45.83rpx 0 25rpx;
+  background-color: #f4f2fc;
   box-shadow: 0rpx 8.33rpx 6.25rpx #0000002e;
   border-radius: 50%;
-  width: 416.67rpx;
+  height: 416.67rpx;
 }
-.image_2 {
-  width: 185.42rpx;
-  height: 166.67rpx;
+.section_6_1 {
+  padding: 41.67rpx 0;
+  background-color: #ffffff;
+  box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
+  border-radius: 50%;
+  width: 208.33rpx;
 }
-.text_2 {
+.section_6_2 {
+  padding: 41.67rpx 0;
+  background-color: #ffbd53;
+  box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
+  border-radius: 50%;
+  width: 208.33rpx;
+}
+.pos {
+  position: absolute;
+  left: 22.92rpx;
+  top: 39.58rpx;
+}
+.image_5 {
+  width: 83.33rpx;
+  height: 83.33rpx;
+}
+.section_7_1 {
+  padding: 37.5rpx 41.67rpx;
+  background-color: #ffffff;
+  box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
+  border-radius: 50%;
+}
+.section_7_2 {
+  padding: 37.5rpx 41.67rpx;
+  background-color: #ffd490;
+  box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
+  border-radius: 50%;
+}
+.pos_2 {
+  position: absolute;
+  right: 8.33rpx;
+  top: 79.17rpx;
+}
+.image_6 {
+  margin-left: 8.33rpx;
+  width: 72.92rpx;
+  height: 72.92rpx;
+}
+.font {
+  font-size: 20.83rpx;
+  font-family: ABeeZee;
+  line-height: 19.54rpx;
+  color: #979797;
+}
+.text_3 {
+  font-size: 22.92rpx;
+  line-height: 21.15rpx;
+}
+.text_4 {
+  font-size: 22.92rpx;
+  line-height: 21.29rpx;
+}
+.text-wrapper_1 {
+  padding: 120.83rpx 0 33.33rpx;
+  background-color: #ffffff;
+  box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
+  border-radius: 50%;
+  width: 175rpx;
+}
+.text-wrapper_2 {
+  padding: 120.83rpx 0 33.33rpx;
+  background-color: #ffe5bd;
+  box-shadow: 0rpx 8.33rpx 8.33rpx #00000040;
+  border-radius: 50%;
+  width: 175rpx;
+}
+.pos_4 {
+  position: absolute;
+  left: 50%;
+  top: 233.33rpx;
+  transform: translateX(-50%);
+}
+.text_5 {
+  font-size: 22.92rpx;
+  line-height: 21.38rpx;
+}
+.image_7 {
+  width: 139.58rpx;
+  height: 152.08rpx;
+}
+.pos_3 {
+  position: absolute;
+  left: 50%;
+  bottom: 41.67rpx;
+  transform: translateX(-50%);
+}
+.text_6 {
   margin-top: 58.33rpx;
   color: #979797;
   font-size: 33.33rpx;
   font-family: ABeeZee;
-  line-height: 30.77rpx;
+  line-height: 31rpx;
 }
-.text_3 {
+.text_7 {
   margin-top: 141.67rpx;
   color: #000000;
   font-size: 100rpx;
@@ -151,55 +403,48 @@ export default {
   line-height: 72.4rpx;
   letter-spacing: 8.33rpx;
 }
-.equal-division {
-  align-self: stretch;
-  margin-top: 237.5rpx;
-}
-.section {
+.tab-bar {
   padding: 35.42rpx 0;
   background-color: #ffffff;
-  border-radius: 58.33rpx;
   box-shadow: 0rpx 1.04rpx 0rpx #0000002e inset;
   backdrop-filter: blur(0rpx);
 }
-.section_2 {
+.section_8 {
   flex: 1 1 188rpx;
-}
-.equal-division-item {
-  padding: 8.33rpx 0;
+  padding: 16.67rpx 0 8.33rpx;
   background-color: #ffffff;
   border-radius: 58.33rpx;
   overflow: hidden;
   height: 102.08rpx;
 }
-.image_3 {
-  width: 66.67rpx;
-  height: 66.67rpx;
+.image_8 {
+  width: 54rpx;
+  height: 54rpx;
 }
-.font {
+.section_9 {
+  padding: 8.33rpx 0;
+  flex: 1 1 188rpx;
+  background-color: #ffffff;
+  border-radius: 58.33rpx;
+  overflow: hidden;
+  height: 102.08rpx;
+}
+.font_2 {
   font-size: 20.83rpx;
   font-family: PingFang SC;
-  line-height: 19.29rpx;
+  line-height: 19.54rpx;
   color: #a6a9b2;
 }
-.text_4 {
+.text_10 {
+  line-height: 19.13rpx;
+}
+.text_9 {
+  color: #7451ff;
+}
+.text_8 {
   line-height: 19.21rpx;
 }
-.image_4 {
-  filter: drop-shadow(0rpx 2.08rpx 3.13rpx #7451ff);
-  width: 66.67rpx;
-  height: 66.67rpx;
-}
-.text_5 {
-  color: #7451ff;
-  line-height: 19.54rpx;
-}
-.image_5 {
-  border-radius: 8.33rpx;
-  width: 66.67rpx;
-  height: 66.67rpx;
-}
-.text_6 {
-  line-height: 19.13rpx;
+.text_11 {
+  line-height: 19.29rpx;
 }
 </style>

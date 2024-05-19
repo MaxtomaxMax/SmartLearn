@@ -13,7 +13,9 @@
     "pages/login/welcome",
     "pages/user/chat",
     "pages/user/chat_history",
-    "pages/user/knowledgeMap"
+    "pages/user/knowledgeMap",
+    "pages/review/reflectionchart",
+    "pages/review/review"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -27,7 +29,7 @@
     "borderStyle": "black",
     "list": [
       {
-        "pagePath": "pages/review/learned",
+        "pagePath": "pages/review/learning",
         "iconPath": "static/ui_icon/project.png",
         "selectedIconPath": "static/ui_icon/project_selected.png",
         "text": "温故"
@@ -39,7 +41,7 @@
         "text": "知新"
       },
       {
-        "pagePath": "pages/review/learning",
+        "pagePath": "pages/review/reflectionchart",
         "iconPath": "static/ui_icon/review.png",
         "selectedIconPath": "static/ui_icon/review_selected.png",
         "text": "三省"

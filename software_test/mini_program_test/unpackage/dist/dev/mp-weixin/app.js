@@ -16,6 +16,8 @@ if (!Math) {
   "./pages/user/chat.js";
   "./pages/user/chat_history.js";
   "./pages/user/knowledgeMap.js";
+  "./pages/review/reflectionchart.js";
+  "./pages/review/review.js";
 }
 const _sfc_main = {
   onLaunch: function() {

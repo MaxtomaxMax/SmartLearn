@@ -141,6 +141,32 @@ tips：
 2024年5月18日
 通过透明度调整解决了信息框与输入框显示的问题
 
+2024年5月20日
+03点31分
+发现view框无法对齐
+**解决方案**
+找到self-stretch方法解决  
+
+03点49分
+关于没办法view框没办法置底的问题
+**解决方案**
+直接暴力把整个view移除到page那个view以外，根本上解决问题
+并且通过粗暴调整如下样式
+```css
+.section_12 {
+	position: absolute;
+	bottom: 0; 
+	
+	padding: 39.52rpx 30rpx 39.52rpx 30rpx;
+	background-color: #ffffff;
+	border-radius: 25rpx;
+	box-shadow: 0rpx -4.17rpx 8.33rpx #00000040;	
+	/* margin-left: 40rpx; */
+	/* margin-right: 40rpx; */
+}
+
+```
+
 ## 后端开发
 
 2024 年 5 月 9 日**毫米波问题总结**：

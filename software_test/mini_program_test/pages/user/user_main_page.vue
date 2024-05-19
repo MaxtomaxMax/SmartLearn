@@ -5,11 +5,11 @@
         <view class="flex-row justify-between group">
           <image
             class="image_2"
-            src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=24f8cb1f241816c388d930864dda0c7a.png"
+            src="../../static/ui_icon/msg.png"
           />
           <image
             class="image_3"
-            src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=76bd8d16aed8583c32db970875acfaa3.png"
+            src="../../static/ui_icon/setting.png"
           />
         </view>
       </view>
@@ -17,34 +17,20 @@
         <view class="flex-row group_3">
           <image
             class="shrink-0 self-center image_4"
-            src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=2182e647b8a6ea71092fe15fb8980ccd.png"
+            src="../../static/ui_icon/avatar.png"
           />
-          <view class="ml-14 flex-col items-start flex-1 self-start group_4">
-            <text class="text">{{ nickname }}</text>
-            <text class="font text_2 mt-9">{{ signature }}</text>
+          <view class="flex-col items-start flex-1" style="align-self: center; padding-left: 30rpx;">
+            <text class="text">{{nickname}}</text>
+            <text class="font text_2 mt-9">{{signature}}</text>
           </view>
         </view>
 
         <view class="flex-col section">
-          <!--<view class="flex-row justify-between items-center section_2">
-                        <view class="flex-row items-center">
-                            <image
-                                class="shrink-0 image_5"
-                                src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=7ef3ccd9929c972089b8a5d57be030b8.png"
-                            />
-                            <text class="font_2 text_3 ml-11">学习排行榜</text>
-                        </view>
-                        <view class="group_5">
-                            <text class="font text_5">第</text>
-                            <text class="font_3 text_4">2</text>
-                            <text class="font text_6">名</text>
-                        </view>
-                    </view>-->
           <view class="flex-row justify-between items-center section_2">
             <view class="flex-row items-center">
               <image
                 class="shrink-0 image_5"
-                src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=c4fb0376d2d6e382037314edaf19e346.png"
+                src="../../static/ui_icon/time.png"
               />
               <text class="font_2 text_7 ml-11">净学习时长</text>
             </view>
@@ -55,26 +41,8 @@
               <text class="font text_11">分钟</text>
             </view>
           </view>
-
-          <!--<view class="flex-row justify-between items-center section_2">
-                        <view class="flex-row items-center">
-                            <image
-		finishedcount:19,
-		studyingcount:17,
-		detectcount:526,
-		avestress:33,
-                                class="shrink-0 image_5"
-                                src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=77eebaf052db6d0fa4ff6bd543121640.png"
-                            />
-                            <text class="font_2 text_12 ml-11">勋章</text>
-                        </view>
-                        <view class="group_7">
-                            <text class="font_3 text_13">25</text>
-                            <text class="font text_14">枚勋章</text>
-                        </view>
-                    </view>-->
         </view>
-        <view>
+        <view class="baseline-container">
           <text class="self-start font_33 text_31"
             >BASELINE-MONITOR·平静检测</text
           >
@@ -87,7 +55,7 @@
                 <view class="section_31"></view>
                 <image
                   class="image_34 ml-5"
-                  src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=456c1bf87981560e563e0ca30574dc71.png"
+                  src="../../static/ui_icon/baseline.png"
                 />
               </view>
               <view class="ml-18 flex-col items-center">
@@ -97,52 +65,18 @@
             </view>
             <image
               class="image_35"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=9efdfc28904bd019d621cdadf31e2692.png"
+              src="../../static/ui_icon/baseline_enter.png"
             />
           </view>
         </view>
       </view>
 
       <view class="grid">
-        <view class="flex-col grid-item_1">
-          <view class="flex-row items-center self-stretch">
-            <image
-              class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=e59a70c1e3080a67cd25840e2e3cf158.png"
-            />
-            <text class="ml-12 font_5 text_25">在学</text>
-          </view>
-          <view class="self-start group_8 mt-9">
-            <text class="font_4">{{ studyingcount }}</text>
-            <text class="font_6">
-              本在学
-              <br />
-            </text>
-            <text class="font_6">今年在学12本</text>
-          </view>
-        </view>
-        <view class="flex-col grid-item_1">
-          <view class="flex-row items-center self-stretch">
-            <image
-              class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=6aa68ad6f689258b883452447311a124.png"
-            />
-            <text class="ml-12 font_5 text_15">学完</text>
-          </view>
-          <view class="self-start group_8 mt-9">
-            <text class="font_4">{{ finishedcount }}</text>
-            <text class="font_6">
-              本学完
-              <br />
-            </text>
-            <text class="font_6">今年学完5本</text>
-          </view>
-        </view>
         <view class="flex-col grid-item">
           <view class="flex-row items-center self-stretch">
             <image
               class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=6a497b9441a91bddb96ee9a9c92e5858.png"
+              src="../../static/ui_icon/query.png"
             />
             <text class="ml-12 font_5 text_26">答疑</text>
           </view>
@@ -155,11 +89,11 @@
             <text class="font_6">留在了26本书上</text>
           </view>
         </view>
-        <view class="flex-col grid-item_1">
+        <view class="flex-col grid-item">
           <view class="flex-row items-center self-stretch">
             <image
               class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=6fede10a8dac1767fdff2d1922b8c5b1.png"
+              src="../../static/ui_icon/reviewMainPage.png"
             />
             <text class="ml-12 font_5 text_1">复习</text>
           </view>
@@ -178,7 +112,7 @@
           <view class="flex-row items-center">
             <image
               class="shrink-0 image_5"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=51a5d645ce89bc89c1c7e9f8cdc370c5.png"
+              src="../../static/ui_icon/report.png"
             />
             <text class="font_2 text_16 ml-11">监测报告</text>
           </view>
@@ -204,8 +138,8 @@ export default {
   props: {},
   data() {
     return {
-      nickname: "",
-      signature: "",
+      nickname: "Jasmine",
+      signature: "balabalawulawula",
       learninghours: 5,
       learningminutes: 26,
       finishedcount: 19,
@@ -217,9 +151,9 @@ export default {
     };
   },
   onShow() {
-    const globalData = getApp().globalData;
-    this.nickname = globalData.nickname;
-    this.signature = globalData.signature;
+    // const globalData = getApp().globalData;
+    // this.nickname = globalData.nickname;
+    // this.signature = globalData.signature;
   },
 
   methods: {
@@ -243,6 +177,9 @@ export default {
 </script>
 
 <style scoped lang="css">
+.baseline-container{
+	padding: 30rpx 0 0 0;
+}
 .ml-11 {
   margin-left: 22.92rpx;
 }
@@ -263,7 +200,7 @@ export default {
 }
 .header {
   margin-top: -91.67rpx;
-  padding: 91.67rpx 0 22.92rpx;
+  padding: 120rpx 0 22.92rpx;
 }
 .group {
   padding-left: 41.67rpx;
@@ -281,6 +218,7 @@ export default {
   margin: 10.42rpx 41.67rpx 0 41.67rpx;
 }
 .group_3 {
+  align-items: center;
   padding-bottom: 25rpx;
 }
 .image_4 {
@@ -288,10 +226,7 @@ export default {
   width: 100rpx;
   height: 100rpx;
 }
-.group_4 {
-  margin-right: 40rpx;
-  margin-top: 25rpx;
-}
+
 .text {
   margin-left: 5.21rpx;
   color: #000000;
@@ -374,18 +309,14 @@ export default {
 }
 .grid {
   margin: 41.67rpx 41.67rpx 0 41.67rpx;
-  height: 366.67rpx;
+  height: 180rpx;
   display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(1, minmax(0, 1fr));
   grid-template-columns: repeat(2, minmax(0, 1fr));
   row-gap: 35.33rpx;
   column-gap: 35.33rpx;
 }
-.grid-item_1 {
-  padding: 25rpx 25.67rpx 28.38rpx 25.67rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
-}
+
 .image_6 {
   border-radius: 50%;
   width: 48rpx;
