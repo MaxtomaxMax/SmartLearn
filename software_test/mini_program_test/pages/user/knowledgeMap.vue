@@ -59,13 +59,17 @@
 				    ></uni-data-select>
 			</view>
 			
-			<uni-easyinput	
+
+			
+			<view class="" style="width: 100%;">
+							<uni-easyinput	
 			:disabled="input_disable"
 			:clearable="false"
 			type="text"
 			v-model="inputMsg" 
-			:placeholder="input_disable?'智学AI助手正在准备回答...':'请输入知识点关键词~'"></uni-easyinput>
-			
+			:placeholder="input_disable?'智学AI助手正在准备回答...':'请输入知识点关键词~'"
+			style="width: 100%;"></uni-easyinput>
+			</view>
 			<view class="flex-row justify-center button-container">
 				<view class="preKnowledgeButton">
 					<button class="button-style" :disabled="input_disable" @click="callPreKnowledge">
@@ -370,6 +374,7 @@
 }
 .select-container{
 	background-color: #FFFFFF;
+	width: 100%;
 }
 .scroll-target{
 	height: 0;
@@ -519,9 +524,9 @@
 .group_3 {
 	height: 300rpx;
     padding: 10rpx 41.67rpx 18.5rpx 41.67rpx;
-    position: absolute;
+    position: relative;
     bottom: 0;
-    width: 90%; /* 根据需要调整宽度 */
+    width: 100%; /* 根据需要调整宽度 */
     z-index: 1000; /* 确保在其他内容之上 */
 	opacity: 1;	 /*完全不透明 */
 	background-color: #f4f2fc; 

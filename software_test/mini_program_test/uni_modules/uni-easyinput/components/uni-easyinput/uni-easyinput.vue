@@ -529,8 +529,7 @@
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		/* #endif */
-		position: absolute;
-		bottom: 0;
+		position: relative;
 		text-align: left;
 		color: #333;
 		font-size: 14px;
