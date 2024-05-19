@@ -57,10 +57,7 @@
       <view class="flex-col self-stretch group_4">
         <view class="flex-row justify-between items-center">
           <text class="font">头像</text>
-          <image
-            class="image_5"
-            src="https://ide.code.fun/api/image?token=6641f349a2432f00114e5feb&name=8eb4f4ac64c115b8b39e93cb93fcda6a.png"
-          />
+          <image class="image_5" :src="imageUrl" @click="chooseImage" />
         </view>
         <view class="flex-col mt-19">
           <view
@@ -87,36 +84,6 @@
         >退出登录</text
       >
     </view>
-    <!--  统一设置tabBar，单页面底部tabBar可去除  <view class="flex-row justify-between tab-bar">
-            <view class="flex-col items-center group_5">
-                <image
-                    class="image_7"
-                    src="https://ide.code.fun/api/image?token=6641f349a2432f00114e5feb&name=c27e47588fc51f198750cf896df6d092.png"
-                />
-                <text class="mt-2 font_3 text_12">温故</text>
-            </view>
-            <view class="flex-col items-center group_6">
-                <image
-                    class="image_7"
-                    src="https://ide.code.fun/api/image?token=6641f349a2432f00114e5feb&name=302b9c13da61d12b84b17285da4b7b0d.png"
-                />
-                <text class="mt-2 font_3">知新</text>
-            </view>
-            <view class="flex-col items-center group_7">
-                <image
-                    class="image_7"
-                    src="https://ide.code.fun/api/image?token=6641f349a2432f00114e5feb&name=199555151d0ab2676d0571f82052a737.png"
-                />
-                <text class="mt-2 font_3 text_13">三省</text>
-            </view>
-            <view class="flex-col items-center group_8">
-                <image
-                    class="image_7"
-                    src="https://ide.code.fun/api/image?token=6641f349a2432f00114e5feb&name=337055d22fa08fca3b409b06d011b8ab.png"
-                />
-                <text class="mt-2 font_3 text_14">吾身</text>
-            </view>
-        </view>-->
   </view>
 </template>
 
@@ -130,10 +97,35 @@ export default {
       signature: "Wit beyond measure is man’s greatest treasure",
       isReminderOn: false,
       setTime: "9：00",
+      imageUrl:
+        "https://ide.code.fun/api/image?token=6641f349a2432f00114e5feb&name=8eb4f4ac64c115b8b39e93cb93fcda6a.png",
     };
   },
 
   methods: {
+    //头像
+    chooseImage() {
+      uni.chooseImage({
+        count: 1,
+        sizeType: ["compressed"],
+        sourceType: ["album", "camera"],
+        success: (res) => {
+          const tempFilePaths = res.tempFilePaths;
+          this.imageUrl = tempFilePaths[0];
+
+          uni.showModal({
+            title: "头像设置结果",
+            content: "设置成功！",
+            showCancel: false,
+          });
+        },
+        fail: (err) => {
+          console.log("选择图片失败", err);
+        },
+      });
+    },
+    // 需要将头像上传到数据库，待实现
+
     //修改定时发送提醒时间
     bindTimeChange(e) {
       this.setTime = e.detail.value; // 更新时间
@@ -185,13 +177,13 @@ export default {
         content: "确定要退出登录吗？",
         success: (res) => {
           if (res.confirm) {
-            console.log("用户点击确定");
+            //console.log('用户点击确定');
             // 执行退出操作
             // 例如：清除本地存储、token或执行API注销操作
             // uni.clearStorageSync();  // 清除本地存储数据
-            // 跳转到登录页面或重新加载页面
+
             uni.reLaunch({
-              url: "/pages/login/log_in", // 根据实际情况设置路径
+              url: "/pages/login/log_in", // 跳转到登录页面
             });
           } else if (res.cancel) {
             console.log("用户点击取消");
