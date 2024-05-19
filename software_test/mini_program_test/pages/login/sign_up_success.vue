@@ -1,6 +1,6 @@
 <!-- 成功完成注册 -->
 <template>
-<view class="flex-col items-center page">
+<view class="flex-col items-center page" :style="{ width: containerWidth, height: containerHeight}">
   <image
     class="image"
     src="../../static/ui_icon/logo_black.png"
@@ -16,14 +16,43 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+		containerWidth: '0px',
+		containerHeight: '0px',
+	};
   },
-
+  onLoad() {
+  	this.setContainerSize();
+  },
   methods: {
+	  setContainerSize() {
+	  	try {
+	  		const res = uni.getSystemInfoSync();
+	  		console.log(res);
+	  		const screenWidth = res.screenWidth;
+	  		// 屏幕高度要前去头部
+	  		// #ifdef MP-WEIXIN
+	  		const screenHeight = res.screenHeight - res.screenTop;
+	  		// #endif
+	  		// #ifdef H5
+	  		const screenHeight = res.windowHeight;
+	  		// #endif
+	  
+	  		// 确认获取到了正确的宽度和高度
+	  		if (screenWidth && screenHeight) {
+	  			this.containerWidth = `${screenWidth}px`;
+	  			this.containerHeight = `${screenHeight}px`;
+	  		} else {
+	  			console.error('获取 screenWidth 或 screenHeight 失败');
+	  		}
+	  	} catch (err) {
+	  		console.error('获取系统信息失败', err);
+	  	}
+	  },
 	  enterMainPage(){
-		  uni.navigateTo({
-		  	url:'/pages/user/chat'
-		  })
+		  uni.switchTab({
+		      url: "/pages/review/learning"
+		  });
 	  }
   },
 };
@@ -31,13 +60,11 @@ export default {
 
 <style scoped lang="css">
 .page {
-  padding: 191.67rpx 0 664.58rpx;
+  padding-top: 240rpx;
   background-color: #f4f2fc;
   border-radius: 58.33rpx;
-  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 100%;
 }
 .image {
   width: 208.33rpx;
@@ -59,7 +86,7 @@ export default {
   line-height: 41.54rpx;
 }
 .button {
-  margin-top: 279.17rpx;
+  margin-top: 200rpx;
 }
 .text-wrapper {
   padding: 37.5rpx 0;

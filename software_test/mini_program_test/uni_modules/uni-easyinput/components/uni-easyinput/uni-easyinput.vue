@@ -529,8 +529,8 @@
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		/* #endif */
-		position: relative;
-		// position: absolute;
+		position: absolute;
+		bottom: 0;
 		text-align: left;
 		color: #333;
 		font-size: 14px;

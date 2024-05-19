@@ -7666,9 +7666,6 @@ const pages = [
     path: "pages/review/history"
   },
   {
-    path: "pages/review/bookshelf"
-  },
-  {
     path: "pages/learn/bt_connected"
   },
   {
@@ -7691,9 +7688,6 @@ const pages = [
   },
   {
     path: "pages/user/chat"
-  },
-  {
-    path: "pages/user/chat_test"
   },
   {
     path: "pages/user/chat_history"

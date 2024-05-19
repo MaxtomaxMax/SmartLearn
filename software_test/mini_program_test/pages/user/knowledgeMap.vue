@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-col page">
+    <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
 		<view class="flex-row items-center group">
 			<view class="flex-col justify-start items-center image-wrapper">
 					<image
@@ -10,7 +10,7 @@
 			</view>
 			<view class="flex-col justify-start text-wrapper" @click="enterChat"><text class="font text_2" >自由问答</text></view>
 			<view class="flex-col justify-start text-wrapper"><text class="font text">知识框架</text></view>
-			<view class="flex-col justify-start text-wrapper" ><text class="font text_2" @click="enterChatHistory">历史</text></view>
+			<view class="flex-col justify-start text-wrapper" @click="enterChatHistory"><text class="font text_2" >历史</text></view>
 		</view>
 		<view class="self-stretch divider"></view>
 		
@@ -87,6 +87,9 @@
 	export default {
 		data() {
 			return {
+				containerWidth: '0px',
+				containerHeight: '0px',
+				
 				input_disable: false, // 默认情况下	
 				inputMsg: "",		// input框发送的信息
 				keyboardHeight: 0,
@@ -138,15 +141,42 @@
 			// 保证高度正确
 			this.sendHeight();
 		},
+		onLoad() {
+			this.setContainerSize();
+		},
 		methods: {
+			setContainerSize() {
+				try {
+					const res = uni.getSystemInfoSync();
+					console.log(res);
+					const screenWidth = res.screenWidth;
+					// 屏幕高度要前去头部
+					// #ifdef MP-WEIXIN
+					const screenHeight = res.screenHeight - res.screenTop;
+					// #endif
+					// #ifdef H5
+					const screenHeight = res.windowHeight;
+					// #endif
+			
+					// 确认获取到了正确的宽度和高度
+					if (screenWidth && screenHeight) {
+						this.containerWidth = `${screenWidth}px`;
+						this.containerHeight = `${screenHeight}px`;
+					} else {
+						console.error('获取 screenWidth 或 screenHeight 失败');
+					}
+				} catch (err) {
+					console.error('获取系统信息失败', err);
+				}
+			},
 			enterChat(){
 				uni.navigateTo({
 					url:"/pages/user/chat"
 				})
 			},
 			exit(){
-				uni.navigateTo({
-					url:"/pages/login/welcome"
+				uni.switchTab({
+					url:"/pages/review/learning"
 				})
 			},
 			async callPreKnowledge(){

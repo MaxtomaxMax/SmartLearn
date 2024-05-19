@@ -3,13 +3,11 @@
     margin-top: 10.42rpx;
 }
 .page.data-v-2c2afae1 {
-    padding: 191.67rpx 41.67rpx 137.5rpx;
-    background-color: #f4f2fc;
-    border-radius: 58.33rpx;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
+	padding: 120rpx 40rpx 0 40rpx;
+	background-color: #f4f2fc;
+	border-radius: 58.33rpx;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 .image.data-v-2c2afae1 {
     width: 208.33rpx;
@@ -90,7 +88,7 @@
     line-height: 38.92rpx;
 }
 .group_2.data-v-2c2afae1 {
-    margin-top: 116.67rpx;
+    margin-top: 50rpx;
     line-height: 30.88rpx;
 }
 .text_10.data-v-2c2afae1 {

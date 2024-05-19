@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-col page">
+    <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
 		<view class="flex-row items-center group">
 			<view class="flex-col justify-start items-center image-wrapper" @click="exit">
 				<image
@@ -16,7 +16,7 @@
 		
 		<view class="chat-container">
 			<scroll-view scroll-y="true" class="chat-content" 
-				:style="{height: `${windowHeight - inputHeight - 180}rpx`}"
+				:style="{height: `${windowHeight - inputHeight - 90}rpx`}"
 				:scroll-into-view="scroll_anchor"
 				scroll-with-animation
 				ref= "scrollview"
@@ -72,6 +72,9 @@
 	export default {
 		data() {
 			return {
+				containerWidth: '0px',
+				containerHeight: '0px',
+				
 				input_disable: false, // 默认情况下
 				inputMsg: "",		// input框发送的信息
 				keyboardHeight: 0,
@@ -112,10 +115,37 @@
 			// 保证高度正确
 			this.sendHeight();
 		},
+		onLoad() {
+			this.setContainerSize();
+		},
 		methods: {
+			setContainerSize() {
+				try {
+					const res = uni.getSystemInfoSync();
+					console.log(res);
+					const screenWidth = res.screenWidth;
+					// 屏幕高度要前去头部
+					// #ifdef MP-WEIXIN
+					const screenHeight = res.screenHeight - res.screenTop;
+					// #endif
+					// #ifdef H5
+					const screenHeight = res.windowHeight;
+					// #endif
+			
+					// 确认获取到了正确的宽度和高度
+					if (screenWidth && screenHeight) {
+						this.containerWidth = `${screenWidth}px`;
+						this.containerHeight = `${screenHeight}px`;
+					} else {
+						console.error('获取 screenWidth 或 screenHeight 失败');
+					}
+				} catch (err) {
+					console.error('获取系统信息失败', err);
+				}
+			},
 			exit(){
-				uni.navigateTo({
-					url:"/pages/login/welcome"
+				uni.switchTab({
+					url:"/pages/review/learning"
 				})
 			},
 			enterKnowledgeMap(){
@@ -372,17 +402,14 @@
 	height: 60rpx;
 	border-radius: 58.33rpx;
 	bottom: 0;
-/* 	position: absolute; */
+	position: absolute;
 }
 	
 .page {
-	padding: 15.67rpx 20.67rpx 37.5rpx;
     background-color: #f4f2fc;
     border-radius: 58.33rpx;
-    width: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
-    height: 100%;
 	position: relative;
 }
 
@@ -392,7 +419,7 @@
 	width: 100%;
 }
 .group_3 {
-	height: 60rpx;
+	height: 120rpx;
     padding: 10rpx 41.67rpx 18.5rpx 41.67rpx;
     position: absolute;
     bottom: 0;

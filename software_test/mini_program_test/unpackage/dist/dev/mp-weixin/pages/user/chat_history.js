@@ -6,6 +6,8 @@ const _sfc_main = {
   props: {},
   data() {
     return {
+      containerWidth: "0px",
+      containerHeight: "0px",
       time_value: 0,
       time_range: [
         { value: 1, text: "今天" },
@@ -39,6 +41,7 @@ const _sfc_main = {
     }
   },
   async onLoad() {
+    this.setContainerSize();
     this.userId = common_vendor.index.getStorageSync("user_id");
     const userChatDataRes = await db.collection("chat_data").where({
       userId: this.userId
@@ -64,6 +67,32 @@ const _sfc_main = {
     }
   },
   methods: {
+    setContainerSize() {
+      try {
+        const res = common_vendor.index.getSystemInfoSync();
+        console.log(res);
+        const screenWidth = res.screenWidth;
+        const screenHeight = res.screenHeight - res.screenTop;
+        if (screenWidth && screenHeight) {
+          this.containerWidth = `${screenWidth}px`;
+          this.containerHeight = `${screenHeight}px`;
+        } else {
+          console.error("获取 screenWidth 或 screenHeight 失败");
+        }
+      } catch (err) {
+        console.error("获取系统信息失败", err);
+      }
+    },
+    enterKnowledgeMap() {
+      common_vendor.index.navigateTo({
+        url: "/pages/user/knowledgeMap"
+      });
+    },
+    exit() {
+      common_vendor.index.switchTab({
+        url: "/pages/review/learning"
+      });
+    },
     getDateString(posttime) {
       const date = new Date(posttime);
       const year = date.getFullYear();
@@ -126,20 +155,22 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o((...args) => $options.enterChat && $options.enterChat(...args)),
-    b: common_vendor.o($options.time_change),
-    c: common_vendor.o(($event) => $data.time_value = $event),
-    d: common_vendor.p({
+    a: common_vendor.o((...args) => $options.exit && $options.exit(...args)),
+    b: common_vendor.o((...args) => $options.enterChat && $options.enterChat(...args)),
+    c: common_vendor.o((...args) => $options.enterKnowledgeMap && $options.enterKnowledgeMap(...args)),
+    d: common_vendor.o($options.time_change),
+    e: common_vendor.o(($event) => $data.time_value = $event),
+    f: common_vendor.p({
       localdata: $data.time_range,
       modelValue: $data.time_value
     }),
-    e: common_vendor.o($options.group_change),
-    f: common_vendor.o(($event) => $data.group_value = $event),
-    g: common_vendor.p({
+    g: common_vendor.o($options.group_change),
+    h: common_vendor.o(($event) => $data.group_value = $event),
+    i: common_vendor.p({
       localdata: $data.group_range,
       modelValue: $data.group_value
     }),
-    h: common_vendor.f($data.showList, (item, index, i0) => {
+    j: common_vendor.f($data.showList, (item, index, i0) => {
       return {
         a: "68eaa597-2-" + i0,
         b: common_vendor.p({
@@ -149,7 +180,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         d: index
       };
     }),
-    i: `${$options.windowHeight - $options.inputHeight - 180}rpx`
+    k: `${$options.windowHeight - $options.inputHeight - 180}rpx`,
+    l: $data.containerWidth,
+    m: $data.containerHeight
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-68eaa597"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/chat_history.vue"]]);

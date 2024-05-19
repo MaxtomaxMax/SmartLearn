@@ -6,13 +6,34 @@ const _sfc_main = {
   props: {},
   data() {
     return {
+      containerWidth: "0px",
+      containerHeight: "0px",
       email: "",
       password: "",
       confirmPassword: "",
       hashPassword: ""
     };
   },
+  onLoad() {
+    this.setContainerSize();
+  },
   methods: {
+    setContainerSize() {
+      try {
+        const res = common_vendor.index.getSystemInfoSync();
+        console.log(res);
+        const screenWidth = res.screenWidth;
+        const screenHeight = res.screenHeight - res.screenTop;
+        if (screenWidth && screenHeight) {
+          this.containerWidth = `${screenWidth}px`;
+          this.containerHeight = `${screenHeight}px`;
+        } else {
+          console.error("获取 screenWidth 或 screenHeight 失败");
+        }
+      } catch (err) {
+        console.error("获取系统信息失败", err);
+      }
+    },
     async signup() {
       try {
         if (this.password !== this.confirmPassword) {
@@ -83,7 +104,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: $data.confirmPassword,
     f: common_vendor.o(($event) => $data.confirmPassword = $event.detail.value),
     g: common_vendor.o((...args) => $options.signup && $options.signup(...args)),
-    h: common_vendor.o((...args) => $options.enterLogin && $options.enterLogin(...args))
+    h: common_vendor.o((...args) => $options.enterLogin && $options.enterLogin(...args)),
+    i: $data.containerWidth,
+    j: $data.containerHeight
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2c2afae1"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/login/sign_up.vue"]]);

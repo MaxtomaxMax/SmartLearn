@@ -4,7 +4,6 @@
     "pages/user/user_main_page",
     "pages/review/learning",
     "pages/review/history",
-    "pages/review/bookshelf",
     "pages/learn/bt_connected",
     "pages/learn/wait4bt",
     "pages/review/learned",
@@ -13,7 +12,6 @@
     "pages/login/log_in",
     "pages/login/welcome",
     "pages/user/chat",
-    "pages/user/chat_test",
     "pages/user/chat_history",
     "pages/user/knowledgeMap"
   ],

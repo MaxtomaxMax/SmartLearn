@@ -4,6 +4,8 @@ const db = common_vendor.Ws.database();
 const _sfc_main = {
   data() {
     return {
+      containerWidth: "0px",
+      containerHeight: "0px",
       input_disable: false,
       // 默认情况下
       inputMsg: "",
@@ -40,10 +42,29 @@ const _sfc_main = {
     this.scrollToBottom();
     this.sendHeight();
   },
+  onLoad() {
+    this.setContainerSize();
+  },
   methods: {
+    setContainerSize() {
+      try {
+        const res = common_vendor.index.getSystemInfoSync();
+        console.log(res);
+        const screenWidth = res.screenWidth;
+        const screenHeight = res.screenHeight - res.screenTop;
+        if (screenWidth && screenHeight) {
+          this.containerWidth = `${screenWidth}px`;
+          this.containerHeight = `${screenHeight}px`;
+        } else {
+          console.error("获取 screenWidth 或 screenHeight 失败");
+        }
+      } catch (err) {
+        console.error("获取系统信息失败", err);
+      }
+    },
     exit() {
-      common_vendor.index.navigateTo({
-        url: "/pages/login/welcome"
+      common_vendor.index.switchTab({
+        url: "/pages/review/learning"
       });
     },
     enterKnowledgeMap() {
@@ -185,7 +206,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       size: "30"
     })
   } : {}, {
-    i: `${$options.windowHeight - $options.inputHeight - 180}rpx`,
+    i: `${$options.windowHeight - $options.inputHeight - 90}rpx`,
     j: $data.scroll_anchor,
     k: common_vendor.o($options.sendMsg),
     l: common_vendor.o(($event) => $data.inputMsg = $event),
@@ -195,7 +216,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["suffix-icon"]: "paperplane",
       placeholder: $data.input_disable ? "智学AI助手正在准备回答..." : "向智学学习助手提问吧~",
       modelValue: $data.inputMsg
-    })
+    }),
+    n: $data.containerWidth,
+    o: $data.containerHeight
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-e32e353c"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/chat.vue"]]);

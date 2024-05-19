@@ -3,13 +3,11 @@
         margin-top: 10.42rpx;
 }
 .page.data-v-d8144b15 {
-        padding: 191.67rpx 41.67rpx 137.5rpx;
+		padding: 120rpx 40rpx 0 40rpx;
         background-color: #f4f2fc;
         border-radius: 58.33rpx;
-        width: 100%;
         overflow-y: auto;
         overflow-x: hidden;
-        height: 100%;
 }
 .image.data-v-d8144b15 {
         width: 208.33rpx;
@@ -84,7 +82,7 @@
         line-height: 38.63rpx;
 }
 .group_2.data-v-d8144b15 {
-        margin-top: 291.67rpx;
+        margin-top: 100rpx;
         line-height: 30.96rpx;
 }
 .text_8.data-v-d8144b15 {

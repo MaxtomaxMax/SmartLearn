@@ -1,15 +1,17 @@
 <template>
-    <view class="flex-col page">
+    <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
         <view class="flex-col flex-1 group">
             <view class="flex-row items-center group_2">
                 <view class="flex-row justify-start items-center image-wrapper_2">
                     <image
                         class="image_5"
                         src="../../static/ui_icon/exit.png"
+						@click="exit"
                     />
                 </view>
-                <view class="flex-row justify-start text-wrapper" @click="enterChat"><text class="font text_2">答疑</text></view>
-                <view class="flex-row justify-start text-wrapper_2"><text class="font text_3">历史</text></view>
+                <view class="flex-col justify-start text-wrapper" @click="enterChat"><text class="font text_2" >自由问答</text></view>
+                <view class="flex-col justify-start text-wrapper" @click="enterKnowledgeMap"><text class="font text_2">知识框架</text></view>
+                <view class="flex-col justify-start text-wrapper" ><text class="font text">历史</text></view>
             </view>
             <view class="mt-18 flex-col">
                 <view class="flex-row equal-division">
@@ -54,6 +56,8 @@
 						</view>
 						<view class="self-stretch divider"></view>
 					</view>
+					<!-- 底部放空间使所有信息全部渲染 -->
+					<view :style="{height:'50rpx'}"></view>
 				</scroll-view>
 			</view>
         </view>
@@ -67,6 +71,9 @@ export default {
     props: {},
     data() {
         return {
+			containerWidth: '0px',
+			containerHeight: '0px',
+			
             time_value : 0,
 			time_range : [
 			        { value: 1, text: "今天" },
@@ -102,6 +109,9 @@ export default {
 		}
 	},
 	async onLoad() {
+		// 获取页面高度
+		this.setContainerSize();
+		
 		this.userId = uni.getStorageSync("user_id")
 		const userChatDataRes = await db.collection("chat_data")
 			.where({
@@ -146,6 +156,40 @@ export default {
 	},
 
     methods: {
+		setContainerSize() {
+			try {
+				const res = uni.getSystemInfoSync();
+				console.log(res);
+				const screenWidth = res.screenWidth;
+				// 屏幕高度要前去头部
+				// #ifdef MP-WEIXIN
+				const screenHeight = res.screenHeight - res.screenTop;
+				// #endif
+				// #ifdef H5
+				const screenHeight = res.windowHeight;
+				// #endif
+		
+				// 确认获取到了正确的宽度和高度
+				if (screenWidth && screenHeight) {
+					this.containerWidth = `${screenWidth}px`;
+					this.containerHeight = `${screenHeight}px`;
+				} else {
+					console.error('获取 screenWidth 或 screenHeight 失败');
+				}
+			} catch (err) {
+				console.error('获取系统信息失败', err);
+			}
+		},
+		enterKnowledgeMap(){
+			uni.navigateTo({
+				url:"/pages/user/knowledgeMap"
+			})
+		},
+		exit(){
+			uni.switchTab({
+				url:"/pages/review/learning"
+			})
+		},
 		getDateString(posttime){
 			// 由Date对象获取对应的日期的字符串
 			const date = new Date(posttime);
@@ -271,7 +315,7 @@ export default {
 .page {
     background-color: #f4f2fc;
     width: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
     height: 100%;
 }
@@ -290,12 +334,16 @@ export default {
     height: 41.67rpx;
 }
 .text-wrapper {
-    margin-left: 141.67rpx;
+    margin-left: 60rpx;
 }
 .font {
     font-size: 33.33rpx;
     font-family: PingFang SC;
     line-height: 31.13rpx;
+}
+.text {
+    color: #7451ff;
+    line-height: 31.29rpx;
 }
 .text_2 {
     color: #979797;

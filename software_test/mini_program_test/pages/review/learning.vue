@@ -1,6 +1,6 @@
 <!-- 在学和学完集成到同一页面-->
 <template>
-    <view class="flex-col page" @pageScroll="onPageScroll">
+    <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
         <view class="flex-col flex-1 group">
             <view class="flex-col">
                 <view class="flex-col group_2">
@@ -15,30 +15,15 @@
                         <uni-easyinput 
 							v-model="searchMsg" 
 							placeholder="搜索学习项目~"
+							@input="filterProjects"
 							prefix-icon="search"/>
                     </view>
                 </view>
-                <view class="flex-row group_3 view">
-                    <!--<text class="font text_2">默认</text>-->
-                    <text
-                        :class="{
-                            'font text_3 ml-7 selected': showingInProgress,
-                            'font text_2 ml-7 unselected': !showingInProgress,
-                        }"
-                        @click="showInProgress"
-                    >在学</text>
-                    <text
-                        :class="{
-                            'font text_3 ml-7 selected': !showingInProgress,
-                            'font text_2 ml-7 unselected': showingInProgress,
-                        }"
-                        @click="showCompleted"
-                    >学完</text>
-                </view>
+                
                 <view class="flex-col group_4">
                     <view class="grid">
                         <view
-                            v-for="(image, index) in currentImages"
+                            v-for="(image, index) in filteredProjects"
                             :key="index"
                             class="flex-col items-center grid-item"
                         >
@@ -58,91 +43,169 @@
 </template>
 
 <script>
-export default {
-    components: {},
-    props: {},
-    data() {
-        return {
-			// 搜索框的文字内容
-			searchMsg:"",
+	const db = uniCloud.database();
+	export default {
+		components: {},
+		props: {},
+		data() {
+			return {
+				containerWidth: '0px',
+				containerHeight: '0px',
+				
+				userId:"",
+				
+				// 搜索框的文字内容
+				searchMsg:"",
+				
+				inProgressRecords: [],
+				completedRecords: [
+					{ src: "/static/ui_icon/newcover.jpg", text: "完成项目1" },
+					{ src: "/static/ui_icon/newcover.jpg", text: "完成项目2" },
+					{ src: "/static/ui_icon/newcover.jpg", text: "完成项目3" },
+				],
+				currentImages: [],
+				showingInProgress: true,
+			};
+		},
+
+		mounted() {
+			this.currentImages = this.inProgressRecords;
+		},
+		async onLoad() {
+			// 必须优先获取高度
+			this.setContainerSize();
 			
-            inProgressRecords: [
-                { src: "/static/ui_icon/newcover.jpg", text: "大学物理" },
-                { src: "/static/ui_icon/newcover.jpg", text: "数字电路" },
-                { src: "/static/ui_icon/newcover.jpg", text: "微机原理" },
-                { src: "/static/ui_icon/newcover.jpg", text: "高频电路" },
-                { src: "/static/ui_icon/newcover.jpg", text: "毛概" },
-            ],
-            completedRecords: [
-                { src: "/static/ui_icon/newcover.jpg", text: "完成项目1" },
-                { src: "/static/ui_icon/newcover.jpg", text: "完成项目2" },
-                { src: "/static/ui_icon/newcover.jpg", text: "完成项目3" },
-                { src: "/static/ui_icon/newcover.jpg", text: "完成项目4" },
-                { src: "/static/ui_icon/newcover.jpg", text: "完成项目5" },
-            ],
-            currentImages: [],
-            showingInProgress: true,
-        };
-    },
-
-    mounted() {
-        this.currentImages = this.inProgressRecords;
-    },
-	
-	onPullDownRefresh() {
-		console.log('refresh');
-		setTimeout(function () {
-			uni.navigateTo({
-				url:"/pages/user/chat"
+			// 更新从新开始渲染，避免重复
+			this.inProgressRecords = [];
+			// 获取项目并渲染
+			this.userId = uni.getStorageSync("user_id");
+			if (this.userId == ""){
+				// 尚未登录
+				uni.showToast({
+					title:"尚未登录，无学习项目展示",
+					icon:"error"
+				})
+				return;
+			}
+			uni.showLoading({
+				title:"正在加载学习项目~"
 			})
-		}, 1000);
-	},
-    methods: {
-        onPageScroll(e) {
-            // 判断是否是下拉动作
-            if (e.scrollTop > 0 && this.isPullingDown === false) {
-                this.isPullingDown = true;
-            }
-            // 判断是否达到跳转阈值
-            if (e.scrollTop > this.$refs.containerInfo.offsetHeight) {
-				console.log("正在下拉")
-                uni.redirectTo({
-                    url: '/pages/target/target', // 目标页面路径
-                    success: function () {
-                        console.log('跳转成功');
-                    }
-                });
-            }
-        },
+			
+			let projectRes = await db.collection("SmartLearn_project")
+				.where({
+					userId: this.userId
+				})
+				.get()
+			console.log(projectRes)
+			
+			
+			uni.hideLoading();
+			for (let i = projectRes.result.data.length - 1; i >= 0; i--){
+				this.inProgressRecords.unshift({
+					src: "/static/ui_icon/newcover.jpg",
+					text: projectRes.result.data[i].project_name
+				})
+			}
+		},
+		onPullDownRefresh() {
+			console.log('refresh');
+			setTimeout(function () {
+				uni.navigateTo({
+					url:"/pages/user/chat"
+				})
+			}, 1000);
+			uni.stopPullDownRefresh();
+		},
+		computed:{
+			filteredProjects(){
+				if (!this.searchMsg) {
+				      // 搜索关键词为空currentImage不变
+					  this.currentImages = this.inProgressRecords
+				      return this.currentImages;
+				}
+				// 关键词转化为单个字符的数组
+				const keywords = this.searchMsg.split('');
+				
+				// 构建正则表达式，匹配包含任意一个输入字符的项目名称
+				const regex = new RegExp(keywords.join('|'), 'i');
+				
+				// 筛选项目名称
+				console.log(this.currentImages.filter(project => regex.test(project.text)))
+				// this.currentImages = this.currentImages.filter(project => regex.test(project.text));
+				// return;
+				return this.currentImages.filter(project => regex.test(project.text));
+			},
+		},
+		
+		methods: {
+			setContainerSize() {
+				try {
+					const res = uni.getSystemInfoSync();
+					console.log(res);
+					const screenWidth = res.screenWidth;
+					// 屏幕高度要前去头部
+					// #ifdef MP-WEIXIN
+					const screenHeight = res.windowHeight;
+					// #endif
+					// #ifdef H5
+					const screenHeight = res.windowHeight - 50;
+					// #endif
+			
+					// 确认获取到了正确的宽度和高度
+					if (screenWidth && screenHeight) {
+						this.containerWidth = `${screenWidth}px`;
+						this.containerHeight = `${screenHeight}px`;
+					} else {
+						console.error('获取 screenWidth 或 screenHeight 失败');
+					}
+				} catch (err) {
+					console.error('获取系统信息失败', err);
+				}
+			},
+			filterProjects(){
+				this.$forceUpdate(); // 强制视图重新渲染
+			},
+			showInProgress() {
+				this.currentImages = this.inProgressRecords;
+				this.showingInProgress = true;
+			},
 
-        showInProgress() {
-            this.currentImages = this.inProgressRecords;
-            this.showingInProgress = true;
-        },
-
-        showCompleted() {
-            this.currentImages = this.completedRecords;
-            this.showingInProgress = false;
-        },
-
-        addNewImage() {
-            uni.showModal({
-                title: "添加新项目",
-                placeholderText: "请输入项目名称",
-                editable: true,
-                success: (res) => {
-                    if (res.confirm && res.content) {
-                        const newImage = {
-                            src: "/static/ui_icon/newcover.jpg",
-                            text: res.content,
-                        };
-                        this.inProgressRecords.unshift(newImage)
-                    }
-                },
-            });
-        },
-    },
-};
+			showCompleted() {
+				this.currentImages = this.completedRecords;
+				this.showingInProgress = false;
+			},
+			async addNewImage() {
+				uni.showModal({
+					title: "添加新项目",
+					placeholderText: "请输入项目名称",
+					editable: true,
+					success: (res) => {
+						if (res.confirm && res.content) {
+							const newImage = {
+							    src: "/static/ui_icon/newcover.jpg",
+							    text: res.content,
+							};
+							this.inProgressRecords.unshift(newImage)
+							
+							// 添加了新项目后数据上云
+							let addProjectRes = db.collection("SmartLearn_project").add({
+								userId: this.userId,
+								project_name: res.content
+							});
+							console.log(addProjectRes);	
+							
+						}
+					},
+				});
+			},
+			// rpx 转换成 px
+			rpxTopx(px) {
+				let deviceWidth = uni.getSystemInfoSync().windowWidth;
+				let rpx = (750 / deviceWidth) * Number(px);
+				return Math.floor(rpx);
+			},
+		},
+	};
 </script>
 
 <style scoped lang="css">
@@ -165,10 +228,8 @@ export default {
 .page {
     background-color: #f4f2fc;
     border-radius: 58.17rpx;
-    width: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
+    overflow-x: hidden;	
 }
 .group {
     overflow-y: auto;
@@ -253,7 +314,8 @@ export default {
 .grid {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
+    padding-left: 40rpx;
+	padding-top: 40rpx;
 }
 .grid-item {
     width: 30%; /* 调整每个项目的宽度以适应三列布局 */
@@ -265,9 +327,6 @@ export default {
 .image_4 {
     width: 100%;
     height: 100%; 
-}
-.font_2 {
-    font-size: 16px;
 }
 .mt-11 {
     margin-top: 11px;

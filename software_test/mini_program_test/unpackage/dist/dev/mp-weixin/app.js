@@ -6,7 +6,6 @@ if (!Math) {
   "./pages/user/user_main_page.js";
   "./pages/review/learning.js";
   "./pages/review/history.js";
-  "./pages/review/bookshelf.js";
   "./pages/learn/bt_connected.js";
   "./pages/learn/wait4bt.js";
   "./pages/review/learned.js";
@@ -15,7 +14,6 @@ if (!Math) {
   "./pages/login/log_in.js";
   "./pages/login/welcome.js";
   "./pages/user/chat.js";
-  "./pages/user/chat_test.js";
   "./pages/user/chat_history.js";
   "./pages/user/knowledgeMap.js";
 }

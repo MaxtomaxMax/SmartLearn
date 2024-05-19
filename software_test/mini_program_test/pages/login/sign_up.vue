@@ -1,6 +1,6 @@
 <!-- 注册界面 -->
 <template>
-    <view class="flex-col page">
+    <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
         <image
             class="self-center image"
 			src="../../static/ui_icon/logo_black.png"	
@@ -56,14 +56,43 @@
 		props: {},
 		data() {
 			return {
+				containerWidth: '0px',
+				containerHeight: '0px',
+				
 				email:"",
 				password:"",
 				confirmPassword:"",
 				hashPassword:""
 			};
 		},
-
+		onLoad() {
+			this.setContainerSize();
+		},
 		methods: {	
+			setContainerSize() {
+				try {
+					const res = uni.getSystemInfoSync();
+					console.log(res);
+					const screenWidth = res.screenWidth;
+					// 屏幕高度要前去头部
+					// #ifdef MP-WEIXIN
+					const screenHeight = res.screenHeight - res.screenTop;
+					// #endif
+					// #ifdef H5
+					const screenHeight = res.windowHeight;
+					// #endif
+			
+					// 确认获取到了正确的宽度和高度
+					if (screenWidth && screenHeight) {
+						this.containerWidth = `${screenWidth}px`;
+						this.containerHeight = `${screenHeight}px`;
+					} else {
+						console.error('获取 screenWidth 或 screenHeight 失败');
+					}
+				} catch (err) {
+					console.error('获取系统信息失败', err);
+				}
+			},
 			async signup() {
 			    try {
 			        // 检查两次输入密码是否一致
@@ -151,13 +180,11 @@
     margin-top: 10.42rpx;
 }
 .page {
-    padding: 191.67rpx 41.67rpx 137.5rpx;
-    background-color: #f4f2fc;
-    border-radius: 58.33rpx;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
+	padding: 120rpx 40rpx 0 40rpx;
+	background-color: #f4f2fc;
+	border-radius: 58.33rpx;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 .image {
     width: 208.33rpx;
@@ -238,7 +265,7 @@
     line-height: 38.92rpx;
 }
 .group_2 {
-    margin-top: 116.67rpx;
+    margin-top: 50rpx;
     line-height: 30.88rpx;
 }
 .text_10 {

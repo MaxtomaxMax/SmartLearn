@@ -1,6 +1,6 @@
 <!-- 已经注册的用户进行登录 -->
 <template>
-    <view class="flex-col page">
+    <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
         <image
             class="self-center image"
             src="../../static/ui_icon/logo_black.png"
@@ -41,24 +41,41 @@
 	export default {
 		data(){
 			return {
+				containerWidth: '0px',
+				containerHeight: '0px',
+				
 				email:"",
 				password:""
 			}
 		},
-		
+		onLoad() {
+			this.setContainerSize();
+		},
 		methods: {
-            // 点击登录按钮	
-    //         login() {				
-    //             login_obj.login({
-				// 	email: this.email,
-				// 	password: this.password
-				// }).then(res=>{
-				// 	console.log(res)
-				// }).catch(err=>{
-				// 	console.log(err)
-				// })
-				// },
-				
+			setContainerSize() {
+				try {
+					const res = uni.getSystemInfoSync();
+					console.log(res);
+					const screenWidth = res.screenWidth;
+					// 屏幕高度要前去头部
+					// #ifdef MP-WEIXIN
+					const screenHeight = res.screenHeight - res.screenTop;
+					// #endif
+					// #ifdef H5
+					const screenHeight = res.windowHeight;
+					// #endif
+			
+					// 确认获取到了正确的宽度和高度
+					if (screenWidth && screenHeight) {
+						this.containerWidth = `${screenWidth}px`;
+						this.containerHeight = `${screenHeight}px`;
+					} else {
+						console.error('获取 screenWidth 或 screenHeight 失败');
+					}
+				} catch (err) {
+					console.error('获取系统信息失败', err);
+				}
+			},
 			async login(){
 				// 查找邮箱并存储哈希密码
 				let emailRes = await db.collection("SmartLearn_user")
@@ -87,9 +104,9 @@
 						})
 						
 						// 成功登录后页面跳转
-						uni.navigateTo({
-							url:"sign_up_success"
-						})
+						uni.switchTab({
+						    url: "/pages/review/learning"
+						});
 						
 						// 成功登录后将_id存储到localStorage
 						let userId = emailRes.result.data[0]._id
@@ -115,8 +132,8 @@
             // 跳转到注册页面
             enterSignup() {
                 uni.navigateTo({
-                    url: 'sign_up'
-                });
+                	url:"/pages/login/sign_up"
+                })
             }
         }
     };
@@ -127,13 +144,11 @@
         margin-top: 10.42rpx;
     }
     .page {
-        padding: 191.67rpx 41.67rpx 137.5rpx;
+		padding: 120rpx 40rpx 0 40rpx;
         background-color: #f4f2fc;
         border-radius: 58.33rpx;
-        width: 100%;
         overflow-y: auto;
         overflow-x: hidden;
-        height: 100%;
     }
     .image {
         width: 208.33rpx;
@@ -208,7 +223,7 @@
         line-height: 38.63rpx;
     }
     .group_2 {
-        margin-top: 291.67rpx;
+        margin-top: 100rpx;
         line-height: 30.96rpx;
     }
     .text_8 {

@@ -4,6 +4,8 @@ const db = common_vendor.Ws.database();
 const _sfc_main = {
   data() {
     return {
+      containerWidth: "0px",
+      containerHeight: "0px",
       input_disable: false,
       // 默认情况下	
       inputMsg: "",
@@ -49,15 +51,34 @@ const _sfc_main = {
     this.scrollToBottom();
     this.sendHeight();
   },
+  onLoad() {
+    this.setContainerSize();
+  },
   methods: {
+    setContainerSize() {
+      try {
+        const res = common_vendor.index.getSystemInfoSync();
+        console.log(res);
+        const screenWidth = res.screenWidth;
+        const screenHeight = res.screenHeight - res.screenTop;
+        if (screenWidth && screenHeight) {
+          this.containerWidth = `${screenWidth}px`;
+          this.containerHeight = `${screenHeight}px`;
+        } else {
+          console.error("获取 screenWidth 或 screenHeight 失败");
+        }
+      } catch (err) {
+        console.error("获取系统信息失败", err);
+      }
+    },
     enterChat() {
       common_vendor.index.navigateTo({
         url: "/pages/user/chat"
       });
     },
     exit() {
-      common_vendor.index.navigateTo({
-        url: "/pages/login/welcome"
+      common_vendor.index.switchTab({
+        url: "/pages/review/learning"
       });
     },
     async callPreKnowledge() {
@@ -248,7 +269,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     o: $data.input_disable,
     p: common_vendor.o((...args) => $options.callPreKnowledge && $options.callPreKnowledge(...args)),
     q: $data.input_disable,
-    r: common_vendor.o((...args) => $options.callAdvancedKnowledge && $options.callAdvancedKnowledge(...args))
+    r: common_vendor.o((...args) => $options.callAdvancedKnowledge && $options.callAdvancedKnowledge(...args)),
+    s: $data.containerWidth,
+    t: $data.containerHeight
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-85f07247"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/knowledgeMap.vue"]]);

@@ -1,1 +1,1 @@
-<view class="flex-col items-center page data-v-a5035d99"><image class="image data-v-a5035d99" src="/static/ui_icon/logo_white.png"/><text class="mt-16 text data-v-a5035d99">智学</text></view>
+<view class="flex-col items-center justify-center page data-v-a5035d99" style="{{'width:' + a + ';' + ('height:' + b)}}"><view class="flex-col items-center logo-container data-v-a5035d99"><image class="image data-v-a5035d99" src="/static/ui_icon/logo_white.png"/><text class="mt-16 text data-v-a5035d99">智学</text></view></view>

@@ -6,13 +6,10 @@
         margin-top: 102.08rpx;
 }
 .page.data-v-b70b1c15 {
-        padding: 995.83rpx 125rpx 172.92rpx;
         background-color: #f4f2fc;
         border-radius: 58.33rpx;
-        width: 100%;
         overflow-y: auto;
         overflow-x: hidden;
-        height: 100%;
 }
 .text.data-v-b70b1c15 {
         color: #000000;
@@ -31,29 +28,6 @@
 .button.data-v-b70b1c15 {
         align-self: center;
 }
-    /* .text-wrapper {
-        padding: 37.5rpx 0;
-        border-radius: 104.17rpx;
-        background-image: url('https://ide.code.fun/api/image?token=6638d2bbd578370011c602f5&name=dce008a8cbac753a176ce136f794f25f.png');
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        width: 264.58rpx;
-    } */
-	/* 去除原来的 text-wrapper 样式 */
-	/* 改成新的样式 */
-	
-	/* .button {
-	    align-self: center;
-	    padding: 37.5rpx 0;
-	    border-radius: 104.17rpx;
-	    background-image: url('https://mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd.cdn.bspapp.com/SmartLearn_icon/Rectangle.png');
-	    background-size: 100% 100%;
-	    background-repeat: no-repeat;
-	    width: 264.58rpx;
-	} */
-	
-	/* 发现除了这一页其它都没有用icon */
-	/* 调整到完全相同 */
 .text-wrapper_2.data-v-b70b1c15 {
 	    padding: 37.5rpx 0;
 	    background-image: linear-gradient(180deg, #453099b3 0%, #7451ff 100%);

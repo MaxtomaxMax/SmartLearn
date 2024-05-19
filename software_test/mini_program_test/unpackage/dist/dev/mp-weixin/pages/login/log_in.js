@@ -4,22 +4,32 @@ const db = common_vendor.Ws.database();
 const _sfc_main = {
   data() {
     return {
+      containerWidth: "0px",
+      containerHeight: "0px",
       email: "",
       password: ""
     };
   },
+  onLoad() {
+    this.setContainerSize();
+  },
   methods: {
-    // 点击登录按钮	
-    //         login() {				
-    //             login_obj.login({
-    // 	email: this.email,
-    // 	password: this.password
-    // }).then(res=>{
-    // 	console.log(res)
-    // }).catch(err=>{
-    // 	console.log(err)
-    // })
-    // },
+    setContainerSize() {
+      try {
+        const res = common_vendor.index.getSystemInfoSync();
+        console.log(res);
+        const screenWidth = res.screenWidth;
+        const screenHeight = res.screenHeight - res.screenTop;
+        if (screenWidth && screenHeight) {
+          this.containerWidth = `${screenWidth}px`;
+          this.containerHeight = `${screenHeight}px`;
+        } else {
+          console.error("获取 screenWidth 或 screenHeight 失败");
+        }
+      } catch (err) {
+        console.error("获取系统信息失败", err);
+      }
+    },
     async login() {
       let emailRes = await db.collection("SmartLearn_user").where({
         "email": this.email
@@ -39,8 +49,8 @@ const _sfc_main = {
           common_vendor.index.showToast({
             title: "成功登录"
           });
-          common_vendor.index.navigateTo({
-            url: "sign_up_success"
+          common_vendor.index.switchTab({
+            url: "/pages/review/learning"
           });
           let userId = emailRes.result.data[0]._id;
           common_vendor.index.setStorageSync("user_id", userId);
@@ -59,7 +69,7 @@ const _sfc_main = {
     // 跳转到注册页面
     enterSignup() {
       common_vendor.index.navigateTo({
-        url: "sign_up"
+        url: "/pages/login/sign_up"
       });
     }
   }
@@ -71,7 +81,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: $data.password,
     d: common_vendor.o(($event) => $data.password = $event.detail.value),
     e: common_vendor.o((...args) => $options.login && $options.login(...args)),
-    f: common_vendor.o((...args) => $options.enterSignup && $options.enterSignup(...args))
+    f: common_vendor.o((...args) => $options.enterSignup && $options.enterSignup(...args)),
+    g: $data.containerWidth,
+    h: $data.containerHeight
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-d8144b15"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/login/log_in.vue"]]);
