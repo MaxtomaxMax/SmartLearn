@@ -23,12 +23,13 @@
                 <view class="flex-col group_4">
                     <view class="grid">
                         <view
-                            v-for="(image, index) in filteredProjects"
+                            v-for="(item, index) in filteredProjects"
                             :key="index"
                             class="flex-col items-center grid-item"
+							@click="enterReview(item.text,index)"
                         >
-                            <image class="image_4" :src="image.src" />
-                            <text class="font_2 mt-11">{{ image.text }}</text>
+                            <image class="image_4" :src="item.src" />
+                            <text class="font_2 mt-11">{{ item.text }}</text>
                         </view>
                         <view class="flex-col items-center grid-item" @click="addNewImage">
                             <image class="image_4" src="/static/ui_icon/addproject.png" />
@@ -79,7 +80,7 @@
 			this.inProgressRecords = [];
 			// 获取项目并渲染
 			this.userId = uni.getStorageSync("user_id");
-			if (this.userId == ""){
+			if (!this.userId){
 				// 尚未登录
 				uni.showToast({
 					title:"尚未登录，无学习项目展示",
@@ -138,6 +139,11 @@
 		},
 		
 		methods: {
+			enterReview(name, index){
+				uni.navigateTo({
+					url:`/pages/review/review?id=${index}&name=${name}`
+				})
+			},
 			setContainerSize() {
 				try {
 					const res = uni.getSystemInfoSync();
@@ -148,7 +154,7 @@
 					const screenHeight = res.windowHeight;
 					// #endif
 					// #ifdef H5
-					const screenHeight = res.windowHeight - 50;
+					const screenHeight = res.windowHeight;
 					// #endif
 			
 					// 确认获取到了正确的宽度和高度
@@ -228,7 +234,7 @@
 .page {
     background-color: #f4f2fc;
     border-radius: 58.17rpx;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;	
 }
 .group {

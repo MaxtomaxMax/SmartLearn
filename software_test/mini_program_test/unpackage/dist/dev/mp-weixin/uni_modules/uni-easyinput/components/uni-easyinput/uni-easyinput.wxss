@@ -25,8 +25,7 @@
 /* 文章场景相关 */
 .uni-easyinput {
   width: 100%;
-  position: absolute;
-  bottom: 0;
+  position: relative;
   text-align: left;
   color: #333;
   font-size: 14px;

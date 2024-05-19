@@ -47,6 +47,9 @@
 		},
 		{
 			"path": "pages/review/reflectionchart"
+		},
+		{
+			"path": "pages/review/review"
 		}
     ],
     "globalStyle": {
