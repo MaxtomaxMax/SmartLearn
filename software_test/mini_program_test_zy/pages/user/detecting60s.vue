@@ -49,7 +49,7 @@
           <text class="font_22" @click="charIdchange">开始监测（60S）</text>
         </view>
         <view class="flex-col justify-start items-center relative grid-item">
-          <text class="font_22" @click="closeBluetooth">关闭蓝牙</text>
+          <text class="font_22" @click="sendDataToServer">发送数据</text>
         </view>
       </view>
     </view>
@@ -82,7 +82,7 @@ export default {
       characteristic: [],
       characteristicid: "", // 假设你已知需要监听的特征ID
 
-      BsreceivedData: "",
+      BsreceivedData: [],
       countdown: 60,
     };
   },
@@ -195,13 +195,17 @@ export default {
         });
         return;
       }
-      const servicid = that.service[0].uuid;
+      //const servicid = that.service[0].uuid;
+      //const characteristicid = that.characteristic[1].uuid;
+      const serviceid = that.service[0].uuid;
       const characteristicid = that.characteristic[1].uuid;
       uni.notifyBLECharacteristicValueChange({
         state: true,
-        deviceid: this.connectedDeviceid, // 使用已保存的设备ID
-        serviceid: serviceid, // 假设你已经定义并初始化了 serviceId 数组
-        characteristicid: characteristicid, // 假设你已经定义并初始化了 characteristicId 数组
+        deviceId: this.connectedDeviceid,
+
+        //deviceid: this.connectedDeviceid,  // 使用已保存的设备ID
+        serviceId: serviceid, // 假设你已经定义并初始化了 serviceId 数组
+        characteristicId: characteristicid, // 假设你已经定义并初始化了 characteristicId 数组
         success: function (res) {
           console.log("notifyBLECharacteristicValueChange success");
           that.info = "成功";
@@ -234,13 +238,44 @@ export default {
 
       // 监听特征值变化
       uni.onBLECharacteristicValueChange(function (res) {
-        that.receivedData = ab2hex(res.value);
-        uni.showModal({
-          title: "接收到数据:",
-          content: `16进制数据为：${that.BsreceivedData}`,
-          showCancel: false,
-        });
+        const hexData = ab2hex(res.value);
+        const timestamp = new Date().toISOString();
+        that.BsreceivedData.push({ data: hexData, time: timestamp });
+        /*uni.showModal({
+						    title: '接收到数据:',
+						    content: `16进制数据为：${hexData}`,
+						    showCancel: false
+						});*/
       });
+    },
+    //发送数据到云服务器
+    sendDataToServer() {
+      const dataToSend = this.BsreceivedData;
+      if (dataToSend.length > 0) {
+        uni.request({
+          url: "http://workspace.featurize.cn:56691/smartlearn/milliwave-detection", // 替换为你的云服务器地址
+          method: "POST",
+          data: {
+            BsreceivedData: dataToSend,
+          },
+          success: (res) => {
+            // 显示返回结果的弹窗
+            uni.showModal({
+              title: "服务器返回结果",
+              content: JSON.stringify(res.data, null, 2),
+              showCancel: false,
+            });
+            this.BsreceivedData = [];
+          },
+          fail: (err) => {
+            uni.showModal({
+              title: "服务器返回结果:",
+              content: "发送数据或返回失败",
+              showCancel: false,
+            });
+          },
+        });
+      }
     },
   },
 };
