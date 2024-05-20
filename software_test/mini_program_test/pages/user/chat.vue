@@ -407,7 +407,6 @@
 	
 .page {
     background-color: #f4f2fc;
-    border-radius: 58.33rpx;
     overflow-y: hidden;
     overflow-x: hidden;
 	position: relative;
@@ -415,7 +414,9 @@
 
 	
 .group {
-    padding: 0 17.67rpx;
+    padding-left: 30rpx;
+    padding-right: 30rpx;
+    padding-top: 60rpx;
 	width: 100%;
 }
 .group_3 {
@@ -477,7 +478,7 @@
     align-self: stretch;
 }
 .divider {
-    margin-top: 14.13rpx;
+    margin-top: 15rpx;
     background-color: #d7d7d7;
     height: 2.08rpx;
 }

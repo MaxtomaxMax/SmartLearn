@@ -2,7 +2,7 @@
     <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
         <view class="flex-col flex-1 group">
             <view class="flex-row items-center group_2">
-                <view class="flex-row justify-start items-center image-wrapper_2">
+                <view class="flex-col justify-start items-center image-wrapper_2">
                     <image
                         class="image_5"
                         src="../../static/ui_icon/exit.png"
@@ -13,7 +13,7 @@
                 <view class="flex-col justify-start text-wrapper" @click="enterKnowledgeMap"><text class="font text_2">知识框架</text></view>
                 <view class="flex-col justify-start text-wrapper" ><text class="font text">历史</text></view>
             </view>
-            <view class="mt-18 flex-col">
+            <view class="flex-col" style="margin-top: 15rpx;">
                 <view class="flex-row equal-division">
                     <view class="flex-row items-center group_3 equal-division-item">
 						<view class="items-center select-label">
@@ -320,11 +320,10 @@ export default {
     height: 100%;
 }
 .group {
-    padding: 58.33rpx 0 25rpx;
-    overflow-y: auto;
+    padding: 60rpx 0 25rpx;
 }
 .group_2 {
-    padding: 0 29.17rpx;
+    padding: 0 30rpx;
 }
 .image-wrapper_2 {
     width: 68.75rpx;
