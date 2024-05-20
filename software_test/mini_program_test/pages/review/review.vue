@@ -14,7 +14,7 @@
 
 		<view class="flex-col section_7">
 			<text class="self-start font text_3">生成时间：2024.5.15</text>
-			<text class="mt-10 self-start font text_4">掌握程度：1/3</text>
+			<text class="mt-10 self-start font text_4">{{`掌握程度：${masterLevel}/3`}}</text>
 		</view>
 		
 		<view class="section_10"></view>
@@ -23,26 +23,46 @@
 			<view class="flex-col justify-start self-stretch">
 				<view class="flex-col justify-start items-start text-wrapper"><text class="font text_9">复习内容</text></view>
 			</view>
+			<view class="scroll-view-container">
+				<scroll-view scroll-y="true">
+					<view class="reviewQuestion">
+						<ua-markdown :source="dataList[dataIndex].reviewQuestion"></ua-markdown>
+					</view>
+					
+				</scroll-view>
+			</view>
 		</view>
     </view>
 	<view class="flex-col justify-start items-center self-stretch section_12 mt-9" :style="{width: containerWidth}">
 		<view class="flex-row">
-			<view class="flex-col justify-start items-center button"><text class="font_7 text_21">←</text></view>
-			<view class="flex-col justify-start items-center button_1 ml-11">
-				<text class="font_6 text_20">忘记了</text>
-			</view>
-			<view class="flex-col justify-start items-center button_2 ml-11">
-				<text class="font_6 text_1">已掌握</text>
-			</view>
-			<view class="flex-col justify-start items-center button_3 ml-11"><text class="font_7 text_22">→</text></view>
+		    <button class="flex-col justify-start items-center button">
+		        <text class="font_7 text_21">←</text>
+		    </button>
+		    <button class="flex-col justify-start items-center button_1 ml-11">
+		        <text class="font_6 text_20">忘记了</text>
+		    </button>
+		    <button class="flex-col justify-start items-center button_2 ml-11" @click="masterLevelInc">
+		        <text class="font_6 text_1">已掌握</text>
+		    </button>
+		    <button class="flex-col justify-start items-center button_3 ml-11" @click="indexInc">
+		        <text class="font_7 text_22">→</text>
+		    </button>
 		</view>
+
 	</view>
 </template>
 
 <script>
+const db = uniCloud.database();
 export default {
+	inheritAttrs:false,
     components: {},
-    props: {},
+    props: {
+		projectName:{
+			type: String,
+			required: true
+		}
+	},
     data() {
         return {
 			containerWidth: '0px',
@@ -50,25 +70,67 @@ export default {
 			
 			userId:"",
 			project:"",
+			// 用户关于该项目的所有知识点信息	
+			dataList:[],
+			dataIndex:0,
 			genTime:"",
 			masterLevel: -1,
 		};
     },
-    
-	onLoad(event) {
+    created() {
+		// 需要通过初始化数据稳定
+		// 从上个页面把数据传输过来
+    	this.initializeData();	// 初始化数据
+    },
+	async onLoad(options) {
 		// 优先获取屏幕尺寸大小
 		this.setContainerSize();
 		// 获取项目名称和userId
 		// console.log(event)
 		this.userId = uni.getStorageSync("user_id");
-		this.project = event.name;
-		console.log({
-			userId: this.userId,
-			project: this.project
+		if (options.name){
+			this.project = options.name;
+		}
+		
+		// 显示加载
+		uni.showToast({
+			title:"正在加载复习自测问题列表",
+			icon:"loading"
 		});
 		
+		let getDataRes = await db.collection("knowledgeMap")
+			.where({
+				userId: this.userId,
+				project: this.project
+			})
+			.get()
+		// console.log(getDataRes)		
+		this.dataList = getDataRes.result.data.reverse();
+		this.masterLevel = this.dataList[this.dataIndex].masterLevel;
+		
+		// 此处关闭加载页面
+		uni.hideToast();
+		console.log(this.dataList);	
 	},
     methods: {
+		masterLevelInc(){
+			// 前端显示
+			if (this.masterLevel < 3){
+				this.masterLevel += 1;
+			}
+			// 后端数据更新
+			db.collection("knowledgeMap").where({
+				userId: this.userId,
+				project: this.project,
+			})
+		},
+		indexInc(){
+			if (this.dataIndex < this.dataList.length - 1)
+			this.dataIndex += 1;
+		},
+		initializeData(){
+			this.project = this.projectName;
+		},
 		setContainerSize() {
 			try {
 				const res = uni.getSystemInfoSync();

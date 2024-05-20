@@ -192,9 +192,10 @@
 					});
 					return;
 				};
-					
+				
 				// 调用云函数获取kimi回复
 				this.input_disable = true;
+				this.scrollToBottom();
 				// 赋值后可以防止按下按钮后更改影响生成
 				let project = this.project_range[this.project_value - 1].text;
 				let keyword = this.inputMsg
