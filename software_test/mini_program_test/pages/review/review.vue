@@ -5,40 +5,51 @@
             <view class="flex-col justify-start items-center image-wrapper_2 pos">
                 <image
                     class="image_5"
-                    src="https://ide.code.fun/api/image?token=664a30397a1eb60011e78cd9&name=2e5f9f83fccc486ba3b7781bd271c017.png"
+                    src="../../static/ui_icon/exit.png"
+					@click="exit"
                 />
             </view>
-            <view class="flex-col justify-start"><text class="font text_2">复习</text></view>
+            <view class="flex-col justify-start"><text class="font text_2">{{`${project}-自测复习`}}</text></view>
             <view class="section_6 pos_2"></view>
         </view>
-
-		<view class="flex-col section_7">
-			<text class="self-start font text_3">生成时间：2024.5.15</text>
-			<text class="mt-10 self-start font text_4">{{`掌握程度：${masterLevel}/3`}}</text>
-		</view>
 		
-		<view class="section_10"></view>
-		
-		<view class="flex-col section_11">
-			<view class="flex-col justify-start self-stretch">
-				<view class="flex-col justify-start items-start text-wrapper"><text class="font text_9">复习内容</text></view>
-			</view>
-			<view class="scroll-view-container">
-				<scroll-view scroll-y="true">
-					<view class="reviewQuestion">
-						<ua-markdown :source="dataList[dataIndex].reviewQuestion"></ua-markdown>
+		<!-- 套壳防止数据尚未加载 -->
+		<view v-if="dataList.length">
+			<view class="flex-col section_7">
+					<text class="self-start font text_3">{{`生成时间：${getDateString(dataList[dataIndex].posttime)}`}}</text>
+					<text class="mt-10 self-start font text_4">
+					{{`掌握程度：${masterLevel}/3`}}
+					</text>
+				</view>
+				
+				<view class="section_10"></view>
+				
+				<view class="flex-col section_11">
+					<view class="flex-col justify-start self-stretch" style="height:10%">
+						<view class="flex-col justify-start items-start text-wrapper">
+							<text class="font text_9">{{`自测复习知识点：${dataList[dataIndex].keyword}`}}</text>
+						</view>
 					</view>
-					
-				</scroll-view>
+					<view class="scroll-view-container">
+						<scroll-view scroll-y="true"
+							style="height: 100%;">
+							<view class="reviewQuestion">
+								<ua-markdown :source="dataList[dataIndex].reviewQuestion"></ua-markdown>
+							</view>
+							
+						</scroll-view>
+					</view>
+				</view>
 			</view>
 		</view>
-    </view>
+		
+		
 	<view class="flex-col justify-start items-center self-stretch section_12 mt-9" :style="{width: containerWidth}">
 		<view class="flex-row">
-		    <button class="flex-col justify-start items-center button">
+		    <button class="flex-col justify-start items-center button" @click="indexDec">
 		        <text class="font_7 text_21">←</text>
 		    </button>
-		    <button class="flex-col justify-start items-center button_1 ml-11">
+		    <button class="flex-col justify-start items-center button_1 ml-11" @click="masterLevelDec">
 		        <text class="font_6 text_20">忘记了</text>
 		    </button>
 		    <button class="flex-col justify-start items-center button_2 ml-11" @click="masterLevelInc">
@@ -106,27 +117,111 @@ export default {
 			.get()
 		// console.log(getDataRes)		
 		this.dataList = getDataRes.result.data.reverse();
-		this.masterLevel = this.dataList[this.dataIndex].masterLevel;
+		this.dataList = this.removeDuplicates(this.dataList, "keyword");
 		
 		// 此处关闭加载页面
 		uni.hideToast();
 		console.log(this.dataList);	
+		
+		if (this.dataList.length){
+			// 需要保证有知识地图被生成
+			this.masterLevel = this.dataList[this.dataIndex].masterLevel;
+		} else{
+			uni.showToast({
+				title:"当前项目尚未知识地图哦",
+				icon:"error",
+				duration: 2000
+			})
+		}
 	},
     methods: {
-		masterLevelInc(){
+		removeDuplicates(array, key){
+			// 找到重复的知识点并删除
+			const seen = new Map();
+			return array.filter(item=>{
+				if (seen.has(item[key])){
+					return false;
+				} else{
+					seen.set(item[key], true);
+					return true;
+				}
+			});	
+		},
+		exit(){
+			uni.navigateBack();
+		},
+		indexDec(){
+			if (this.dataIndex > 0){
+				this.dataIndex -= 1;
+				this.masterLevel = this.dataList[this.dataIndex].masterLevel;
+			}
+			
+		},
+		async masterLevelDec(){
+			// 前端显示
+			if (this.masterLevel > 0){
+				// 逻辑与Inc部分一致
+				this.masterLevel -= 1;
+				this.dataList[this.dataIndex].masterLevel -= 1;
+			}
+			
+			// 修改云数据库
+			const decMasterLevelRes = await db.collection("knowledgeMap")
+				.where({
+					userId: this.userId,
+					project: this.project,
+					keyword: this.dataList[this.dataIndex].keyword,
+				})
+				.update({
+					masterLevel: this.masterLevel
+				})
+			console.log(decMasterLevelRes)
+			return;
+		},
+		getDateString(posttime){
+			// 由Date对象获取对应的日期的字符串
+			const date = new Date(posttime);
+			
+			const year = date.getFullYear();
+			const month = date.getMonth();
+			const day = date.getDate();
+			return `${year}-${month+1}-${day}`;
+		},
+		async masterLevelInc(){
 			// 前端显示
 			if (this.masterLevel < 3){
 				this.masterLevel += 1;
+				// 本地的数据列表同步
+				// 这样用户返回来查看就是更新后的	
+				this.dataList[this.dataIndex].masterLevel += 1;
 			}
+			
+			// return;
 			// 后端数据更新
-			db.collection("knowledgeMap").where({
-				userId: this.userId,
-				project: this.project,
-			})
+			// 同一个keyword都要修改masterLevel
+			const incMasterLevelRes = await db.collection("knowledgeMap")
+				.where({
+					userId: this.userId,
+					project: this.project,
+					keyword: this.dataList[this.dataIndex].keyword,
+				})
+				.update({
+					masterLevel: this.masterLevel
+				})
+			console.log(incMasterLevelRes)
+			
+			// 短时间只能点一次
+			setTimeout(()=>{
+				this.indexInc();
+			}, 500);
+			
 		},
 		indexInc(){
-			if (this.dataIndex < this.dataList.length - 1)
-			this.dataIndex += 1;
+			if (this.dataIndex < this.dataList.length - 1){
+				this.dataIndex += 1;
+				this.masterLevel = this.dataList[this.dataIndex].masterLevel;
+			}
+			
 		},
 		initializeData(){
 			this.project = this.projectName;
@@ -160,6 +255,10 @@ export default {
 </script>
 
 <style scoped lang="css">
+	.scroll-view-container{
+		padding: 0 20rpx;
+		height: 90%;
+	}
     .ml-11 {
         margin-left: 22.92rpx;
     }

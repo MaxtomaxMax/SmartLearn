@@ -145,8 +145,33 @@
 			// 保证高度正确
 			this.sendHeight();
 		},
-		onLoad() {
+		async onLoad() {
 			this.setContainerSize();
+			this.userId = uni.getStorageSync("user_id");
+			
+			// 获取学习项目
+			const getProjectRes = await db.collection("SmartLearn_project")
+				.where({
+					userId: this.userId,
+				})
+				.get()
+			// console.log(getProjectRes)
+			
+			// 构建选择框
+			let projectList = getProjectRes.result.data;
+			let tempList = [];
+			let tempObj = {};
+			for (let i = 0; i < projectList.length; i++){
+				// console.log(projectList[i])
+				tempObj["value"] = i + 1;
+				tempObj["text"] = projectList[i].project_name
+				tempList.push(tempObj);
+				console.log(tempObj)
+				tempObj = {};	// tempObj为对象引用，需要重置创造新的引用
+			}
+			this.project_range = tempList;
+			console.log(this.project_range)
+			
 		},
 		methods: {
 			setContainerSize() {
@@ -199,71 +224,97 @@
 				// 赋值后可以防止按下按钮后更改影响生成
 				let project = this.project_range[this.project_value - 1].text;
 				let keyword = this.inputMsg
-				let res = await uniCloud.callFunction({
-					name:"callKnowledgeMap",
-					data:{
-						project,
-						keyword,
-						flag:0	// 表示生成前置知识的flag
-					}
-				});
-				// console.log(res);
-				if (res.result.success) {
-					this.kimi_res = res.result.message;
-					this.history = res.result.history;
-					console.log(res)
-					
-					// 更新聊天对话框
-					this.msgList.push({
-						botContent: this.kimi_res
-					});
-					// console.log(this.msgList);
-				} else{
-					console.error(res.result.error)
-				}
 				
-				this.input_disable = false;
-				// 滚动到最底下
-				this.scrollToBottom();
-				
-				// 这个地方生成提问
-				setTimeout(()=>{}, 3000);	// 不知道能否延时
-				let questionGenRes = await uniCloud.callFunction({
-					name:"questionGen",
-					data:{
-						project,
-						keyword
-					}
-				});
-				this.reviewQuestion = questionGenRes.result.message;
-				// console.log(questionGenRes);
-				console.log("生成复习问题列表成功");
-				console.log(this.reviewQuestion);
-				// return;
-				// 生成完成之后存到云数据库上
-				if (questionGenRes.result.success ){
-					this.userId = uni.getStorageSync("user_id");
-					if (this.userId){
-						const storageRes = await db.collection("knowledgeMap").add({
+				// 如果已经提问过了，直接从数据库中获取数据
+				if (this.userId){
+					const checkDbRes = await db.collection("knowledgeMap")
+						.where({
 							userId: this.userId,
-							posttime: Date.now(),
 							project,
 							keyword,
-							flag:0,
-							answer: this.kimi_res,
-							reviewQuestion: this.reviewQuestion	,
-							masterLevel: 0,
+							flag:0
+						})
+						.get()
+					console.log(checkDbRes);
+					if (checkDbRes.result.data.length){
+						this.kimi_res = checkDbRes.result.data[0].answer;
+						// 更新聊天对话框
+						this.msgList.push({
+							botContent: this.kimi_res
 						});
-						// console.log(storageRes);
-						console.log("数据存储成功");
+						// console.log(this.msgList);
+						
+						this.input_disable = false;
+						// 滚动到最底下
+						this.scrollToBottom();
+						
+					} else {
+						console.log("数据库中没有数据")
+						console.log("调用kimi获取知识框架")
+						let res = await uniCloud.callFunction({
+							name:"callKnowledgeMap",
+							data:{
+								project,
+								keyword,
+								flag:0	// 表示生成前置知识的flag
+							}
+						});
+						// console.log(res);
+						if (res.result.success) {
+							this.kimi_res = res.result.message;
+							this.history = res.result.history;
+							console.log(res)
+							
+							// 更新聊天对话框
+							this.msgList.push({
+								botContent: this.kimi_res
+							});
+							// console.log(this.msgList);
+						} else{
+							console.error(res.result.error)
 						}
-				} else {
-					console.error(res.result.error);
+						
+						this.input_disable = false;
+						// 滚动到最底下
+						this.scrollToBottom();
+						
+						// 这个地方生成提问
+						let questionGenRes = await uniCloud.callFunction({
+							name:"questionGen",
+							data:{
+								project,
+								keyword
+							}
+						});
+						this.reviewQuestion = questionGenRes.result.message;
+						// console.log(questionGenRes);
+						console.log("生成复习问题列表成功");
+						console.log(this.reviewQuestion);
+						// return;
+						
+						// 生成完成之后存到云数据库上
+						if (questionGenRes.result.success ){
+							if (this.userId){
+								const storageRes = await db.collection("knowledgeMap").add({
+									userId: this.userId,
+									posttime: Date.now(),
+									project,
+									keyword,
+									flag:0,
+									answer: this.kimi_res,
+									reviewQuestion: this.reviewQuestion	,
+									masterLevel: 0,
+								});
+								// console.log(storageRes);
+								console.log("数据存储成功");
+								}
+						} else {
+							console.error(res.result.error);
+						}
+					}
 				}
-				
 			},
 			async callAdvancedKnowledge(){
-				// 确认是否完成选择和输入
 				// 确认是否完成选择和输入
 				if (this.project_value == 0 || this.inputMsg == "" ){
 					uni.showToast({
@@ -272,73 +323,102 @@
 					});
 					return;
 				};
-					
+				
 				// 调用云函数获取kimi回复
 				this.input_disable = true;
+				this.scrollToBottom();
 				// 赋值后可以防止按下按钮后更改影响生成
 				let project = this.project_range[this.project_value - 1].text;
 				let keyword = this.inputMsg
-				let res = await uniCloud.callFunction({
-					name:"callKnowledgeMap",
-					data:{
-						project,
-						keyword,
-						flag:1	// 表示生成前置知识的flag
-					}
-				});
-				// console.log(res);
-				if (res.result.success) {
-					this.kimi_res = res.result.message;
-					this.history = res.result.history;
-					console.log(res)
-					
-					// 更新聊天对话框
-					this.msgList.push({
-						botContent: this.kimi_res
-					});
-					// console.log(this.msgList);
-				} else{
-					console.error(res.result.error)
-				}
 				
-				this.input_disable = false;
-				// 滚动到最底下
-				this.scrollToBottom();
-				
-				// 这个地方生成提问
-				setTimeout(()=>{}, 3000);	// 不知道能否延时
-				let questionGenRes = await uniCloud.callFunction({
-					name:"questionGen",
-					data:{
-						project,
-						keyword
-					}
-				});
-				this.reviewQuestion = questionGenRes.result.message;
-				// console.log(questionGenRes);
-				console.log("生成复习问题列表成功");
-				console.log(this.reviewQuestion);
-				// return;
-				// 生成完成之后存到云数据库上
-				if (questionGenRes.result.success ){
-					this.userId = uni.getStorageSync("user_id");
-					if (this.userId){
-						const storageRes = await db.collection("knowledgeMap").add({
+				// 如果已经提问过了，直接从数据库中获取数据
+				if (this.userId){
+					const checkDbRes = await db.collection("knowledgeMap")
+						.where({
 							userId: this.userId,
-							posttime: Date.now(),
 							project,
 							keyword,
-							flag:1,
-							answer: this.kimi_res,
-							reviewQuestion: this.reviewQuestion	,
+							flag:1
+						})
+						.get()
+					console.log(checkDbRes);
+					if (checkDbRes.result.data.length){
+						this.kimi_res = checkDbRes.result.data[0].answer;
+						// 更新聊天对话框
+						this.msgList.push({
+							botContent: this.kimi_res
 						});
-						// console.log(storageRes);
-						console.log("数据存储成功");
+						// console.log(this.msgList);
+						
+						this.input_disable = false;
+						// 滚动到最底下
+						this.scrollToBottom();
+						
+					} else {
+						console.log("数据库中没有数据")
+						console.log("调用kimi获取知识框架")
+						let res = await uniCloud.callFunction({
+							name:"callKnowledgeMap",
+							data:{
+								project,
+								keyword,
+								flag:1	// 表示生成进阶知识的flag
+							}
+						});
+						// console.log(res);
+						if (res.result.success) {
+							this.kimi_res = res.result.message;
+							this.history = res.result.history;
+							console.log(res)
+							
+							// 更新聊天对话框
+							this.msgList.push({
+								botContent: this.kimi_res
+							});
+							// console.log(this.msgList);
+						} else{
+							console.error(res.result.error)
 						}
-				} else {
-					console.error(res.result.error);
+						
+						this.input_disable = false;
+						// 滚动到最底下
+						this.scrollToBottom();
+						
+						// 这个地方生成提问
+						let questionGenRes = await uniCloud.callFunction({
+							name:"questionGen",
+							data:{
+								project,
+								keyword
+							}
+						});
+						this.reviewQuestion = questionGenRes.result.message;
+						// console.log(questionGenRes);
+						console.log("生成复习问题列表成功");
+						console.log(this.reviewQuestion);
+						// return;
+						
+						// 生成完成之后存到云数据库上
+						if (questionGenRes.result.success ){
+							if (this.userId){
+								const storageRes = await db.collection("knowledgeMap").add({
+									userId: this.userId,
+									posttime: Date.now(),
+									project,
+									keyword,
+									flag:1,
+									answer: this.kimi_res,
+									reviewQuestion: this.reviewQuestion	,
+									masterLevel: 0,
+								});
+								// console.log(storageRes);
+								console.log("数据存储成功");
+								}
+						} else {
+							console.error(res.result.error);
+						}
+					}
 				}
-				
 			},
 			project_change(){
 				
