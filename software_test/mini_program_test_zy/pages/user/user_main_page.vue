@@ -10,6 +10,7 @@
           <image
             class="image_3"
             src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=76bd8d16aed8583c32db970875acfaa3.png"
+            @click="ClicktoSetting"
           />
         </view>
       </view>
@@ -174,7 +175,10 @@
         </view>
       </view>
       <view class="flex-col section_3">
-        <view class="flex-row justify-between items-center section_4">
+        <view
+          class="flex-row justify-between items-center section_4"
+          @click="goToReportPage"
+        >
           <view class="flex-row items-center">
             <image
               class="shrink-0 image_5"
@@ -225,17 +229,17 @@ export default {
   methods: {
     ClicktoSetting() {
       uni.navigateTo({
-        url: "/pages/user/settings", // 目标页面的路径
+        url: "/pages/user/settings", // 设置页面
       });
     },
     goToReportPage() {
       uni.navigateTo({
-        url: "/pages/user/detectreport", // 目标页面的路径
+        url: "/pages/user/detectreport", // 监测数据页面
       });
     },
     goTodetect() {
       uni.navigateTo({
-        url: "/pages/user/bslinedetect", // 目标页面的路径
+        url: "/pages/user/bslinedetect", // baseline页面
       });
     },
   },
