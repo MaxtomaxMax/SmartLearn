@@ -47,12 +47,26 @@ export default {
         return {
 			containerWidth: '0px',
 			containerHeight: '0px',
+			
+			userId:"",
+			project:"",
+			genTime:"",
+			masterLevel: -1,
 		};
     },
     
 	onLoad(event) {
+		// 优先获取屏幕尺寸大小
 		this.setContainerSize();
-		console.log(event)
+		// 获取项目名称和userId
+		// console.log(event)
+		this.userId = uni.getStorageSync("user_id");
+		this.project = event.name;
+		console.log({
+			userId: this.userId,
+			project: this.project
+		});
+		
 	},
     methods: {
 		setContainerSize() {

@@ -113,8 +113,8 @@
 					{ value: 3, text: "通信原理" },
 				],
 				
-				// 发给kimi的prompt
-				prompt:"",
+				// 生成的复习问题列表
+				reviewQuestion:'',
 			};
 		},
 		computed: {
@@ -212,7 +212,35 @@
 					this.history = res.result.history;
 					console.log(res)
 					
-					// 将信息存到云数据库
+					// 更新聊天对话框
+					this.msgList.push({
+						botContent: this.kimi_res
+					});
+					// console.log(this.msgList);
+				} else{
+					console.error(res.result.error)
+				}
+				
+				this.input_disable = false;
+				// 滚动到最底下
+				this.scrollToBottom();
+				
+				// 这个地方生成提问
+				setTimeout(()=>{}, 3000);	// 不知道能否延时
+				let questionGenRes = await uniCloud.callFunction({
+					name:"questionGen",
+					data:{
+						project,
+						keyword
+					}
+				});
+				this.reviewQuestion = questionGenRes.result.message;
+				// console.log(questionGenRes);
+				console.log("生成复习问题列表成功");
+				console.log(this.reviewQuestion);
+				// return;
+				// 生成完成之后存到云数据库上
+				if (questionGenRes.result.success ){
 					this.userId = uni.getStorageSync("user_id");
 					if (this.userId){
 						const storageRes = await db.collection("knowledgeMap").add({
@@ -221,26 +249,20 @@
 							project,
 							keyword,
 							flag:0,
-							answer: this.kimi_res
+							answer: this.kimi_res,
+							reviewQuestion: this.reviewQuestion	,
+							masterLevel: 0,
 						});
 						// console.log(storageRes);
-						console.log("数据存储成功")
-					}
-				} else{
-					console.error(res.result.error)
+						console.log("数据存储成功");
+						}
+				} else {
+					console.error(res.result.error);
 				}
-				
-				this.msgList.push({
-					botContent: this.kimi_res
-				});
-				// console.log(this.msgList);
-				
-				this.input_disable = false;
-				// 滚动到最底下
-				this.scrollToBottom();
 				
 			},
 			async callAdvancedKnowledge(){
+				// 确认是否完成选择和输入
 				// 确认是否完成选择和输入
 				if (this.project_value == 0 || this.inputMsg == "" ){
 					uni.showToast({
@@ -252,12 +274,15 @@
 					
 				// 调用云函数获取kimi回复
 				this.input_disable = true;
+				// 赋值后可以防止按下按钮后更改影响生成
+				let project = this.project_range[this.project_value - 1].text;
+				let keyword = this.inputMsg
 				let res = await uniCloud.callFunction({
 					name:"callKnowledgeMap",
 					data:{
-						project: this.project_range[this.project_value - 1].text,
-						keyword: this.inputMsg,
-						flag:1	// 表示生成进阶知识的flag
+						project,
+						keyword,
+						flag:1	// 表示生成前置知识的flag
 					}
 				});
 				// console.log(res);
@@ -266,32 +291,53 @@
 					this.history = res.result.history;
 					console.log(res)
 					
-					// 将信息存到云数据库
+					// 更新聊天对话框
+					this.msgList.push({
+						botContent: this.kimi_res
+					});
+					// console.log(this.msgList);
+				} else{
+					console.error(res.result.error)
+				}
+				
+				this.input_disable = false;
+				// 滚动到最底下
+				this.scrollToBottom();
+				
+				// 这个地方生成提问
+				setTimeout(()=>{}, 3000);	// 不知道能否延时
+				let questionGenRes = await uniCloud.callFunction({
+					name:"questionGen",
+					data:{
+						project,
+						keyword
+					}
+				});
+				this.reviewQuestion = questionGenRes.result.message;
+				// console.log(questionGenRes);
+				console.log("生成复习问题列表成功");
+				console.log(this.reviewQuestion);
+				// return;
+				// 生成完成之后存到云数据库上
+				if (questionGenRes.result.success ){
 					this.userId = uni.getStorageSync("user_id");
 					if (this.userId){
 						const storageRes = await db.collection("knowledgeMap").add({
 							userId: this.userId,
 							posttime: Date.now(),
-							project: this.project_range[this.project_value - 1].text,
-							keyword: this.inputMsg,
+							project,
+							keyword,
 							flag:1,
 							answer: this.kimi_res,
+							reviewQuestion: this.reviewQuestion	,
 						});
 						// console.log(storageRes);
-						console.log("数据存储成功")
-					}
-				} else{
-					console.error(res.result.error)
+						console.log("数据存储成功");
+						}
+				} else {
+					console.error(res.result.error);
 				}
 				
-				this.msgList.push({
-					botContent: this.kimi_res
-				});
-				// console.log(this.msgList);
-				
-				this.input_disable = false;
-				// 滚动到最底下
-				this.scrollToBottom();
 			},
 			project_change(){
 				
@@ -509,10 +555,8 @@
 	padding: 15.67rpx 20.67rpx 37.5rpx;
     background-color: #f4f2fc;
     border-radius: 58.33rpx;
-    width: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
-    height: 1700rpx;
 	position: relative;
 }
 

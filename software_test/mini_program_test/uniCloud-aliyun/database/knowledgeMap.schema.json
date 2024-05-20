@@ -1,7 +1,7 @@
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
 	"bsonType": "object",
-	"required": [],
+	"required": ["userId", "posttime", "project", "keyword", "flag", "answer", "reviewQuestion"],
 	"permission": {
 		"read": true,
 		"create": true,
@@ -35,11 +35,20 @@
 			"bsonType": "int",
 			"title": "判断标志",
 			"description": "0为前置知识，1为进阶知识"
-		}
+		},
 		"answer":{
 			"bsonType": "string",
 			"title": "回答",
 			"description": "AI作出的回答"
+		},
+		"reviewQuestion":{
+			"bsonType": "string",
+			"title": "复习问题",
+			"description": "对应知识点生成的提问列表"
+		},
+		"masterLevel":{
+			"bsonType": "int",
+			"title": "掌握程度"
 		}
 	}
 }

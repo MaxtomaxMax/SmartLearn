@@ -141,7 +141,7 @@
 		methods: {
 			enterReview(name, index){
 				uni.navigateTo({
-					url:`/pages/review/review?id=${index}&name=${name}`
+					url:`/pages/review/review?name=${name}`
 				})
 			},
 			setContainerSize() {
