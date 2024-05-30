@@ -46,10 +46,10 @@
           >
         </view>
         <view class="flex-col justify-start items-center relative grid-item">
-          <text class="font_22" @click="charIdchange">开始监测（60S）</text>
+          <text class="font_22" @click="charIdchange">监测（60S）</text>
         </view>
         <view class="flex-col justify-start items-center relative grid-item">
-          <text class="font_22" @click="sendDataToServer">发送数据</text>
+          <text class="font_22" @click="sendDataToServer">发送数据</text>开始
         </view>
       </view>
     </view>
@@ -214,6 +214,8 @@ export default {
             content: `成功设置监听特征值变化！`,
             showCancel: false,
           });
+          console.log("测试");
+          console.log(res);
         },
         fail: function (err) {
           that.info = "失败：" + err.message; // 注意uni-app在某些平台上错误对象的属性可能是message
@@ -251,12 +253,15 @@ export default {
     //发送数据到云服务器
     sendDataToServer() {
       const dataToSend = this.BsreceivedData;
+      console.log("发送");
+      //if (dataToSend.length > 0) {
       if (dataToSend.length > 0) {
         uni.request({
-          url: "http://workspace.featurize.cn:56691/smartlearn/milliwave-detection", // 替换为你的云服务器地址
+          url: "http://81.71.1.104:5000/smartlearn/milliwave-detection", // 替换为你的云服务器地址
           method: "POST",
-          data: {
-            BsreceivedData: dataToSend,
+          data: dataToSend,
+          header: {
+            "Content-Type": "application/json", // 指定请求体格式为JSON
           },
           success: (res) => {
             // 显示返回结果的弹窗
@@ -270,9 +275,12 @@ export default {
           fail: (err) => {
             uni.showModal({
               title: "服务器返回结果:",
-              content: "发送数据或返回失败",
+              content: `无法发送数据到服务器，请稍后再试。错误信息：${err.errMsg}`,
               showCancel: false,
             });
+          },
+          complete() {
+            console.log("发送完成");
           },
         });
       }
