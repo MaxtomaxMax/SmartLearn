@@ -8,8 +8,19 @@
   height: 100%;
 }
 .group.data-v-059a7b1e {
-  padding: 212.5rpx 120.83rpx 237.5rpx 141.67rpx;
+  padding: 210.44rpx 120.52rpx 236.29rpx 141.98rpx;
   overflow-y: auto;
+}
+.button.data-v-059a7b1e {
+  margin: 10px 0;
+  padding: 10px;
+  width: 200px; /* 固定宽度 */
+  height: 50px; /* 固定高度 */
+  background-color: #7451ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
 }
 .text.data-v-059a7b1e {
   color: #000000;
@@ -20,8 +31,8 @@
   letter-spacing: 8.33rpx;
 }
 .section.data-v-059a7b1e {
-  margin: 66.67rpx 45.83rpx 0 25rpx;
-  padding: 141.67rpx 54.17rpx 62.5rpx 70.83rpx;
+  margin: 65.29rpx 46.15rpx 0 24.69rpx;
+  padding: 140.5rpx 55.77rpx 60.67rpx 71.31rpx;
   background-image: linear-gradient(180deg, #ffb238 0%, #ffeacc 100%);
   box-shadow: 0rpx 8.33rpx 6.25rpx #0000002e;
   border-radius: 50%;
@@ -33,15 +44,18 @@
   font-weight: 600;
   color: #000000;
 }
+.text_1.data-v-059a7b1e {
+  text-align: center;
+}
 .text_2.data-v-059a7b1e {
-  margin-top: 58.33rpx;
+  margin-top: 57.42rpx;
   color: #979797;
   font-size: 33.33rpx;
   font-family: ABeeZee;
   line-height: 30.79rpx;
 }
 .text_3.data-v-059a7b1e {
-  margin-top: 141.67rpx;
+  margin-top: 142.67rpx;
   color: #000000;
   font-size: 100rpx;
   font-family: ABeeZee;
@@ -49,16 +63,16 @@
   letter-spacing: 8.33rpx;
 }
 .tab-bar.data-v-059a7b1e {
-  padding: 35.42rpx 0;
+  padding: 35.42rpx 0 35.42rpx;
   background-color: #ffffff;
   border-radius: 58.33rpx;
   box-shadow: 0rpx 1.04rpx 0rpx #0000002e inset;
   -webkit-backdrop-filter: blur(0rpx);
           backdrop-filter: blur(0rpx);
 }
-.section_2.data-v-059a7b1e {
+.section_1.data-v-059a7b1e {
+  padding: 16.75rpx 0 10.35rpx;
   flex: 1 1 188rpx;
-  padding: 16.67rpx 0 8.33rpx;
   background-color: #ffffff;
   border-radius: 58.33rpx;
   overflow: hidden;
@@ -68,8 +82,24 @@
   width: 54rpx;
   height: 54rpx;
 }
+.section_2.data-v-059a7b1e {
+  padding: 14.67rpx 0 10.27rpx;
+  flex: 1 1 188rpx;
+  background-color: #ffffff;
+  border-radius: 58.33rpx;
+  overflow: hidden;
+  height: 102.08rpx;
+}
+.section_4.data-v-059a7b1e {
+  padding: 16.75rpx 0 10.44rpx;
+  flex: 1 1 188rpx;
+  background-color: #ffffff;
+  border-radius: 58.33rpx;
+  overflow: hidden;
+  height: 102.08rpx;
+}
 .section_3.data-v-059a7b1e {
-  padding: 8.33rpx 0;
+  padding: 6.33rpx 0 10.38rpx;
   flex: 1 1 188rpx;
   background-color: #ffffff;
   border-radius: 58.33rpx;

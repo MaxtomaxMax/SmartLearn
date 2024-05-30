@@ -12,7 +12,7 @@
       }
     },
     {
-      "path": "pages/reflection/reflection",
+      "path": "pages/reflection/reflectionchart",
       "style": {
         "navigationBarTitleText": ""
       }
@@ -107,7 +107,7 @@
         "text": "知新"
       },
       {
-        "pagePath": "pages/reflection/reflection",
+        "pagePath": "pages/reflection/reflectionchart",
         "iconPath": "/static/ui_icon/sanxing.png",
         "selectedIconPath": "/static/ui_icon/sanxing.png",
         "text": "三省"

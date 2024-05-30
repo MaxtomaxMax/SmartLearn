@@ -1,8 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
-  components: {},
-  props: {},
   data() {
     return {
       connectedDeviceId: "",
@@ -10,8 +8,15 @@ const _sfc_main = {
       // 假设你已知需要监听的服务ID
       services: [],
       characteristics: [],
-      characteristicId: ""
+      characteristicId: "",
       // 假设你已知需要监听的特征ID
+      timer: null,
+      elapsedTime: 0,
+      allLearnTime: 0,
+      // 存储单次学习时间，xxxx秒，供数据库调用
+      SDNNnum: 19,
+      RMSSDnum: 229,
+      receivedData: ""
     };
   },
   onLoad(options) {
@@ -31,8 +36,20 @@ const _sfc_main = {
       });
     }
   },
+  computed: {
+    formattedTime() {
+      const hours = String(Math.floor(this.elapsedTime / 3600)).padStart(
+        2,
+        "0"
+      );
+      const minutes = String(
+        Math.floor(this.elapsedTime % 3600 / 60)
+      ).padStart(2, "0");
+      const seconds = String(this.elapsedTime % 60).padStart(2, "0");
+      return `${hours}:${minutes}:${seconds}`;
+    }
+  },
   methods: {
-    //获取设备服务,服务列表存放在services数组中
     getservice() {
       const that = this;
       common_vendor.index.getBLEDeviceServices({
@@ -40,10 +57,8 @@ const _sfc_main = {
         // 在 uni-app 中通常不需要使用 `data` 属性
         success: function(res) {
           console.log(res.services);
-          let serviceIds = res.services.map((service) => service.uuid);
-          console.log(serviceIds);
+          res.services.map((service) => service.uuid);
           that.services = res.services;
-          that.info = "获取服务成功！===" + JSON.stringify(res.services);
           common_vendor.index.showModal({
             title: "获取服务成功:",
             content: `服务列表：${JSON.stringify(that.services)}`,
@@ -52,6 +67,11 @@ const _sfc_main = {
         },
         fail: function(err) {
           that.info = "获取设备服务失败！" + err.message;
+          common_vendor.index.showModal({
+            title: "获取服务失败:",
+            content: `服务列表：${JSON.stringify(that.services)}`,
+            showCancel: false
+          });
         }
       });
     },
@@ -71,7 +91,6 @@ const _sfc_main = {
               write: chr.properties.write,
               read: chr.properties.read
             }));
-            that.info = "获取特征值成功: " + JSON.stringify(that.characteristics);
             common_vendor.index.showModal({
               title: "获取特征值成功:",
               content: `特征值列表：${JSON.stringify(that.characteristics)}`,
@@ -140,23 +159,72 @@ const _sfc_main = {
         return hexArr.join("");
       }
       common_vendor.index.onBLECharacteristicValueChange(function(res) {
-        console.log("characteristic value changed:", ab2hex(res.value));
-        that.info = "接收到的数据：" + ab2hex(res.value);
+        that.receivedData = ab2hex(res.value);
         common_vendor.index.showModal({
           title: "接收到数据:",
-          content: `16进制数据为：${ab2hex(res.value)}`,
+          content: `16进制数据为：${that.receivedData}`,
           showCancel: false
         });
       });
+    },
+    startTimer() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+      this.elapsedTime = 0;
+      this.timer = setInterval(() => {
+        this.elapsedTime++;
+      }, 1e3);
+      this.startBluetoothProcess();
+    },
+    stopTimer() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+    },
+    continueTimer() {
+      if (!this.timer) {
+        this.timer = setInterval(() => {
+          this.elapsedTime++;
+        }, 1e3);
+      }
+    },
+    endTimer() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+      this.allLearnTime = this.elapsedTime;
+      this.elapsedTime = 0;
+    }
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+    common_vendor.index.offBLECharacteristicValueChange();
+    if (this.isBluetoothAdapter) {
+      common_vendor.index.closeBluetoothAdapter();
     }
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o((...args) => $options.getservice && $options.getservice(...args)),
-    b: common_vendor.o((...args) => $options.getcharacteristics && $options.getcharacteristics(...args)),
-    c: common_vendor.o((...args) => $options.charIdchange && $options.charIdchange(...args))
+    a: common_vendor.o((...args) => $options.startTimer && $options.startTimer(...args)),
+    b: common_vendor.o((...args) => $options.getservice && $options.getservice(...args)),
+    c: common_vendor.o((...args) => $options.getcharacteristics && $options.getcharacteristics(...args)),
+    d: common_vendor.o((...args) => $options.charIdchange && $options.charIdchange(...args)),
+    e: common_vendor.o((...args) => _ctx.closeBluetooth && _ctx.closeBluetooth(...args)),
+    f: common_vendor.o((...args) => $options.startTimer && $options.startTimer(...args)),
+    g: common_vendor.o((...args) => $options.stopTimer && $options.stopTimer(...args)),
+    h: common_vendor.o((...args) => $options.continueTimer && $options.continueTimer(...args)),
+    i: common_vendor.o((...args) => $options.endTimer && $options.endTimer(...args)),
+    j: common_vendor.t($options.formattedTime),
+    k: common_vendor.t($data.SDNNnum),
+    l: common_vendor.t($data.RMSSDnum)
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-059a7b1e"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/learn/bt_connected.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-8da1649f"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/learn/learntiming.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,37 +1,61 @@
 {
   "pages": [
-    "pages/review/history",
-    "pages/learn/bt_connected",
     "pages/learn/wait4bt",
-    "pages/review/learning",
+    "pages/user/detecting60s",
+    "pages/reflection/reflectionchart",
+    "pages/learn/learntiming",
+    "pages/user/user_main_page",
+    "pages/learn/bt_connected",
+    "pages/user/bslinedetect",
+    "pages/user/bswait4bt",
+    "pages/index/index",
+    "pages/user/settings",
     "pages/review/learned",
-    "pages/review/bookshelf",
-    "pages/login/init_loading",
-    "pages/login/sign_up_success",
-    "pages/login/sign_up",
-    "pages/login/log_in",
-    "pages/login/welcome",
-    "uni_modules/uni-id-pages/pages/userinfo/deactivate/deactivate",
-    "uni_modules/uni-id-pages/pages/userinfo/userinfo",
-    "uni_modules/uni-id-pages/pages/userinfo/cropImage/cropImage",
-    "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
-    "uni_modules/uni-id-pages/pages/login/login-withpwd",
-    "uni_modules/uni-id-pages/pages/userinfo/bind-mobile/bind-mobile",
-    "uni_modules/uni-id-pages/pages/login/login-smscode",
-    "uni_modules/uni-id-pages/pages/register/register",
-    "uni_modules/uni-id-pages/pages/register/register-by-email",
-    "uni_modules/uni-id-pages/pages/retrieve/retrieve",
-    "uni_modules/uni-id-pages/pages/retrieve/retrieve-by-email",
-    "uni_modules/uni-id-pages/pages/common/webview/webview",
-    "uni_modules/uni-id-pages/pages/userinfo/change_pwd/change_pwd",
-    "uni_modules/uni-id-pages/pages/register/register-admin",
-    "uni_modules/uni-id-pages/pages/userinfo/set-pwd/set-pwd",
-    "uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify"
+    "pages/user/detectreport",
+    "pages/user/detectrecord",
+    "pages/review/learning"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#F8F8F8",
     "navigationBarTitleText": "智学"
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#7451ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/review/learning",
+        "iconPath": "/static/ui_icon/wengu.png",
+        "selectedIconPath": "/static/ui_icon/wengu.png",
+        "text": "温故"
+      },
+      {
+        "pagePath": "pages/learn/wait4bt",
+        "iconPath": "/static/ui_icon/zhixin.png",
+        "selectedIconPath": "/static/ui_icon/zhixin.png",
+        "text": "知新"
+      },
+      {
+        "pagePath": "pages/reflection/reflectionchart",
+        "iconPath": "/static/ui_icon/sanxing.png",
+        "selectedIconPath": "/static/ui_icon/sanxing.png",
+        "text": "三省"
+      },
+      {
+        "pagePath": "pages/user/user_main_page",
+        "iconPath": "/static/ui_icon/wushen.png",
+        "selectedIconPath": "/static/ui_icon/wushen.png",
+        "text": "吾身"
+      }
+    ]
+  },
+  "permission": {
+    "scope.bluetooth": {
+      "desc": "你的应用需要使用蓝牙"
+    }
   },
   "usingComponents": {}
 }

@@ -50,6 +50,9 @@
 		},
 		{
 			"path": "pages/review/review"
+		},
+		{
+			"path": "pages/user/settings"
 		}
     ],
     "globalStyle": {

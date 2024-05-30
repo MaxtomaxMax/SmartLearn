@@ -69,12 +69,11 @@
   color: #979797;
 }
 .text_2.data-v-650fa730 {
+  color: #979797;
   line-height: 28.65rpx;
 }
 .text_3.data-v-650fa730 {
   color: #7451ff;
-}
-.text_4.data-v-650fa730 {
   line-height: 29.04rpx;
 }
 .group_4.data-v-650fa730 {
@@ -83,10 +82,10 @@
 .font_2.data-v-650fa730 {
   font-size: 24.93rpx;
   font-family: PingFang SC;
-  line-height: 23.08rpx;
+  line-height: 22.94rpx;
   color: #000000;
 }
-.text_5.data-v-650fa730 {
+.text_4.data-v-650fa730 {
   color: #7451ff;
   font-size: 27.01rpx;
   line-height: 24.87rpx;
@@ -94,44 +93,40 @@
 .font_3.data-v-650fa730 {
   font-size: 24.93rpx;
   font-family: PingFang SC;
-  line-height: 23.08rpx;
   color: #979797;
 }
-.text_6.data-v-650fa730 {
+.text_5.data-v-650fa730 {
   font-size: 27.01rpx;
   line-height: 25.06rpx;
 }
-.text_7.data-v-650fa730 {
+.text_6.data-v-650fa730 {
   font-size: 27.01rpx;
   line-height: 25.1rpx;
 }
 .grid.data-v-650fa730 {
-  height: 787.08rpx;
-  display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  row-gap: 0;
-  column-gap: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 .grid-item.data-v-650fa730 {
-  padding: 37.4rpx 0;
+  width: 30%; /* 调整每个项目的宽度以适应三列布局 */
+  margin-bottom: 16px; /* 调整每个项目的下间距 */
+  text-align: center; /* 使文本在网格项中居中对齐 */
 }
 .image_4.data-v-650fa730 {
-  width: 271.25rpx;
-  height: 271.25rpx;
+  width: 100px; /* 根据需要调整图像宽度 */
+  height: 150px; /* 根据需要调整图像高度 */
+}
+.font_2.data-v-650fa730 {
+  font-size: 16px;
+}
+.mt-11.data-v-650fa730 {
+  margin-top: 11px;
 }
 .group_5.data-v-650fa730 {
   margin-bottom: -172.44rpx;
   opacity: 0.95;
   height: 172.44rpx;
-}
-.tab-bar.data-v-650fa730 {
-  padding: 35.32rpx 0;
-  background-color: #ffffff;
-  border-radius: 58.17rpx;
-  box-shadow: 0rpx 1.04rpx 0rpx #0000002e inset;
-  -webkit-backdrop-filter: blur(0rpx);
-          backdrop-filter: blur(0rpx);
 }
 .group_6.data-v-650fa730 {
   padding: 16.62rpx 0 8.31rpx;

@@ -6,8 +6,8 @@ const _sfc_main = {
   data() {
     return {
       info: "",
-      devices: [],
-      services: [],
+      device: [],
+      service: [],
       isBluetoothAdapter: false,
       isBluetoothSearch: false,
       isBluetoothInfo: false
@@ -114,14 +114,13 @@ const _sfc_main = {
       const that = this;
       common_vendor.index.getBluetoothDevices({
         success(res) {
-          that.devices = res.devices.map((device) => ({
+          that.device = res.devices.map((device) => ({
             deviceId: device.deviceId,
             name: device.name || "未命名设备"
           }));
-          that.info = "搜索到的蓝牙数目：" + res.devices.length;
           that.isBluetoothInfo = true, common_vendor.index.showModal({
             title: "搜索蓝牙数目:",
-            content: `找到 ${res.devices.length} 个蓝牙设备`,
+            content: `找到 ${res.device.length} 个蓝牙设备`,
             showCancel: false
           });
         },
@@ -140,8 +139,6 @@ const _sfc_main = {
       common_vendor.index.createBLEConnection({
         deviceId,
         success(res) {
-          console.log("连接设备成功", res);
-          that.info = "已连接设备ID：" + deviceId;
           common_vendor.index.showModal({
             title: "连接设备成功:",
             content: `已连接设备ID：${deviceId}, 点击确认跳转`,
@@ -149,7 +146,7 @@ const _sfc_main = {
             success: function(modalRes) {
               if (modalRes.confirm) {
                 common_vendor.index.navigateTo({
-                  url: "/pages/learn/learntiming?deviceId=" + deviceId
+                  url: "/pages/user/detecting60s?deviceId=" + deviceId
                   // 修改为你的目标页面路径
                 });
               }
@@ -180,7 +177,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: $data.isBluetoothInfo ? 1 : "",
     h: !$data.isBluetoothInfo ? 1 : "",
     i: common_vendor.o((...args) => $options.connectBluetooth && $options.connectBluetooth(...args)),
-    j: common_vendor.f($data.devices, (device, index, i0) => {
+    j: common_vendor.f($data.device, (device, index, i0) => {
       return {
         a: common_vendor.t(device.name),
         b: common_vendor.o(($event) => $options.connectTo(device.deviceId), device.deviceId),
@@ -189,5 +186,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2212fa0d"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/learn/wait4bt.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-b42506ea"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/user/bswait4bt.vue"]]);
 wx.createPage(MiniProgramPage);

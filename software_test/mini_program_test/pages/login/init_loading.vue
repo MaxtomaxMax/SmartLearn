@@ -47,9 +47,6 @@
 					// #ifdef H5
 					const screenHeight = res.windowHeight;
 					// #endif
-					
-					
-
 					// 确认获取到了正确的宽度和高度
 					if (screenWidth && screenHeight) {
 						this.containerWidth = `${screenWidth}px`;
