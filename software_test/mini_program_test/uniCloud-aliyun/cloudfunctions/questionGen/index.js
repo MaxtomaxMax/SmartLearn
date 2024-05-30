@@ -5,7 +5,7 @@ exports.main = async (event, context) => {
 	
 	const {project, keyword} = event;
 	const prompt = `我现在正在学习（开发）的项目是${project}, 请用提问的方式考察我关于${keyword}知识的内容帮我复习，\
-					直接罗列生成一个问题列表`;
+					直接罗列生成一个问题列表。要求直接生成问题列表，除了问题列表以外不要任何内容`;
 	
 	// ||表示选择第一个真值
 	let history = event.history || [{
