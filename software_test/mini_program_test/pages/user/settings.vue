@@ -1,6 +1,13 @@
 <template>
     <view class="flex-col page" :style="{ width: containerWidth, height: containerHeight}">
         <view class="flex-col flex-1 group_2">
+			<view class="exit-container">
+				<image class="image_5" 
+					   src="../../static/ui_icon/exit.png" 
+					   style="border-radius: 0;" 
+					   @click="exit">
+				</image>
+			</view>
             <view class="flex-col self-stretch group_3">
                 <view class="flex-col">
                     <view class="mt-18 flex-row justify-between items-center">
@@ -62,9 +69,11 @@
                 class="self-center image_6"
                 src="../../static/ui_icon/avatar.png"
             />
-            <text class="self-center font text_11" @click="confirmLogout"
+			<button class="logout-container" @click="confirmLogout"><text class="self-center font text_11" 
             >退出登录</text
-            >
+            ></button>
+			
+            
         </view>
     </view>
 </template>
@@ -82,8 +91,8 @@ export default {
 			userId:"",
 			avatarToStore:"",
 			
-            username: "",
-            signature: "",
+            username: "未命名用户",
+            signature: "写下自己的个性签名吧",
             isReminderOn: false,
             setTime: "9：00",
             imageUrl:"../../static/ui_icon/avatar.png",
@@ -109,6 +118,9 @@ export default {
 		this.signature = uni.getStorageSync("signature");
 	},
     methods: {
+		exit(){
+			uni.navigateBack();
+		},
 		toggleFollow(){
 			return;
 		},
@@ -261,9 +273,10 @@ export default {
                 success: (res) => {
                     if (res.confirm) {
                         //console.log('用户点击确定');
-                        // 执行退出操作
-                        // 例如：清除本地存储、token或执行API注销操作
-                        // uni.clearStorageSync();  // 清除本地存储数据
+						uni.setStorageSync("user_id","");
+						uni.setStorageSync("username","");
+						uni.setStorageSync("avatar_url","");
+						uni.setStorageSync("signature","");
 
                         uni.reLaunch({
                             url: "/pages/login/log_in", // 跳转到登录页面
@@ -279,6 +292,15 @@ export default {
 </script>
 
 <style scoped lang="css">
+.exit-container{
+	padding-top: 30rpx;
+	height: 80rpx;
+}	
+.logout-container{
+	margin-top: 20rpx;
+	border-radius: 30rpx;
+	background-color: #7451ff;
+}
 .signature-text-container{
 	width: 450rpx;
 	text-align: end;
@@ -383,7 +405,7 @@ export default {
 }
 .text_11 {
     margin-top: 41.67rpx;
-    color: #ff0000;
+    color: #ffffff;
     line-height: 26.83rpx;
     letter-spacing: 12.5rpx;
 }
