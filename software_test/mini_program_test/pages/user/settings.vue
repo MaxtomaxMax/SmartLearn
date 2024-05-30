@@ -35,7 +35,7 @@
             <view class="flex-col self-stretch group_4">
                 <view class="flex-row justify-between items-center">
                     <text class="font">头像</text>
-                    <image class="image_5" :src="imageUrl" @click="chooseImage" />
+                    <image class="image_5" :src="imageUrl" @click="changeImage" />
                 </view>
                 <view class="flex-col mt-19">
                     <view
@@ -43,7 +43,7 @@
                         @click="editNickname"
                     >
                         <text class="font text_7">昵称</text>
-                        <text class="text_8">{{ nickname }}</text>
+                        <text class="text_8">{{ username }}</text>
                     </view>
                     <view
                         class="mt-22 flex-row justify-between items-center"
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+const db = uniCloud.database();
 export default {
     components: {},
     props: {},
@@ -78,17 +79,42 @@ export default {
 			containerWidth: '0px',
 			containerHeight: '0px',
 			
-            nickname: "Lee",
-            signature: "Wit beyond measure is man’s greatest treasure",
+			userId:"",
+			avatarToStore:"",
+			
+            username: "",
+            signature: "",
             isReminderOn: false,
             setTime: "9：00",
             imageUrl:"../../static/ui_icon/avatar.png",
+			
+			isFollowOn: true,
+			isRankingOn: true,
         };
     },
 	onLoad() {
+		// 获得屏幕信息
 		this.setContainerSize();
+		
+		// 获得userId
+		this.userId = uni.getStorageSync("user_id");
+		
+		// 获取头像
+		this.imageUrl = uni.getStorageSync("avatar_url")
+		 
+		// 获取用户名
+		this.username = uni.getStorageSync("username");
+		
+		// 获取个性签名
+		this.signature = uni.getStorageSync("signature");
 	},
     methods: {
+		toggleFollow(){
+			return;
+		},
+		toggleRanking(){
+			return;
+		},
 		setContainerSize() {
 			try {
 				const res = uni.getSystemInfoSync();
@@ -115,27 +141,49 @@ export default {
 		},
 		
         //头像
-        chooseImage() {
+        changeImage() {
             uni.chooseImage({
                 count: 1,
                 sizeType: ["compressed"],
                 sourceType: ["album", "camera"],
                 success: (res) => {
-                    const tempFilePaths = res.tempFilePaths;
-                    this.imageUrl = tempFilePaths[0];
+                    const tempFilePaths = res.tempFilePaths[0];
+                    this.imageUrl = tempFilePaths;
 
                     uni.showModal({
                         title: "头像设置结果",
                         content: "设置成功！",
                         showCancel: false,
                     });
+					
+					// 把该图像上传的unicloud的云存储
+					uniCloud.uploadFile({
+						filePath: tempFilePaths,
+						cloudPath: this.userId + "_avatar.jpg",
+					}).then(res=>{
+						// console.log(res);
+						this.avatarToStore = res.fileID;
+						// 本地缓存头像数据
+						uni.setStorageSync('avatar_url', tempFilePaths);
+						
+						// 图片上云数据库
+						db.collection("SmartLearn_user")
+							.doc(this.userId)
+							.update({
+								avatar: this.avatarToStore,
+							})
+							.then(res=>{
+								console.log(res)
+							});	
+					}).catch(err=>{
+						console.log(err);
+					})
                 },
                 fail: (err) => {
                     console.log("选择图片失败", err);
                 },
             });
         },
-        // 需要将头像上传到数据库，待实现
 
         //修改定时发送提醒时间
         bindTimeChange(e) {
@@ -156,13 +204,24 @@ export default {
         editNickname() {
             uni.showModal({
                 title: "编辑昵称",
-                content: this.nickname,
+                content: this.username,
                 editable: true,
                 success: (res) => {
                     if (res.confirm && res.content) {
-                        this.nickname = res.content;
-                        // 可以在这里保存到全局状态或进行API调用更新服务器上的数据
-                        getApp().globalData.nickname = res.content;
+                        this.username = res.content;
+						// 更新本地存储
+						uni.setStorageSync("username", this.username);
+						// 修改云数据库
+						db.collection("SmartLearn_user")
+							.doc(this.userId)
+							.update({
+								username: this.username,
+							})
+							.then(res=>{
+								console.log(res);
+							}).catch(err=>{
+								console.log(err);
+							});
                     }
                 },
             });
@@ -176,7 +235,20 @@ export default {
                 success: (res) => {
                     if (res.confirm && res.content) {
                         this.signature = res.content;
-                        getApp().globalData.signature = res.content;
+						// 本地缓存修改
+						uni.setStorageSync("signature", this.signature);
+						
+						// 修改云数据库
+						db.collection("SmartLearn_user")
+							.doc(this.userId)
+							.update({
+								signature: this.signature,
+							})
+							.then(res=>{
+								console.log(res);
+							}).catch(err=>{
+								console.log(err);
+							});
                     }
                 },
             });
