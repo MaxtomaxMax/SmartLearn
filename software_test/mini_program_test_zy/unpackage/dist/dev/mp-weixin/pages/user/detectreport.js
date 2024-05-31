@@ -55,5 +55,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     h: common_vendor.t($data.somestresstime)
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-dc822054"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/user/detectreport.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-dc822054"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/user/detectreport.vue"]]);
 wx.createPage(MiniProgramPage);

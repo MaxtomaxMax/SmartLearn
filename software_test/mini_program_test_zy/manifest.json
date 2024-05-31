@@ -50,14 +50,14 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wxaf780c0c17f11a78",
         "setting" : {
             "urlCheck" : false
         },
         "usingComponents" : true,
-        "permission": {
-            "scope.bluetooth": {
-                "desc": "你的应用需要使用蓝牙"  // 蓝牙权限的描述
+        "permission" : {
+            "scope.bluetooth" : {
+                "desc" : "你的应用需要使用蓝牙" // 蓝牙权限的描述
             }
         }
     },

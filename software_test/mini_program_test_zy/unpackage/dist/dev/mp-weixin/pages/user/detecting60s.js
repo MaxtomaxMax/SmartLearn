@@ -137,6 +137,8 @@ const _sfc_main = {
             content: `成功设置监听特征值变化！`,
             showCancel: false
           });
+          console.log("测试");
+          console.log(res);
         },
         fail: function(err) {
           that.info = "失败：" + err.message;
@@ -165,13 +167,16 @@ const _sfc_main = {
     //发送数据到云服务器
     sendDataToServer() {
       const dataToSend = this.BsreceivedData;
+      console.log("发送");
       if (dataToSend.length > 0) {
         common_vendor.index.request({
-          url: "http://workspace.featurize.cn:56691/smartlearn/milliwave-detection",
+          url: "http://81.71.1.104:5000/smartlearn/milliwave-detection",
           // 替换为你的云服务器地址
           method: "POST",
-          data: {
-            BsreceivedData: dataToSend
+          data: dataToSend,
+          header: {
+            "Content-Type": "application/json"
+            // 指定请求体格式为JSON
           },
           success: (res) => {
             common_vendor.index.showModal({
@@ -184,9 +189,12 @@ const _sfc_main = {
           fail: (err) => {
             common_vendor.index.showModal({
               title: "服务器返回结果:",
-              content: "发送数据或返回失败",
+              content: `无法发送数据到服务器，请稍后再试。错误信息：${err.errMsg}`,
               showCancel: false
             });
+          },
+          complete() {
+            console.log("发送完成");
           }
         });
       }
@@ -202,5 +210,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: common_vendor.t($data.countdown)
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-f71916e6"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/user/detecting60s.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-f71916e6"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/user/detecting60s.vue"]]);
 wx.createPage(MiniProgramPage);
