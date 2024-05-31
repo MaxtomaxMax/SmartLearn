@@ -98,7 +98,7 @@ const _sfc_main = {
       const year = date.getFullYear();
       const month = date.getMonth();
       const day = date.getDate();
-      return `${year}-${month}-${day}`;
+      return `${year}-${month + 1}-${day}`;
     },
     dateDiffInDays(date1, date2) {
       const year1 = date1.getFullYear();

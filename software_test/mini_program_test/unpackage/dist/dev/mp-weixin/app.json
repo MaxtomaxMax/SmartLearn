@@ -15,7 +15,8 @@
     "pages/user/chat_history",
     "pages/user/knowledgeMap",
     "pages/review/reflectionchart",
-    "pages/review/review"
+    "pages/review/review",
+    "pages/user/settings"
   ],
   "window": {
     "navigationBarTextStyle": "black",

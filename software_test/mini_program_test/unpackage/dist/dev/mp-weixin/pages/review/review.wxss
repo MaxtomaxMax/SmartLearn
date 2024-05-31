@@ -1,4 +1,8 @@
 
+.scroll-view-container.data-v-7018a65d{
+		padding: 0 20rpx;
+		height: 90%;
+}
 .ml-11.data-v-7018a65d {
         margin-left: 22.92rpx;
 }

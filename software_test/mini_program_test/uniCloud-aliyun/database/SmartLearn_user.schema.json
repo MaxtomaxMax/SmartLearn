@@ -31,11 +31,13 @@
 		},
 		"username":{
 			"bsonType": "string",
-			"title": "用户名"
+			"title": "用户名",
+			"defaultValue":"未命名用户"
 		},
 		"signature":{
 			"bsonType": "string",
-			"title": "个性签名"
+			"title": "个性签名",
+			"defaultValue":"来写下自己的个性签名吧~"
 		},
 		"avatar":{
 			"bsonType": "string",

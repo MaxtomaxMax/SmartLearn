@@ -18,6 +18,7 @@ if (!Math) {
   "./pages/user/knowledgeMap.js";
   "./pages/review/reflectionchart.js";
   "./pages/review/review.js";
+  "./pages/user/settings.js";
 }
 const _sfc_main = {
   onLaunch: function() {

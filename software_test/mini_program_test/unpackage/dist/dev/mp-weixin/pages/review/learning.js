@@ -74,7 +74,7 @@ const _sfc_main = {
   methods: {
     enterReview(name, index) {
       common_vendor.index.navigateTo({
-        url: `/pages/review/review?id=${index}&name=${name}`
+        url: `/pages/review/review?projectName=${name}`
       });
     },
     setContainerSize() {

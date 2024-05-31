@@ -1,6 +1,9 @@
 {
   "name": "encrypt",
-  "dependencies": {},
+  "dependencies": {
+	  "axios": "^1.6.8",
+	  "bcryptjs": "^2.4.3"
+  },
   "extensions": {
     "uni-cloud-jql": {}
   }
