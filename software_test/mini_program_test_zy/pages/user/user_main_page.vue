@@ -234,7 +234,7 @@ export default {
     },
     goToReportPage() {
       uni.navigateTo({
-        url: "/pages/user/detectreport", // 监测数据页面
+        url: "/pages/user/detectrecord", // 监测数据页面
       });
     },
     goTodetect() {
