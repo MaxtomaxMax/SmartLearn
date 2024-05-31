@@ -421,10 +421,10 @@
 }
 .group_3 {
 	height: 120rpx;
-    padding: 10rpx 41.67rpx 18.5rpx 41.67rpx;
+/*    padding: 10rpx 41.67rpx 18.5rpx 41.67rpx; */
     position: absolute;
-    bottom: 20px;
-    width: 90%; /* 根据需要调整宽度 */
+    bottom: 15px;
+    width: 100%; /* 根据需要调整宽度 */
     z-index: 1000; /* 确保在其他内容之上 */
 	
 }
