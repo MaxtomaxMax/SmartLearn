@@ -53,6 +53,9 @@
 		},
 		{
 			"path": "pages/user/settings"
+		},
+		{
+			"path": "pages/user/detect_record"
 		}
     ],
     "globalStyle": {
