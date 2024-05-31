@@ -485,7 +485,7 @@
 }
 .preKnowledgeButton{
 	padding-right: 40rpx;
-	width: 32	0rpx;
+	width: 320rpx;
 }
 .advancedKnowledgeButton{
 	padding-left: 40rpx;
