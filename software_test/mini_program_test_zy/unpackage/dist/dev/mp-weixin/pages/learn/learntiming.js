@@ -10,23 +10,25 @@ const _sfc_main = {
       characteristics: [],
       characteristicId: "",
       // 假设你已知需要监听的特征ID
-      timer: null,
+      formattedTime: null,
       elapsedTime: 0,
       allLearnTime: 0,
       // 存储单次学习时间，xxxx秒，供数据库调用
       SDNNnum: 19,
       RMSSDnum: 229,
-      receivedData: ""
+      receivedData: "",
+      shootTimer: null,
+      lastPhoto: null,
+      // 存储最后一张照片的路径
+      cameraKey: 0,
+      tiredTime: 0,
+      tiredformatTime: null,
+      NopersoninSeat: 0
     };
   },
   onLoad(options) {
     if (options.deviceId) {
       this.connectedDeviceId = options.deviceId;
-      common_vendor.index.showModal({
-        title: "蓝牙已连接:",
-        content: `连接蓝牙设备ID：${this.connectedDeviceId}`,
-        showCancel: false
-      });
     } else {
       console.error("No device ID passed to page");
       common_vendor.index.showModal({
@@ -35,6 +37,8 @@ const _sfc_main = {
         showCancel: false
       });
     }
+    this.stopAutoTakePhoto();
+    this.checkAndRequestCameraPermission();
   },
   computed: {
     formattedTime() {
@@ -47,9 +51,131 @@ const _sfc_main = {
       ).padStart(2, "0");
       const seconds = String(this.elapsedTime % 60).padStart(2, "0");
       return `${hours}:${minutes}:${seconds}`;
+    },
+    tiredformatTime() {
+      const hours = String(Math.floor(this.tiredTime / 3600)).padStart(2, "0");
+      const minutes = String(Math.floor(this.tiredTime % 3600 / 60)).padStart(
+        2,
+        "0"
+      );
+      const seconds = String(this.tiredTime % 60).padStart(2, "0");
+      return `${hours}:${minutes}:${seconds}`;
     }
   },
   methods: {
+    checkAndRequestCameraPermission() {
+      common_vendor.index.getSetting({
+        success: (res) => {
+          if (!res.authSetting["scope.camera"]) {
+            common_vendor.index.authorize({
+              scope: "scope.camera",
+              success: () => {
+                console.log("相机授权成功");
+              },
+              fail: () => {
+                common_vendor.index.showModal({
+                  title: "相机权限未授权",
+                  content: "请授权相机权限以使用相机功能",
+                  showCancel: false,
+                  success: (modalRes) => {
+                    if (modalRes.confirm) {
+                      common_vendor.index.openSetting({
+                        success: (settingRes) => {
+                          if (settingRes.authSetting["scope.camera"]) {
+                            console.log("用户在设置后授权了相机权限");
+                          } else {
+                            console.log("用户没有开启相机权限");
+                          }
+                        }
+                      });
+                    }
+                  }
+                });
+              }
+            });
+          } else {
+            console.log("相机已授权");
+          }
+        }
+      });
+    },
+    takePhoto() {
+      const context = common_vendor.index.createCameraContext();
+      context.takePhoto({
+        quality: "high",
+        success: (res) => {
+          console.log("拍照成功:", res.tempImagePath);
+          this.uploadPhotoToServer1(res.tempImagePath);
+          this.uploadPhotoToServer2(res.tempImagePath);
+          this.lastPhoto = res.tempImagePath;
+          this.cameraKey++;
+        },
+        fail: () => {
+          console.error("拍照失败");
+          common_vendor.index.showToast({
+            title: "拍照失败",
+            icon: "fail",
+            duration: 500
+            // 显示时长1000毫秒，即1秒
+          });
+        }
+      });
+    },
+    uploadPhotoToServer1(filePath) {
+      common_vendor.index.uploadFile({
+        url: "http://111.230.104.171:5000/smartlearn/fatigue-detection",
+        //
+        filePath,
+        name: "file",
+        formData: {
+          user: "test"
+        },
+        success: (uploadFileRes) => {
+          console.log("上传服务器1成功:", uploadFileRes.data);
+        },
+        fail: () => {
+          console.error("上传服务器1失败");
+        }
+      });
+    },
+    // 上传到第二个服务器
+    uploadPhotoToServer2(filePath) {
+      common_vendor.index.uploadFile({
+        url: "http://111.230.104.171:5000/smartlearn/human-detection",
+        filePath,
+        name: "file",
+        formData: {
+          user: "test"
+        },
+        success: (uploadFileRes) => {
+          console.log("上传到服务器2成功:", uploadFileRes.data);
+          let responseData = JSON.parse(uploadFileRes.data);
+          if (responseData.message === "No detection") {
+            this.NopersoninSeat++, common_vendor.index.showToast({
+              title: "离开座位",
+              icon: "次数加1",
+              duration: 500
+              // 显示时长1000毫秒，即1秒
+            });
+            console.log("No person in seat count:", this.NopersoninSeat);
+          }
+        },
+        fail: () => {
+          console.error("上传到服务器2失败");
+        }
+      });
+    },
+    startAutoTakePhoto() {
+      if (!this.shootTimer) {
+        this.shootTimer = setInterval(this.takePhoto, 1e4);
+      }
+    },
+    stopAutoTakePhoto() {
+      if (this.shootTimer) {
+        clearInterval(this.shootTimer);
+        this.shootTimer = null;
+      }
+    },
     getservice() {
       const that = this;
       common_vendor.index.getBLEDeviceServices({
@@ -59,11 +185,6 @@ const _sfc_main = {
           console.log(res.services);
           res.services.map((service) => service.uuid);
           that.services = res.services;
-          common_vendor.index.showModal({
-            title: "获取服务成功:",
-            content: `服务列表：${JSON.stringify(that.services)}`,
-            showCancel: false
-          });
         },
         fail: function(err) {
           that.info = "获取设备服务失败！" + err.message;
@@ -91,11 +212,6 @@ const _sfc_main = {
               write: chr.properties.write,
               read: chr.properties.read
             }));
-            common_vendor.index.showModal({
-              title: "获取特征值成功:",
-              content: `特征值列表：${JSON.stringify(that.characteristics)}`,
-              showCancel: false
-            });
           },
           fail: function(err) {
             that.info = "特征值获取失败" + err.message;
@@ -160,11 +276,6 @@ const _sfc_main = {
       }
       common_vendor.index.onBLECharacteristicValueChange(function(res) {
         that.receivedData = ab2hex(res.value);
-        common_vendor.index.showModal({
-          title: "接收到数据:",
-          content: `16进制数据为：${that.receivedData}`,
-          showCancel: false
-        });
       });
     },
     startTimer() {
@@ -176,7 +287,9 @@ const _sfc_main = {
       this.timer = setInterval(() => {
         this.elapsedTime++;
       }, 1e3);
-      this.startBluetoothProcess();
+      if (!this.shootTimer) {
+        this.shootTimer = setInterval(this.takePhoto, 5e3);
+      }
     },
     stopTimer() {
       if (this.timer) {
@@ -198,6 +311,10 @@ const _sfc_main = {
       }
       this.allLearnTime = this.elapsedTime;
       this.elapsedTime = 0;
+      if (this.shootTimer) {
+        clearInterval(this.shootTimer);
+        this.shootTimer = null;
+      }
     }
   },
   beforeDestroy() {
@@ -212,7 +329,7 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o((...args) => $options.startTimer && $options.startTimer(...args)),
+    a: $data.cameraKey,
     b: common_vendor.o((...args) => $options.getservice && $options.getservice(...args)),
     c: common_vendor.o((...args) => $options.getcharacteristics && $options.getcharacteristics(...args)),
     d: common_vendor.o((...args) => $options.charIdchange && $options.charIdchange(...args)),
@@ -223,8 +340,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     i: common_vendor.o((...args) => $options.endTimer && $options.endTimer(...args)),
     j: common_vendor.t($options.formattedTime),
     k: common_vendor.t($data.SDNNnum),
-    l: common_vendor.t($data.RMSSDnum)
+    l: common_vendor.t($data.RMSSDnum),
+    m: common_vendor.t($options.tiredformatTime),
+    n: common_vendor.t($data.SDNNnum),
+    o: common_vendor.t($data.RMSSDnum),
+    p: common_vendor.t($data.SDNNnum),
+    q: common_vendor.t($data.NopersoninSeat)
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-8da1649f"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/learn/learntiming.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-8da1649f"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/learn/learntiming.vue"]]);
 wx.createPage(MiniProgramPage);

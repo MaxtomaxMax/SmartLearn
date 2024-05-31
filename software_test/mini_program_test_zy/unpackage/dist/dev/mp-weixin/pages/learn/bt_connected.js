@@ -158,5 +158,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: common_vendor.o((...args) => $options.charIdchange && $options.charIdchange(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-059a7b1e"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/learn/bt_connected.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-059a7b1e"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/learn/bt_connected.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,4 +1,22 @@
 
+.container.data-v-8da1649f {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 30vh;
+}
+.photo-display.data-v-8da1649f {
+  margin-top: 50px;
+}
+.timer-section.data-v-8da1649f {
+  width: 90%;
+  background-color: #fff9e6;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 .mt-29.data-v-8da1649f {
   margin-top: 60.42rpx;
 }
