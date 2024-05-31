@@ -16,10 +16,10 @@
 			"bsonType": "string",
 			"title": "用户ID"
 		},
-		"baseline":{
+		"baselineData":{
 			"bsonType": "array",
 			"arrayType": "object",
-			"title": "用户baseline"
+			"title": "用于计算用户baseline"
 		}
 	}
 }
