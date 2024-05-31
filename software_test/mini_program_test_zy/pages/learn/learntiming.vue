@@ -2,6 +2,21 @@
   <view class="flex-col page">
     <view class="flex-col flex-1 group">
       <view class="shrink-0 section_5"></view>
+      <view class="container">
+        <camera
+          :key="cameraKey"
+          id="myCamera"
+          device-position="front"
+          flash="off"
+          style="width: 200px; height: 300px"
+        ></camera>
+      </view>
+      <!--<view class="container">
+				<view class="photo-display">
+				      
+				      <image v-if="lastPhoto" :src="lastPhoto" mode="aspectFit" style="width: 100%; height: 200px;"></image>
+				    </view>
+			</view>-->
       <view class="flex-col relative group_2 view">
         <view class="flex-col section_6">
           <image
@@ -9,7 +24,7 @@
             src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=f5ffa1faad1f2da2b07b17a3fe1e5e09.png"
           />
           <view class="flex-col self-stretch mt-29">
-            <text class="self-center text_2" @click="startTimer">GO!</text>
+            <!--<text class="self-center text_2" @click="startTimer">GO!</text>-->
 
             <view class="flex-col self-stretch section_7 mt-29">
               <view class="flex-row items-center">
@@ -23,30 +38,26 @@
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="getservice">
-                    获取蓝牙服务
-                  </button>
+                  <text class="font_2" @click="getservice">获取蓝牙服务</text>
                 </view>
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="getcharacteristics">
-                    获取蓝牙特征值
-                  </button>
+                  <text class="font_2" @click="getcharacteristics"
+                    >获取蓝牙特征值</text
+                  >
                 </view>
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="charIdchange">
-                    监听特征值变化
-                  </button>
+                  <text class="font_2" @click="charIdchange"
+                    >监听特征值变化</text
+                  >
                 </view>
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="closeBluetooth">
-                    关闭蓝牙
-                  </button>
+                  <text class="font_2" @click="closeBluetooth">关闭蓝牙</text>
                 </view>
               </view>
             </view>
@@ -55,24 +66,22 @@
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="startTimer">开始学习</button>
+                  <text class="font_2" @click="startTimer">开始学习</text>
                 </view>
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="stopTimer">暂停计时</button>
+                  <text class="font_2" @click="stopTimer">暂停计时</text>
                 </view>
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="continueTimer">
-                    继续学习
-                  </button>
+                  <text class="font_2" @click="continueTimer">继续学习</text>
                 </view>
                 <view
                   class="flex-col justify-start items-center relative grid-item"
                 >
-                  <button class="font_2" @click="endTimer">结束学习</button>
+                  <text class="font_2" @click="endTimer">结束学习</text>
                 </view>
               </view>
             </view>
@@ -96,22 +105,19 @@
             />
             <text class="ml-4 font text_7">压力值</text>
           </view>
-          <view class="flex-row group_4">
-            <image
-              class="image_7"
-              src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4c928d9c835db657f8bc8f954d32939e.png"
-            />
-            <text class="font_3 ml-7">心跳</text>
-          </view>
-          <image
-            class="image_8"
-            src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4949f360447ba2c58b172a376744187b.png"
-          />
+          <!--<view class="flex-row group_4">
+                        <image
+                            class="image_7"
+                            src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4c928d9c835db657f8bc8f954d32939e.png"
+                        />
+                        <text class="font_3 ml-7">心跳</text>
+                    </view>
+                    <image
+                        class="image_8"
+                        src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4949f360447ba2c58b172a376744187b.png"
+                    />-->
           <view class="flex-row group_2 view_2">
-            <image
-              class="image_7"
-              src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=29da009d84905e7c9f611644cff52e51.png"
-            />
+            <image class="image_7" src="/static/ui_icon/HRVzhibiao.png" />
             <text class="font_3 text_8 ml-7">HRV指标</text>
           </view>
           <view class="flex-row equal-division">
@@ -122,6 +128,64 @@
             <view class="ml-14 flex-col section_10 equal-division-item">
               <text class="self-start font_4">RMSSD</text>
               <text class="mt-20 self-center font_5">{{ RMSSDnum }}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="flex-col section_9">
+          <view class="flex-row group_3">
+            <image class="image_6" src="/static/ui_icon/tired.png" />
+            <text class="ml-4 font text_7">疲劳</text>
+          </view>
+          <view class="flex-row group_4">
+            <image
+              class="image_7"
+              src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4c928d9c835db657f8bc8f954d32939e.png"
+            />
+            <text class="font_3 ml-7">疲劳计时</text>
+          </view>
+
+          <text class="mt-14 self-center text_6">{{ tiredformatTime }}</text>
+          <view class="flex-row group_2 view_2">
+            <text class="font_3 text_8 ml-7">疲劳行为</text>
+          </view>
+          <view class="flex-row equal-division">
+            <view class="flex-col section_10 equal-division-item">
+              <text class="self-start font_4">闭眼</text>
+              <text class="mt-20 self-center font_5">{{ SDNNnum }}</text>
+            </view>
+            <view class="ml-14 flex-col section_10 equal-division-item">
+              <text class="self-start font_4">哈欠</text>
+              <text class="mt-20 self-center font_5">{{ RMSSDnum }}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="flex-col section_9">
+          <view class="flex-row group_3">
+            <image class="image_6" src="/static/ui_icon/tired.png" />
+            <text class="ml-4 font text_7">分心</text>
+          </view>
+          <view class="flex-row group_4">
+            <image
+              class="image_7"
+              src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4c928d9c835db657f8bc8f954d32939e.png"
+            />
+            <text class="font_3 ml-7">分心计时</text>
+          </view>
+          <text class="mt-14 self-center text_6">00:05:26</text>
+          <view class="flex-row group_2 view_2">
+            <image class="image_7" src="/static/ui_icon/fenxin.png" />
+            <text class="font_3 text_8 ml-7">分心行为</text>
+          </view>
+          <view class="flex-row equal-division">
+            <view class="flex-col section_10 equal-division-item">
+              <text class="self-start font_4">玩手机</text>
+              <text class="mt-20 self-center font_5">{{ SDNNnum }}</text>
+            </view>
+            <view class="ml-14 flex-col section_10 equal-division-item">
+              <text class="self-start font_4">离开座位</text>
+              <text class="mt-20 self-center font_5">{{ NopersoninSeat }}</text>
             </view>
           </view>
         </view>
@@ -139,22 +203,23 @@ export default {
       services: [],
       characteristics: [],
       characteristicId: "", // 假设你已知需要监听的特征ID
-      timer: null,
+      formattedTime: null,
       elapsedTime: 0,
       allLearnTime: 0, // 存储单次学习时间，xxxx秒，供数据库调用
       SDNNnum: 19,
       RMSSDnum: 229,
       receivedData: "",
+      shootTimer: null,
+      lastPhoto: null, // 存储最后一张照片的路径
+      cameraKey: 0,
+      tiredTime: 0,
+      tiredformatTime: null,
+      NopersoninSeat: 0,
     };
   },
   onLoad(options) {
     if (options.deviceId) {
       this.connectedDeviceId = options.deviceId;
-      uni.showModal({
-        title: "蓝牙已连接:",
-        content: `连接蓝牙设备ID：${this.connectedDeviceId}`,
-        showCancel: false,
-      });
     } else {
       console.error("No device ID passed to page");
       uni.showModal({
@@ -163,6 +228,8 @@ export default {
         showCancel: false,
       });
     }
+    this.stopAutoTakePhoto(); // 清除定时器
+    this.checkAndRequestCameraPermission();
   },
 
   computed: {
@@ -177,8 +244,146 @@ export default {
       const seconds = String(this.elapsedTime % 60).padStart(2, "0");
       return `${hours}:${minutes}:${seconds}`;
     },
+
+    tiredformatTime() {
+      const hours = String(Math.floor(this.tiredTime / 3600)).padStart(2, "0");
+      const minutes = String(Math.floor((this.tiredTime % 3600) / 60)).padStart(
+        2,
+        "0"
+      );
+      const seconds = String(this.tiredTime % 60).padStart(2, "0");
+      return `${hours}:${minutes}:${seconds}`;
+    },
   },
   methods: {
+    checkAndRequestCameraPermission() {
+      uni.getSetting({
+        success: (res) => {
+          if (!res.authSetting["scope.camera"]) {
+            // 如果未授权，则请求相机权限
+            uni.authorize({
+              scope: "scope.camera",
+              success: () => {
+                console.log("相机授权成功");
+                // 这里可以添加其他逻辑，如启动相机等
+              },
+              fail: () => {
+                uni.showModal({
+                  title: "相机权限未授权",
+                  content: "请授权相机权限以使用相机功能",
+                  showCancel: false,
+                  success: (modalRes) => {
+                    if (modalRes.confirm) {
+                      // 引导用户到设置页面
+                      uni.openSetting({
+                        success: (settingRes) => {
+                          // 可以在这里检查用户在设置页面中是否已经授权
+                          if (settingRes.authSetting["scope.camera"]) {
+                            console.log("用户在设置后授权了相机权限");
+                            // 进一步逻辑处理
+                          } else {
+                            console.log("用户没有开启相机权限");
+                          }
+                        },
+                      });
+                    }
+                  },
+                });
+              },
+            });
+          } else {
+            console.log("相机已授权");
+            // 相机已授权，可以直接进行后续操作
+          }
+        },
+      });
+    },
+
+    takePhoto() {
+      const context = uni.createCameraContext();
+      context.takePhoto({
+        quality: "high",
+        success: (res) => {
+          console.log("拍照成功:", res.tempImagePath);
+          //上传照片到服务器
+          this.uploadPhotoToServer1(res.tempImagePath);
+          // 调用上传到第二个服务器的函数
+          this.uploadPhotoToServer2(res.tempImagePath);
+          this.lastPhoto = res.tempImagePath; // 更新照片路径
+          /*uni.showToast({
+				            title: '拍照成功',
+				            icon: 'success',
+				            duration: 500 // 显示时长1000毫秒，即1秒
+				          });*/
+          this.cameraKey++; // 改变 key 值来强制重新渲染相机组件
+        },
+        fail: () => {
+          console.error("拍照失败");
+          uni.showToast({
+            title: "拍照失败",
+            icon: "fail",
+            duration: 500, // 显示时长1000毫秒，即1秒
+          });
+        },
+      });
+    },
+
+    uploadPhotoToServer1(filePath) {
+      uni.uploadFile({
+        url: "http://111.230.104.171:5000/smartlearn/fatigue-detection", //
+        filePath: filePath,
+        name: "file",
+        formData: {
+          user: "test",
+        },
+        success: (uploadFileRes) => {
+          console.log("上传服务器1成功:", uploadFileRes.data);
+        },
+        fail: () => {
+          console.error("上传服务器1失败");
+        },
+      });
+    },
+    // 上传到第二个服务器
+    uploadPhotoToServer2(filePath) {
+      uni.uploadFile({
+        url: "http://111.230.104.171:5000/smartlearn/human-detection",
+        filePath: filePath,
+        name: "file",
+        formData: {
+          user: "test",
+        },
+        success: (uploadFileRes) => {
+          console.log("上传到服务器2成功:", uploadFileRes.data);
+          let responseData = JSON.parse(uploadFileRes.data);
+          if (responseData.message === "No detection") {
+            this.NopersoninSeat++,
+              uni.showToast({
+                title: "离开座位",
+                icon: "次数加1",
+                duration: 500, // 显示时长1000毫秒，即1秒
+              });
+            console.log("No person in seat count:", this.NopersoninSeat);
+          }
+        },
+        fail: () => {
+          console.error("上传到服务器2失败");
+        },
+      });
+    },
+
+    startAutoTakePhoto() {
+      if (!this.shootTimer) {
+        this.shootTimer = setInterval(this.takePhoto, 10000);
+      }
+    },
+    stopAutoTakePhoto() {
+      if (this.shootTimer) {
+        clearInterval(this.shootTimer);
+        this.shootTimer = null;
+      }
+    },
+
     getservice() {
       const that = this;
       uni.getBLEDeviceServices({
@@ -188,11 +393,11 @@ export default {
           let serviceIds = res.services.map((service) => service.uuid);
 
           that.services = res.services; // 直接更新响应式数据
-          uni.showModal({
-            title: "获取服务成功:",
-            content: `服务列表：${JSON.stringify(that.services)}`,
-            showCancel: false,
-          });
+          /*uni.showModal({
+                        title: '获取服务成功:',
+                        content: `服务列表：${JSON.stringify(that.services)}`,
+                        showCancel: false
+                    });*/
         },
         fail: function (err) {
           that.info = "获取设备服务失败！" + err.message; // `errMsg` 变成 `message` 在某些平台
@@ -220,11 +425,11 @@ export default {
               write: chr.properties.write,
               read: chr.properties.read,
             }));
-            uni.showModal({
-              title: "获取特征值成功:",
-              content: `特征值列表：${JSON.stringify(that.characteristics)}`,
-              showCancel: false,
-            });
+            /*uni.showModal({
+						    title: '获取特征值成功:',
+						    content: `特征值列表：${JSON.stringify(that.characteristics)}`,
+						    showCancel: false
+						});*/
           },
           fail: function (err) {
             that.info = "特征值获取失败" + err.message;
@@ -296,11 +501,11 @@ export default {
       // 监听特征值变化
       uni.onBLECharacteristicValueChange(function (res) {
         that.receivedData = ab2hex(res.value);
-        uni.showModal({
-          title: "接收到数据:",
-          content: `16进制数据为：${that.receivedData}`,
-          showCancel: false,
-        });
+        // uni.showModal({
+        //     title: '接收到数据:',
+        //     content: `16进制数据为：${that.receivedData}`,
+        //     showCancel: false
+        // });
       });
     },
 
@@ -313,7 +518,9 @@ export default {
       this.timer = setInterval(() => {
         this.elapsedTime++;
       }, 1000);
-      this.startBluetoothProcess();
+      if (!this.shootTimer) {
+        this.shootTimer = setInterval(this.takePhoto, 5000);
+      }
     },
     stopTimer() {
       if (this.timer) {
@@ -335,6 +542,10 @@ export default {
       }
       this.allLearnTime = this.elapsedTime;
       this.elapsedTime = 0;
+      if (this.shootTimer) {
+        clearInterval(this.shootTimer);
+        this.shootTimer = null;
+      }
     },
   },
   beforeDestroy() {
@@ -351,6 +562,25 @@ export default {
 </script>
 
 <style scoped lang="css">
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 30vh;
+}
+.photo-display {
+  margin-top: 50px;
+}
+.timer-section {
+  width: 90%;
+  background-color: #fff9e6;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .mt-29 {
   margin-top: 60.42rpx;
 }
