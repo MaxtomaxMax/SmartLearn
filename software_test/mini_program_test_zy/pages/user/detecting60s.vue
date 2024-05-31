@@ -53,6 +53,7 @@
 		</view>
 		</view>
         <text class="self-center text_3">{{countdown}}</text>
+		
     </view>
 </template>
 <!--  
@@ -83,6 +84,10 @@ export default {
 			
 			BsreceivedData: [],
 			countdown:60,
+			
+			BaseLineRMSSD:0,//得到服务器返回的BaseLineRMSSD测量结果，待上云之后需要同步到user页面显示
+			BaseLineSDNN:0,//得到服务器返回的BaseLineSDNN测量结果，待上云之后需要同步到user页面显示
+			
 			
 		};
     },
@@ -260,14 +265,16 @@ export default {
 		            //if (dataToSend.length > 0) {
 						if (true) {
 		                uni.request({
-		                    url: 'http://42.194.198.63:5000/smartlearn/milliwave-detection', // 替换为你的云服务器地址
+		                    url: 'http://42.194.198.63:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
 		                    method: 'POST',
 		                    data:dataToSend,
 							header: {
 							    'Content-Type': 'application/json', // 指定请求体格式为JSON
 							},
 		                    success: (res) => {
-								
+								let data = res.data;
+								this.BaseLineRMSSD=parseInt(data.RMSSD),
+								this.BaseLineSDNN=parseInt(data.SDNN)
 		                         // 显示返回结果的弹窗
 		                        uni.showModal({
 		                            title: '服务器返回结果',
