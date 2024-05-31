@@ -109,8 +109,16 @@
 						});
 						
 						// 成功登录后将_id存储到localStorage
-						let userId = emailRes.result.data[0]._id
-						uni.setStorageSync('user_id', userId)
+						console.log(emailRes);
+						let userId = emailRes.result.data[0]._id;
+						let avatarUrl = emailRes.result.data[0].avatar;
+						let signature = emailRes.result.data[0].signature;
+						let username = emailRes.result.data[0].username;
+						// console.log(avatarUrl);
+						uni.setStorageSync('user_id', userId);
+						uni.setStorageSync("avatar_url", avatarUrl);
+						uni.setStorageSync("signature", signature);
+						uni.setStorageSync("username", username);
 						console.log("用户登录信息成功存储")
 						
 						

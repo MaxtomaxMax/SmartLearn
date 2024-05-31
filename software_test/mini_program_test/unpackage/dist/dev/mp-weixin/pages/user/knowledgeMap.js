@@ -26,8 +26,8 @@ const _sfc_main = {
         { value: 2, text: "电子系统综合设计" },
         { value: 3, text: "通信原理" }
       ],
-      // 发给kimi的prompt
-      prompt: ""
+      // 生成的复习问题列表
+      reviewQuestion: ""
     };
   },
   computed: {
@@ -51,8 +51,24 @@ const _sfc_main = {
     this.scrollToBottom();
     this.sendHeight();
   },
-  onLoad() {
+  async onLoad() {
     this.setContainerSize();
+    this.userId = common_vendor.index.getStorageSync("user_id");
+    const getProjectRes = await db.collection("SmartLearn_project").where({
+      userId: this.userId
+    }).get();
+    let projectList = getProjectRes.result.data;
+    let tempList = [];
+    let tempObj = {};
+    for (let i = 0; i < projectList.length; i++) {
+      tempObj["value"] = i + 1;
+      tempObj["text"] = projectList[i].project_name;
+      tempList.push(tempObj);
+      console.log(tempObj);
+      tempObj = {};
+    }
+    this.project_range = tempList;
+    console.log(this.project_range);
   },
   methods: {
     setContainerSize() {
@@ -90,41 +106,77 @@ const _sfc_main = {
         return;
       }
       this.input_disable = true;
+      this.scrollToBottom();
       let project = this.project_range[this.project_value - 1].text;
       let keyword = this.inputMsg;
-      let res = await common_vendor.Ws.callFunction({
-        name: "callKnowledgeMap",
-        data: {
+      if (this.userId) {
+        const checkDbRes = await db.collection("knowledgeMap").where({
+          userId: this.userId,
           project,
           keyword,
           flag: 0
-          // 表示生成前置知识的flag
-        }
-      });
-      if (res.result.success) {
-        this.kimi_res = res.result.message;
-        this.history = res.result.history;
-        console.log(res);
-        this.userId = common_vendor.index.getStorageSync("user_id");
-        if (this.userId) {
-          await db.collection("knowledgeMap").add({
-            userId: this.userId,
-            posttime: Date.now(),
-            project,
-            keyword,
-            flag: 0,
-            answer: this.kimi_res
+        }).get();
+        console.log(checkDbRes);
+        if (checkDbRes.result.data.length) {
+          this.kimi_res = checkDbRes.result.data[0].answer;
+          this.msgList.push({
+            botContent: this.kimi_res
           });
-          console.log("数据存储成功");
+          this.input_disable = false;
+          this.scrollToBottom();
+        } else {
+          console.log("数据库中没有数据");
+          console.log("调用kimi获取知识框架");
+          let res = await common_vendor.Ws.callFunction({
+            name: "callKnowledgeMap",
+            data: {
+              project,
+              keyword,
+              flag: 0
+              // 表示生成前置知识的flag
+            }
+          });
+          if (res.result.success) {
+            this.kimi_res = res.result.message;
+            this.history = res.result.history;
+            console.log(res);
+            this.msgList.push({
+              botContent: this.kimi_res
+            });
+          } else {
+            console.error(res.result.error);
+          }
+          this.input_disable = false;
+          this.scrollToBottom();
+          let questionGenRes = await common_vendor.Ws.callFunction({
+            name: "questionGen",
+            data: {
+              project,
+              keyword
+            }
+          });
+          this.reviewQuestion = questionGenRes.result.message;
+          console.log("生成复习问题列表成功");
+          console.log(this.reviewQuestion);
+          if (questionGenRes.result.success) {
+            if (this.userId) {
+              await db.collection("knowledgeMap").add({
+                userId: this.userId,
+                posttime: Date.now(),
+                project,
+                keyword,
+                flag: 0,
+                answer: this.kimi_res,
+                reviewQuestion: this.reviewQuestion,
+                masterLevel: 0
+              });
+              console.log("数据存储成功");
+            }
+          } else {
+            console.error(res.result.error);
+          }
         }
-      } else {
-        console.error(res.result.error);
       }
-      this.msgList.push({
-        botContent: this.kimi_res
-      });
-      this.input_disable = false;
-      this.scrollToBottom();
     },
     async callAdvancedKnowledge() {
       if (this.project_value == 0 || this.inputMsg == "") {
@@ -135,39 +187,77 @@ const _sfc_main = {
         return;
       }
       this.input_disable = true;
-      let res = await common_vendor.Ws.callFunction({
-        name: "callKnowledgeMap",
-        data: {
-          project: this.project_range[this.project_value - 1].text,
-          keyword: this.inputMsg,
-          flag: 1
-          // 表示生成进阶知识的flag
-        }
-      });
-      if (res.result.success) {
-        this.kimi_res = res.result.message;
-        this.history = res.result.history;
-        console.log(res);
-        this.userId = common_vendor.index.getStorageSync("user_id");
-        if (this.userId) {
-          await db.collection("knowledgeMap").add({
-            userId: this.userId,
-            posttime: Date.now(),
-            project: this.project_range[this.project_value - 1].text,
-            keyword: this.inputMsg,
-            flag: 1,
-            answer: this.kimi_res
-          });
-          console.log("数据存储成功");
-        }
-      } else {
-        console.error(res.result.error);
-      }
-      this.msgList.push({
-        botContent: this.kimi_res
-      });
-      this.input_disable = false;
       this.scrollToBottom();
+      let project = this.project_range[this.project_value - 1].text;
+      let keyword = this.inputMsg;
+      if (this.userId) {
+        const checkDbRes = await db.collection("knowledgeMap").where({
+          userId: this.userId,
+          project,
+          keyword,
+          flag: 1
+        }).get();
+        console.log(checkDbRes);
+        if (checkDbRes.result.data.length) {
+          this.kimi_res = checkDbRes.result.data[0].answer;
+          this.msgList.push({
+            botContent: this.kimi_res
+          });
+          this.input_disable = false;
+          this.scrollToBottom();
+        } else {
+          console.log("数据库中没有数据");
+          console.log("调用kimi获取知识框架");
+          let res = await common_vendor.Ws.callFunction({
+            name: "callKnowledgeMap",
+            data: {
+              project,
+              keyword,
+              flag: 1
+              // 表示生成进阶知识的flag
+            }
+          });
+          if (res.result.success) {
+            this.kimi_res = res.result.message;
+            this.history = res.result.history;
+            console.log(res);
+            this.msgList.push({
+              botContent: this.kimi_res
+            });
+          } else {
+            console.error(res.result.error);
+          }
+          this.input_disable = false;
+          this.scrollToBottom();
+          let questionGenRes = await common_vendor.Ws.callFunction({
+            name: "questionGen",
+            data: {
+              project,
+              keyword
+            }
+          });
+          this.reviewQuestion = questionGenRes.result.message;
+          console.log("生成复习问题列表成功");
+          console.log(this.reviewQuestion);
+          if (questionGenRes.result.success) {
+            if (this.userId) {
+              await db.collection("knowledgeMap").add({
+                userId: this.userId,
+                posttime: Date.now(),
+                project,
+                keyword,
+                flag: 1,
+                answer: this.kimi_res,
+                reviewQuestion: this.reviewQuestion,
+                masterLevel: 0
+              });
+              console.log("数据存储成功");
+            }
+          } else {
+            console.error(res.result.error);
+          }
+        }
+      }
     },
     project_change() {
       return;

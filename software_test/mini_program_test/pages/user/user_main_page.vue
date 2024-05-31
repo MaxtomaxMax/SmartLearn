@@ -17,10 +17,10 @@
 			<view class="flex-row group_3">
 				<image
 					class="shrink-0 self-center image_4"
-					src="../../static/ui_icon/avatar.png"
+					:src=avatarUrl
 				/>
 				<view class="flex-col items-start flex-1" style="align-self: center; padding-left: 30rpx;">
-					<text class="text">{{nickname}}</text>
+					<text class="text">{{username}}</text>
 					<text class="font text_2 mt-9">{{signature}}</text>
 				</view>
 			</view>
@@ -140,8 +140,6 @@ export default {
             containerWidth: '0px',
             containerHeight: '0px',
             
-            nickname: "Jasmine",
-            signature: "balabalawulawula",
             learninghours: 5,
             learningminutes: 26,
             finishedcount: 19,
@@ -150,11 +148,32 @@ export default {
             avestress: 33,
             reviewedcount: 333,
             unreviewcount: 424,
+			
+			userId: "",
+			avatarUrl:"../../static/ui_icon/avatar.png",
+			username: "未命名用户",
+			signature:"",
         };
     },
     onLoad() {
+		// 获取屏幕高度
     	this.setContainerSize();
+		
+		// 获取用户ID
+		this.userId = uni.getStorageSync("user_id");
+		
+		
     },
+	
+	onShow() {
+		// 获取头像地址
+		this.avatarUrl = uni.getStorageSync("avatar_url");
+		console.log("头像地址:", this.avatarUrl);
+		
+		// 获取用户名和个性签名
+		this.username = uni.getStorageSync("username");
+		this.signature = uni.getStorageSync("signature");
+	},
     methods: {
 		setContainerSize() {
 			try {

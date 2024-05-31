@@ -52,8 +52,15 @@ const _sfc_main = {
           common_vendor.index.switchTab({
             url: "/pages/review/learning"
           });
+          console.log(emailRes);
           let userId = emailRes.result.data[0]._id;
+          let avatarUrl = emailRes.result.data[0].avatar;
+          let signature = emailRes.result.data[0].signature;
+          let username = emailRes.result.data[0].username;
           common_vendor.index.setStorageSync("user_id", userId);
+          common_vendor.index.setStorageSync("avatar_url", avatarUrl);
+          common_vendor.index.setStorageSync("signature", signature);
+          common_vendor.index.setStorageSync("username", username);
           console.log("用户登录信息成功存储");
         } else {
           console.log("密码匹配失败");
