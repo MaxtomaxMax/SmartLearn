@@ -81,6 +81,13 @@
       "style": {
         "navigationBarTitleText": ""
       }
+    },
+    {
+    	"path" : "pages/learn/thisTimeReport",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : ""
+    	}
     }
   ],
   "globalStyle": {
