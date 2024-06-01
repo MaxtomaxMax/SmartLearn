@@ -7703,6 +7703,12 @@ const pages = [
   },
   {
     path: "pages/user/settings"
+  },
+  {
+    path: "pages/user/detect_record"
+  },
+  {
+    path: "pages/user/detecting60s"
   }
 ];
 const globalStyle = {

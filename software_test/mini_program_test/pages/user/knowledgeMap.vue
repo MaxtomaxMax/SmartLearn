@@ -581,7 +581,7 @@
 }
 .msgLeft {
     position: relative;
-    max-width: 800rpx;
+    max-width: 486rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
     padding: 0 12rpx 0 12rpx;

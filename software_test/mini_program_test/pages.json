@@ -56,6 +56,9 @@
 		},
 		{
 			"path": "pages/user/detect_record"
+		},
+		{
+			"path": "pages/user/detecting60s"
 		}
     ],
     "globalStyle": {

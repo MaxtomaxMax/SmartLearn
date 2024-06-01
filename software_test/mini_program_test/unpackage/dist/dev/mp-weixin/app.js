@@ -19,6 +19,8 @@ if (!Math) {
   "./pages/review/reflectionchart.js";
   "./pages/review/review.js";
   "./pages/user/settings.js";
+  "./pages/user/detect_record.js";
+  "./pages/user/detecting60s.js";
 }
 const _sfc_main = {
   onLaunch: function() {

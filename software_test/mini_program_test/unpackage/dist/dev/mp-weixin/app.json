@@ -16,7 +16,9 @@
     "pages/user/knowledgeMap",
     "pages/review/reflectionchart",
     "pages/review/review",
-    "pages/user/settings"
+    "pages/user/settings",
+    "pages/user/detect_record",
+    "pages/user/detecting60s"
   ],
   "window": {
     "navigationBarTextStyle": "black",

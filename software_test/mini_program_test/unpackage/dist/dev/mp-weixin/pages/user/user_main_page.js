@@ -32,6 +32,11 @@ const _sfc_main = {
     this.signature = common_vendor.index.getStorageSync("signature");
   },
   methods: {
+    goDetectRecord() {
+      common_vendor.index.navigateTo({
+        url: "/pages/user/detect_record"
+      });
+    },
     setContainerSize() {
       try {
         const res = common_vendor.index.getSystemInfoSync();
@@ -79,10 +84,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: common_vendor.o((...args) => $options.goTodetect && $options.goTodetect(...args)),
     h: common_vendor.t($data.reviewedcount),
     i: common_vendor.t($data.unreviewcount),
-    j: common_vendor.t($data.detectcount),
-    k: common_vendor.t($data.avestress),
-    l: $data.containerWidth,
-    m: $data.containerHeight
+    j: common_vendor.o((...args) => $options.goDetectRecord && $options.goDetectRecord(...args)),
+    k: common_vendor.t($data.detectcount),
+    l: common_vendor.t($data.avestress),
+    m: $data.containerWidth,
+    n: $data.containerHeight
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-234aa2de"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/user_main_page.vue"]]);
