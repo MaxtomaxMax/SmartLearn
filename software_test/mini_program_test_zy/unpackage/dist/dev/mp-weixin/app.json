@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/learn/wait4bt",
-    "pages/user/detecting60s",
     "pages/reflection/reflectionchart",
     "pages/learn/learntiming",
     "pages/user/user_main_page",
@@ -13,7 +12,9 @@
     "pages/review/learned",
     "pages/user/detectreport",
     "pages/user/detectrecord",
-    "pages/review/learning"
+    "pages/review/learning",
+    "pages/learn/thisTimeReport",
+    "pages/user/detecting60s"
   ],
   "window": {
     "navigationBarTextStyle": "black",

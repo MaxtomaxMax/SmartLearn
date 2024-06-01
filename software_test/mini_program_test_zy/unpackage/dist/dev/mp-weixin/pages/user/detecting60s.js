@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const db = common_vendor.Ws.database();
 const _sfc_main = {
   components: {},
   props: {},
@@ -13,17 +14,18 @@ const _sfc_main = {
       characteristicid: "",
       // 假设你已知需要监听的特征ID
       BsreceivedData: [],
-      countdown: 60
+      countdown: 60,
+      BaseLineRMSSD: 0,
+      //得到服务器返回的BaseLineRMSSD测量结果，待上云之后需要同步到user页面显示
+      BaseLineSDNN: 0,
+      //得到服务器返回的BaseLineSDNN测量结果，待上云之后需要同步到user页面显示
+      baselineData: [],
+      userId: "66431ee5ee97ef5896bc5939"
     };
   },
   onLoad(options) {
     if (options.deviceId) {
       this.connectedDeviceid = options.deviceId;
-      common_vendor.index.showModal({
-        title: "蓝牙已连接:",
-        content: `连接蓝牙设备ID：${this.connectedDeviceid}`,
-        showCancel: false
-      });
     } else {
       console.error("No device ID passed to page");
       common_vendor.index.showModal({
@@ -43,11 +45,6 @@ const _sfc_main = {
           console.log(res.service);
           res.services.map((service) => service.uuid);
           that.service = res.services;
-          common_vendor.index.showModal({
-            title: "获取服务成功:",
-            content: `服务列表：${JSON.stringify(that.service)}`,
-            showCancel: false
-          });
         },
         fail: function(err) {
           that.info = "获取设备服务失败！" + err.message;
@@ -75,11 +72,6 @@ const _sfc_main = {
               write: chr.properties.write,
               read: chr.properties.read
             }));
-            common_vendor.index.showModal({
-              title: "获取特征值成功:",
-              content: `特征值列表：${JSON.stringify(that.characteristic)}`,
-              showCancel: false
-            });
           },
           fail: function(err) {
             that.info = "特征值获取失败" + err.message;
@@ -131,13 +123,11 @@ const _sfc_main = {
         // 假设你已经定义并初始化了 characteristicId 数组
         success: function(res) {
           console.log("notifyBLECharacteristicValueChange success");
-          that.info = "成功";
           common_vendor.index.showModal({
             title: "监听特征值变化:",
             content: `成功设置监听特征值变化！`,
             showCancel: false
           });
-          console.log("测试");
           console.log(res);
         },
         fail: function(err) {
@@ -160,7 +150,7 @@ const _sfc_main = {
       }
       common_vendor.index.onBLECharacteristicValueChange(function(res) {
         const hexData = ab2hex(res.value);
-        const timestamp = (/* @__PURE__ */ new Date()).toISOString();
+        const timestamp = Date.now();
         that.BsreceivedData.push({ data: hexData, time: timestamp });
       });
     },
@@ -168,10 +158,10 @@ const _sfc_main = {
     sendDataToServer() {
       const dataToSend = this.BsreceivedData;
       console.log("发送");
-      if (dataToSend.length > 0) {
+      {
         common_vendor.index.request({
-          url: "http://81.71.1.104:5000/smartlearn/milliwave-detection",
-          // 替换为你的云服务器地址
+          url: "http://175.178.102.44:5000/smartlearn/pressure-detection",
+          // 替换为云服务器地址
           method: "POST",
           data: dataToSend,
           header: {
@@ -179,12 +169,26 @@ const _sfc_main = {
             // 指定请求体格式为JSON
           },
           success: (res) => {
+            let data = res.data;
+            this.BaseLineRMSSD = parseInt(data.RMSSD), this.BaseLineSDNN = parseInt(data.SDNN), console.log("SDNN:", this.BaseLineSDNN);
+            console.log("RMSSD:", this.BaseLineRMSSD);
             common_vendor.index.showModal({
               title: "服务器返回结果",
               content: JSON.stringify(res.data, null, 2),
+              //content:'服务器返回结果:\n' + JSON.stringify(res.data, null, 2) + 
+              //'\n\n已发送的数据:\n' + JSON.stringify(dataToSend, null, 2),
               showCancel: false
             });
             this.BsreceivedData = [];
+            db.collection("baseline").add({
+              userId: this.userId,
+              RMSSD: this.BaseLineRMSSD,
+              SDNN: this.BaseLineSDNN
+            }).then((res2) => {
+              console.log(res2);
+            }).catch((err) => {
+              console.log(err);
+            });
           },
           fail: (err) => {
             common_vendor.index.showModal({
@@ -203,11 +207,12 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o((...args) => $options.getservice && $options.getservice(...args)),
-    b: common_vendor.o((...args) => $options.getcharacteristics && $options.getcharacteristics(...args)),
-    c: common_vendor.o((...args) => $options.charIdchange && $options.charIdchange(...args)),
-    d: common_vendor.o((...args) => $options.sendDataToServer && $options.sendDataToServer(...args)),
-    e: common_vendor.t($data.countdown)
+    a: common_vendor.o((...args) => $options.sendDataToServer && $options.sendDataToServer(...args)),
+    b: common_vendor.o((...args) => $options.getservice && $options.getservice(...args)),
+    c: common_vendor.o((...args) => $options.getcharacteristics && $options.getcharacteristics(...args)),
+    d: common_vendor.o((...args) => $options.charIdchange && $options.charIdchange(...args)),
+    e: common_vendor.o((...args) => $options.sendDataToServer && $options.sendDataToServer(...args)),
+    f: common_vendor.t($data.countdown)
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-f71916e6"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/user/detecting60s.vue"]]);

@@ -71,6 +71,7 @@
 }
 -->
 <script>
+const db = uniCloud.database();
 export default {
     components: {},
     props: {},
@@ -88,6 +89,9 @@ export default {
 			BaseLineRMSSD:0,//得到服务器返回的BaseLineRMSSD测量结果，待上云之后需要同步到user页面显示
 			BaseLineSDNN:0,//得到服务器返回的BaseLineSDNN测量结果，待上云之后需要同步到user页面显示
 			
+			baselineData:[],
+			
+			userId:"66431ee5ee97ef5896bc5939",
 			
 		};
     },
@@ -214,7 +218,7 @@ export default {
 				        characteristicId: characteristicid,  // 假设你已经定义并初始化了 characteristicId 数组
 				        success: function(res) {
 				            console.log('notifyBLECharacteristicValueChange success');
-				            that.info = "成功";
+				            
 							uni.showModal({
 							    title: '监听特征值变化:',
 							    content: `成功设置监听特征值变化！`,
@@ -258,14 +262,17 @@ export default {
 						});*/
 				    });
 		},
+		
 		//发送数据到云服务器
 		sendDataToServer() {
+					// 获取云端数据
+			
 		            const dataToSend = this.BsreceivedData;
 					console.log('发送');
 		            //if (dataToSend.length > 0) {
 						if (true) {
 		                uni.request({
-		                    url: 'http://42.194.198.63:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
+		                    url: 'http://175.178.102.44:5000/smartlearn/pressure-detection', // 替换为云服务器地址
 		                    method: 'POST',
 		                    data:dataToSend,
 							header: {
@@ -274,7 +281,9 @@ export default {
 		                    success: (res) => {
 								let data = res.data;
 								this.BaseLineRMSSD=parseInt(data.RMSSD),
-								this.BaseLineSDNN=parseInt(data.SDNN)
+								this.BaseLineSDNN=parseInt(data.SDNN),
+								console.log('SDNN:', this.BaseLineSDNN);
+								console.log('RMSSD:',this.BaseLineRMSSD);
 		                         // 显示返回结果的弹窗
 		                        uni.showModal({
 		                            title: '服务器返回结果',
@@ -284,6 +293,17 @@ export default {
 		                            showCancel: false
 		                        });
 		                        this.BsreceivedData = [];
+								
+								// 接收数据上云数据库
+								db.collection("baseline").add({
+									userId: this.userId,
+									RMSSD: this.BaseLineRMSSD,
+									SDNN: this.BaseLineSDNN,
+								}).then(res=>{
+									console.log(res);
+								}).catch(err=>{
+									console.log(err);
+								})
 		                    },
 		                    fail: (err) => {
 								uni.showModal({
@@ -299,6 +319,7 @@ export default {
 		                });
 		            }
 		},
+		
 				
 	},
 };

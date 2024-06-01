@@ -5,39 +5,20 @@ const _sfc_main = {
   props: {},
   data() {
     return {
-      nickname: "",
-      signature: "",
-      learninghours: 5,
-      learningminutes: 26,
-      finishedcount: 19,
-      studyingcount: 17,
-      detectcount: 526,
-      avestress: 33,
-      reviewedcount: 333,
-      unreviewcount: 424
+      currentDate1: ""
     };
   },
-  onShow() {
-    const globalData = getApp().globalData;
-    this.nickname = globalData.nickname;
-    this.signature = globalData.signature;
+  created() {
+    const today = /* @__PURE__ */ new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    this.currentDate1 = `${yyyy}/${mm}/${dd}`;
   },
   methods: {
-    ClicktoSetting() {
+    goTobttest() {
       common_vendor.index.navigateTo({
-        url: "/pages/user/settings"
-        // 目标页面的路径
-      });
-    },
-    goToReportPage() {
-      common_vendor.index.navigateTo({
-        url: "/pages/user/detectreport"
-        // 目标页面的路径
-      });
-    },
-    goTodetect() {
-      common_vendor.index.navigateTo({
-        url: "/pages/user/bslinedetect"
+        url: "/pages/user/bswait4bt"
         // 目标页面的路径
       });
     }
@@ -45,17 +26,8 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.t($data.nickname),
-    b: common_vendor.t($data.signature),
-    c: common_vendor.t($data.learninghours),
-    d: common_vendor.t($data.learningminutes),
-    e: common_vendor.o((...args) => $options.goTodetect && $options.goTodetect(...args)),
-    f: common_vendor.t($data.studyingcount),
-    g: common_vendor.t($data.finishedcount),
-    h: common_vendor.t($data.reviewedcount),
-    i: common_vendor.t($data.unreviewcount),
-    j: common_vendor.t($data.detectcount),
-    k: common_vendor.t($data.avestress)
+    a: common_vendor.t($data.currentDate1),
+    b: common_vendor.o((...args) => $options.goTobttest && $options.goTobttest(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-b6f1b0e8"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/user/bslinedetect.vue"]]);
