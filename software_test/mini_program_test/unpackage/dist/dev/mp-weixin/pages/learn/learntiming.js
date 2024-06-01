@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const db = common_vendor.Ws.database();
 const _sfc_main = {
   data() {
     return {
@@ -17,8 +18,9 @@ const _sfc_main = {
       // 存储单次学习时间，xxxx秒，需上云供数据库调用
       SDNNnum: 0,
       RMSSDnum: 0,
-      SDNNlist: [],
-      RMSSDlist: [],
+      SDNNlist: [1, 2, 3],
+      // 初始数据为测试数据
+      RMSSDlist: [4, 5, 6],
       receivedData: [],
       shootTimer: null,
       upBtTimer: null,
@@ -39,10 +41,15 @@ const _sfc_main = {
       //闭眼次数
       Yawncount: 0,
       //打哈欠计次
-      fatiguePlus: false
+      fatiguePlus: false,
+      userId: "",
+      SDNN_bs: 0,
+      // 用户baseline获取
+      RMSSD_bs: 0
     };
   },
   onLoad(options) {
+    this.userId = common_vendor.index.getStorageSync("user_id");
     if (options.deviceId) {
       this.connectedDeviceId = options.deviceId;
     } else {
@@ -53,7 +60,6 @@ const _sfc_main = {
         showCancel: false
       });
     }
-    this.stopAutoTakePhoto();
     this.checkAndRequestCameraPermission();
   },
   computed: {
@@ -400,7 +406,7 @@ const _sfc_main = {
         }, 1e3);
       }
     },
-    endTimer() {
+    async endTimer() {
       if (this.timer) {
         clearInterval(this.timer);
         this.timer = null;
@@ -411,6 +417,34 @@ const _sfc_main = {
         clearInterval(this.shootTimer);
         this.shootTimer = null;
       }
+      if (this.upBtTimer) {
+        clearInterval(this.upBtTimer);
+        this.upBtTimer = null;
+        console.log("定时上传已停止");
+      }
+      let uploadLearningDataRes = await db.collection("user_learning_data").add({
+        userId: this.userId,
+        timestamp: Date.now(),
+        elapsedTime: this.elapsedTime,
+        SDNNlist: this.SDNNlist,
+        RMSSDlist: this.RMSSDlist,
+        tiredTime: this.tiredTime,
+        NoattTime: this.NoattTime
+      });
+      console.log(uploadLearningDataRes);
+      let dataProcessRes = common_vendor.Ws.callFunction({
+        name: "learningDataProcess",
+        data: {
+          elapsedTime: this.elapsedTime,
+          SDNNlist: this.SDNNlist,
+          RMSSDlist: this.RMSSDlist,
+          tiredTime: this.tiredTime,
+          NoattTime: this.NoattTime,
+          RMSSD_bs: this.RMSSD_bs,
+          SDNN_bs: this.SDNN_bs
+        }
+      });
+      console.log(dataProcessRes);
     },
     goTothisReport() {
       common_vendor.index.navigateTo({

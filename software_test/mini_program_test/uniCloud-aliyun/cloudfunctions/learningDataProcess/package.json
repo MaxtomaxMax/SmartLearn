@@ -1,0 +1,7 @@
+{
+  "name": "learningDataProcess",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

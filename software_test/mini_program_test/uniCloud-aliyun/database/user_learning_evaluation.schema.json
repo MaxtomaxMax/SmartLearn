@@ -1,10 +1,10 @@
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
 	"bsonType": "object",
-	"required": [],
+	"required": ["userId", "learningId", "pressureValue", "attentionLevel"],
 	"permission": {
-		"read": false,
-		"create": false,
+		"read": true,
+		"create": true,
 		"update": false,
 		"delete": false
 	},

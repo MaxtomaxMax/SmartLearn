@@ -45,17 +45,17 @@
 						<view class="flex-col self-stretch section_7 mt-29">
 						    
 						    <view class="mt-10 grid">
-						        <view class="flex-col justify-start items-center relative grid-item">
-						            <text class="font_2" @click="startTimer">开始学习</text>
+						        <view class="flex-col justify-start items-center relative grid-item" @click="startTimer">
+						            <text class="font_2" >开始学习</text>
 						        </view>
-						        <view class="flex-col justify-start items-center relative grid-item">
-						            <text class="font_2" @click="stopTimer">暂停计时</text>
+						        <view class="flex-col justify-start items-center relative grid-item" @click="stopTimer">
+						            <text class="font_2" >暂停计时</text>
 						        </view>
-						        <view class="flex-col justify-start items-center relative grid-item">
-						            <text class="font_2" @click="continueTimer">继续学习</text>
+						        <view class="flex-col justify-start items-center relative grid-item" @click="continueTimer">
+						            <text class="font_2" >继续学习</text>
 						        </view>
-						        <view class="flex-col justify-start items-center relative grid-item">
-						            <text class="font_2"@click="endTimer">结束学习</text>
+						        <view class="flex-col justify-start items-center relative grid-item" @click="endTimer">
+						            <text class="font_2">结束学习</text>
 						        </view>
 						    </view>
 						</view>
@@ -181,6 +181,7 @@
 </template>
 
 <script>
+const db = uniCloud.database();
 export default {
     data() {
         return {
@@ -194,8 +195,8 @@ export default {
             allLearnTime: 0 ,// 存储单次学习时间，xxxx秒，需上云供数据库调用
 			SDNNnum:0,
 			RMSSDnum:0,
-			SDNNlist:[],
-			RMSSDlist:[],
+			SDNNlist:[1,2,3],	// 初始数据为测试数据
+			RMSSDlist:[4,5,6],
 			
 			receivedData:[],
 			shootTimer:null,
@@ -210,23 +211,31 @@ export default {
 			Closeeyecount:0,//闭眼次数
 			Yawncount:0,//打哈欠计次
 			fatiguePlus:false,
+			
+			userId:"",
+			SDNN_bs: 0,		// 用户baseline获取
+			RMSSD_bs: 0,
         };
     },
     onLoad(options) {
-           if (options.deviceId) {
-               this.connectedDeviceId = options.deviceId;
-               
-           } else {
-               console.error('No device ID passed to page');
-               uni.showModal({
-                   title: '蓝牙未连接成功:',
-                   content: '未接收到设备ID，无法连接蓝牙设备',
-                   showCancel: false
-               });
-           }
-		 this.stopAutoTakePhoto(); // 清除定时器
-		 this.checkAndRequestCameraPermission();
-       },
+		// 获取屏幕信息
+		
+		// 获取用户ID
+		this.userId = uni.getStorageSync("user_id");
+		
+		if (options.deviceId) {
+			this.connectedDeviceId = options.deviceId;
+		   
+		} else {
+			console.error('No device ID passed to page');
+			uni.showModal({
+				title: '蓝牙未连接成功:',
+				content: '未接收到设备ID，无法连接蓝牙设备',
+				showCancel: false
+			});
+		}
+		this.checkAndRequestCameraPermission();
+	},
 	   
     computed: {
 		
@@ -252,24 +261,22 @@ export default {
 		},
     },
     methods: {
-		
-		 checkAndRequestCameraPermission() {
-		      uni.getSetting({
-		        success: res => {
-		          if (!res.authSetting['scope.camera']) {
-		            // 如果未授权，则请求相机权限
-		            uni.authorize({
-		              scope: 'scope.camera',
-		              success: () => {
-		                console.log('相机授权成功');
-		                
-		              },
-		              fail: () => {
-		                uni.showModal({
-		                  title: '相机权限未授权',
-		                  content: '请授权相机权限以使用相机功能',
-		                  showCancel: false,
-		                  success: modalRes => {
+		checkAndRequestCameraPermission() {
+			uni.getSetting({
+				success: res => {
+					if (!res.authSetting['scope.camera']) {
+						// 如果未授权，则请求相机权限
+						uni.authorize({
+						scope: 'scope.camera',
+							success: () => {
+								console.log('相机授权成功');
+							},
+							fail: () => {
+		                    uni.showModal({
+		                    title: '相机权限未授权',
+		                    content: '请授权相机权限以使用相机功能',
+		                    showCancel: false,
+		                    success: modalRes => {
 		                    if (modalRes.confirm) {
 		                      // 
 		                      uni.openSetting({
@@ -652,17 +659,52 @@ export default {
                 }, 1000);
             }
         },
-        endTimer() {
+        async endTimer() {
             if (this.timer) {
                 clearInterval(this.timer);
                 this.timer = null;
             }
             this.allLearnTime = this.elapsedTime;
             this.elapsedTime = 0;
-			if (this.shootTimer) {
-			  clearInterval(this.shootTimer);
-			  this.shootTimer = null;
-			}
+        	//停止拍照的定时器
+        	if (this.shootTimer) {
+        	  clearInterval(this.shootTimer);
+        	  this.shootTimer = null;
+        	}
+        	// 停止蓝牙数据上传的定时器
+        	if (this.upBtTimer) {
+        	    clearInterval(this.upBtTimer);
+        	    this.upBtTimer = null;
+        	    console.log('定时上传已停止');
+        	}
+			
+			// 把数据上传到云数据库
+			let uploadLearningDataRes = await db.collection("user_learning_data")
+				.add({
+					userId: this.userId,
+					timestamp: Date.now(),
+					elapsedTime: this.elapsedTime,
+					SDNNlist: this.SDNNlist,
+					RMSSDlist: this.RMSSDlist,
+					tiredTime: this.tiredTime,
+					NoattTime: this.NoattTime,
+				});
+			console.log(uploadLearningDataRes);
+			
+			// 调用云函数进行运算
+			let dataProcessRes = uniCloud.callFunction({
+				name: "learningDataProcess",
+				data:{
+					elapsedTime: this.elapsedTime,
+					SDNNlist: this.SDNNlist,
+					RMSSDlist: this.RMSSDlist,
+					tiredTime: this.tiredTime,
+					NoattTime: this.NoattTime,
+					RMSSD_bs: this.RMSSD_bs,
+					SDNN_bs: this.SDNN_bs
+				}
+			});
+			console.log(dataProcessRes);
         },
 		goTothisReport(){
 			uni.navigateTo({
