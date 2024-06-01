@@ -274,20 +274,20 @@ export default {
 		sendDataToServer() {
 			const dataToSend = this.BsreceivedData;
 			console.log('发送');
-			db.collection("baseline").add({
-				userId: this.userId,
-				RMSSD: this.BaseLineRMSSD,
-				SDNN: this.BaseLineSDNN,
-			}).then(res=>{
-				console.log(res);
-			}).catch(err=>{
-				console.log(err);
-			})
-			return;
+			// db.collection("baseline").add({
+			// 	userId: this.userId,
+			// 	RMSSD: this.BaseLineRMSSD,
+			// 	SDNN: this.BaseLineSDNN,
+			// }).then(res=>{
+			// 	console.log(res);
+			// }).catch(err=>{
+			// 	console.log(err);
+			// })
+			// return;
 				
 			if (true) {
 				uni.request({
-					url: 'http://42.194.198.63:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
+					url: 'http://175.178.102.44:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
 					method: 'POST',
 					data:dataToSend,
 					header: {

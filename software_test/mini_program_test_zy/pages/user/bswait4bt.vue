@@ -14,7 +14,7 @@
         >
           <image
             class="image_5"
-            src="https://ide.code.fun/api/image?token=6644a6da7a1eb60011e6e14f&name=f6f7bfa6d4ead52df7f6ecc1218d104e.png"
+            src="../../static/ui_icon/bluetooth.png"
           />
           <text class="font text_3 mt-9">打开蓝牙</text>
         </view>
@@ -30,7 +30,7 @@
         >
           <image
             class="image_6"
-            src="https://ide.code.fun/api/image?token=6644a6da7a1eb60011e6e14f&name=6fb14d10b1bd1a6bd33d12a547b2c9d2.png"
+            src="../../static/ui_icon/search.png"
           />
           <text class="mt-8 font text_4">搜索设备</text>
         </view>
@@ -46,7 +46,7 @@
         >
           <image
             class="image_7 pos_3"
-            src="https://ide.code.fun/api/image?token=6644a6da7a1eb60011e6e14f&name=7cc341cb07eae6bff54b9d6af659349f.png"
+            src=""
           />
           <text class="font text_5">获取信息</text>
         </view>

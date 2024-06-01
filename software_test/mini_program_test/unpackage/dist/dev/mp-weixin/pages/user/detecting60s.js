@@ -179,18 +179,51 @@ const _sfc_main = {
     },
     //发送数据到云服务器
     sendDataToServer() {
-      this.BsreceivedData;
+      const dataToSend = this.BsreceivedData;
       console.log("发送");
-      db.collection("baseline").add({
-        userId: this.userId,
-        RMSSD: this.BaseLineRMSSD,
-        SDNN: this.BaseLineSDNN
-      }).then((res) => {
-        console.log(res);
-      }).catch((err) => {
-        console.log(err);
-      });
-      return;
+      {
+        common_vendor.index.request({
+          url: "http://175.178.102.44:5000/smartlearn/pressure-detection",
+          // 替换为你的云服务器地址
+          method: "POST",
+          data: dataToSend,
+          header: {
+            "Content-Type": "application/json"
+            // 指定请求体格式为JSON
+          },
+          success: (res) => {
+            let data = res.data;
+            this.BaseLineRMSSD = parseInt(data.RMSSD), this.BaseLineSDNN = parseInt(data.SDNN);
+            common_vendor.index.showModal({
+              title: "服务器返回结果",
+              content: JSON.stringify(res.data, null, 2),
+              //content:'服务器返回结果:\n' + JSON.stringify(res.data, null, 2) + 
+              //'\n\n已发送的数据:\n' + JSON.stringify(dataToSend, null, 2),
+              showCancel: false
+            });
+            this.BsreceivedData = [];
+            db.collection("baseline").add({
+              userId: this.userId,
+              RMSSD: this.BaseLineRMSSD,
+              SDNN: this.BaseLineSDNN
+            }).then((res2) => {
+              console.log(res2);
+            }).catch((err) => {
+              console.log(err);
+            });
+          },
+          fail: (err) => {
+            common_vendor.index.showModal({
+              title: "服务器返回结果:",
+              content: `无法发送数据到服务器，请稍后再试。错误信息：${err.errMsg}`,
+              showCancel: false
+            });
+          },
+          complete() {
+            console.log("发送完成");
+          }
+        });
+      }
     }
   }
 };

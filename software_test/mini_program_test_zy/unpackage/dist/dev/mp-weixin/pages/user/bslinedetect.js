@@ -30,5 +30,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_vendor.o((...args) => $options.goTobttest && $options.goTobttest(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-b6f1b0e8"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/user/bslinedetect.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-b6f1b0e8"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/user/bslinedetect.vue"]]);
 wx.createPage(MiniProgramPage);

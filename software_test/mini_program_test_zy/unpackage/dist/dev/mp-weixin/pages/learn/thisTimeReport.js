@@ -61,5 +61,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     j: common_vendor.t($data.problemCount)
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-fafd1d13"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/learn/thisTimeReport.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-fafd1d13"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/learn/thisTimeReport.vue"]]);
 wx.createPage(MiniProgramPage);

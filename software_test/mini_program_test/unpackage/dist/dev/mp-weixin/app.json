@@ -4,7 +4,6 @@
     "pages/user/user_main_page",
     "pages/review/learning",
     "pages/review/history",
-    "pages/learn/bt_connected",
     "pages/learn/wait4bt",
     "pages/review/learned",
     "pages/login/sign_up_success",
@@ -18,7 +17,10 @@
     "pages/review/review",
     "pages/user/settings",
     "pages/user/detect_record",
-    "pages/user/detecting60s"
+    "pages/user/detecting60s",
+    "pages/user/bslinedetect",
+    "pages/user/bswait4bt",
+    "pages/learn/learntiming"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -56,6 +58,11 @@
         "text": "吾身"
       }
     ]
+  },
+  "permission": {
+    "scope.bluetooth": {
+      "desc": "你的应用需要使用蓝牙"
+    }
   },
   "usingComponents": {}
 }

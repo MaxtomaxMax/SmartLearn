@@ -1,7 +1,6 @@
 <template>
     <view class="flex-col page">
         <view class="flex-col flex-1 group">
-            <view class="shrink-0 section_5"></view>
 			<view class="container">
 			    <camera 
 			       :key="cameraKey" id="myCamera"
@@ -17,10 +16,6 @@
 			</view>-->
             <view class="flex-col relative group_2 view">
                 <view class="flex-col section_6">
-                    <image
-                        class="self-center image_5"
-                        src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=f5ffa1faad1f2da2b07b17a3fe1e5e09.png"
-                    />
                     <view class="flex-col self-stretch mt-29">
                         <!--<text class="self-center text_2" @click="startTimer">GO!</text>-->
 
@@ -28,7 +23,7 @@
                             <view class="flex-row items-center">
                                 <image
                                     class="image_3"
-                                    src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=2f75093c4bd58121ca74137af03f707a.png"
+                                    src="../../static/ui_icon/bt_test.png"
                                 />
                                 <text class="font text_4 ml-5">蓝牙调试</text>
                             </view>
@@ -70,7 +65,7 @@
                     <view class="flex-row self-stretch">
                         <image
                             class="image_6"
-                            src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=3f4f714be92303b7275da786dd1e503a.png"
+                            src="../../static/ui_icon/totalTiming.png"
                         />
                         <text class="font text_5 ml-5">总计时</text>
                     </view>
@@ -80,25 +75,15 @@
                     <view class="flex-row group_3">
                         <image
                             class="image_6"
-                            src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=ab42ff36dd4bc9d14c16d4c238b461fe.png"
+                            src="../../static/ui_icon/pressureValue.png"
                         />
                         <text class="ml-4 font text_7">压力值</text>
                     </view>
-                    <!--<view class="flex-row group_4">
-                        <image
-                            class="image_7"
-                            src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4c928d9c835db657f8bc8f954d32939e.png"
-                        />
-                        <text class="font_3 ml-7">心跳</text>
-                    </view>
-                    <image
-                        class="image_8"
-                        src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4949f360447ba2c58b172a376744187b.png"
-                    />-->
+					
                     <view class="flex-row group_2 view_2">
                         <image
                             class="image_7"
-                            src="/static/ui_icon/HRVzhibiao.png"
+                            src="../../static/ui_icon/HRV.png"
                         />
                         <text class="font_3 text_8 ml-7">HRV指标</text>
                     </view>
@@ -118,21 +103,24 @@
 				    <view class="flex-row group_3">
 				        <image
 				            class="image_6"
-				            src="/static/ui_icon/tired.png"
+				            src="/static/ui_icon/tired_icon.png"
 				        />
 				        <text class="ml-4 font text_7">疲劳</text>
 				    </view>
 				    <view class="flex-row group_4">
 				        <image
 				            class="image_7"
-				            src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4c928d9c835db657f8bc8f954d32939e.png"
+				            src="../../static/ui_icon/tiredTiming.png"
 				        />
 				        <text class="font_3 ml-7">疲劳计时</text>
 				    </view>
 				    
 					<text class="mt-14 self-center text_6">{{tiredformatTime}}</text>
 				    <view class="flex-row group_2 view_2">
-				        
+						<image
+						    class="image_7"
+						    src="../../static/ui_icon/tiredBehav.png"
+						/>
 				        <text class="font_3 text_8 ml-7">疲劳行为</text>
 				    </view>
 				    <view class="flex-row equal-division">
@@ -151,14 +139,14 @@
 				    <view class="flex-row group_3">
 				        <image
 				            class="image_6"
-				            src="/static/ui_icon/tired.png"
+				            src="../../static/ui_icon/distract.png"
 				        />
 				        <text class="ml-4 font text_7">分心</text>
 				    </view>
 				    <view class="flex-row group_4">
 				        <image
 				            class="image_7"
-				            src="https://ide.code.fun/api/image?token=66475f8d7a1eb60011e75c52&name=4c928d9c835db657f8bc8f954d32939e.png"
+				            src="../../static/ui_icon/distractTiming.png"
 				        />
 				        <text class="font_3 ml-7">分心计时</text>
 				    </view>
@@ -166,7 +154,7 @@
 				    <view class="flex-row group_2 view_2"> 
 					    <image
 					        class="image_7"
-					        src="/static/ui_icon/fenxin.png"
+					        src="../../static/ui_icon/distractBehav.png"
 					    />
 				        <text class="font_3 text_8 ml-7">分心行为</text>
 				    </view>
