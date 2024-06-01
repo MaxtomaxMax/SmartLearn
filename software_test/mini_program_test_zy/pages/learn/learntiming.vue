@@ -606,7 +606,7 @@ export default {
 		    }
 		},
 		closeBluetooth() {
-		        // 停止数据上传的定时器
+		        // 停止蓝牙数据上传的定时器
 		        if (this.upBtTimer) {
 		            clearInterval(this.upBtTimer);
 		            this.upBtTimer = null;
@@ -671,9 +671,16 @@ export default {
             }
             this.allLearnTime = this.elapsedTime;
             this.elapsedTime = 0;
+			//停止拍照的定时器
 			if (this.shootTimer) {
 			  clearInterval(this.shootTimer);
 			  this.shootTimer = null;
+			}
+			// 停止蓝牙数据上传的定时器
+			if (this.upBtTimer) {
+			    clearInterval(this.upBtTimer);
+			    this.upBtTimer = null;
+			    console.log('定时上传已停止');
 			}
         },
 		goTothisReport(){
@@ -691,6 +698,7 @@ export default {
         if (this.isBluetoothAdapter) {
             uni.closeBluetoothAdapter();
         }
+		
     },
 	
 	
