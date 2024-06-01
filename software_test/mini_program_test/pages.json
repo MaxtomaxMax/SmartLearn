@@ -16,9 +16,6 @@
             "path": "pages/review/history"
         },
         {
-            "path": "pages/learn/bt_connected"
-        },
-        {
             "path": "pages/learn/wait4bt"
         },
         {
@@ -56,7 +53,20 @@
 		},
 		{
 			"path": "pages/user/detect_record"
+		},
+		{
+			"path": "pages/user/detecting60s"
+		},
+		{
+			"path": "pages/user/bslinedetect"
+		},
+		{
+			"path": "pages/user/bswait4bt"
+		},
+		{
+			"path": "pages/learn/learntiming"
 		}
+		
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",

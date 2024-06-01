@@ -44,7 +44,7 @@ const _sfc_main = {
     console.log("App Hide");
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/SmartLearn/software_test/mini_program_test_zy/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   return {

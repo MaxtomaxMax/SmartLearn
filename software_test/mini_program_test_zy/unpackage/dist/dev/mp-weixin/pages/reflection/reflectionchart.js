@@ -346,5 +346,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     i: common_vendor.o((...args) => $options.tap && $options.tap(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-75555798"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/reflection/reflectionchart.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-75555798"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/reflection/reflectionchart.vue"]]);
 wx.createPage(MiniProgramPage);

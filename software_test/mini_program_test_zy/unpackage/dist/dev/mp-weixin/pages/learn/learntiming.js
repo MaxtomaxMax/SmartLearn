@@ -452,5 +452,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     s: common_vendor.o((...args) => $options.goTothisReport && $options.goTothisReport(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-8da1649f"], ["__file", "D:/Git/SmartLearn/software_test/mini_program_test_zy/pages/learn/learntiming.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-8da1649f"], ["__file", "D:/SmartLearn/software_test/mini_program_test_zy/pages/learn/learntiming.vue"]]);
 wx.createPage(MiniProgramPage);

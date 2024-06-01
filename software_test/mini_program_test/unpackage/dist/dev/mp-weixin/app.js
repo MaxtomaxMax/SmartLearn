@@ -6,7 +6,6 @@ if (!Math) {
   "./pages/user/user_main_page.js";
   "./pages/review/learning.js";
   "./pages/review/history.js";
-  "./pages/learn/bt_connected.js";
   "./pages/learn/wait4bt.js";
   "./pages/review/learned.js";
   "./pages/login/sign_up_success.js";
@@ -19,6 +18,11 @@ if (!Math) {
   "./pages/review/reflectionchart.js";
   "./pages/review/review.js";
   "./pages/user/settings.js";
+  "./pages/user/detect_record.js";
+  "./pages/user/detecting60s.js";
+  "./pages/user/bslinedetect.js";
+  "./pages/user/bswait4bt.js";
+  "./pages/learn/learntiming.js";
 }
 const _sfc_main = {
   onLaunch: function() {

@@ -5,6 +5,8 @@ var uChartsInstance = {};
 const _sfc_main = {
   data() {
     return {
+      containerWidth: "0px",
+      containerHeight: "0px",
       activeTab: "week",
       cWidth: 750,
       cHeight: 500,
@@ -61,7 +63,6 @@ const _sfc_main = {
             "31"
           ],
           series: [
-            //{ name: '正常学习时间', data: [20, 25, 22, 30], color: '#ffb238' },
             {
               name: "学习时间",
               data: [
@@ -111,7 +112,6 @@ const _sfc_main = {
             "十二月"
           ],
           series: [
-            //{ name: '正常学习时间', data: [100, 120, 110, 150, 160, 130, 140, 170, 180, 190, 200, 210], color: '#ffb238' },
             {
               name: "学习时间",
               data: [5, 10, 13, 10, 10, 16, 10, 8, 10, 10, 3, 10],
@@ -120,10 +120,9 @@ const _sfc_main = {
           ]
         },
         total: {
-          type: "line",
+          type: "bar",
           categories: ["2018", "2019", "2020", "2021", "2022"],
           series: [
-            // { name: '正常学习时间', data: [500, 600, 550, 700, 750], color: '#ffb238' },
             {
               name: "高压学习时间",
               data: [245, 540, 816, 224, 92],
@@ -142,7 +141,27 @@ const _sfc_main = {
       this.chartData.week
     );
   },
+  onLoad() {
+    this.setContainerSize();
+    this.userId = common_vendor.index.getStorageSync("user_id");
+  },
   methods: {
+    setContainerSize() {
+      try {
+        const res = common_vendor.index.getSystemInfoSync();
+        console.log(res);
+        const screenWidth = res.screenWidth;
+        const screenHeight = res.screenHeight - res.screenTop;
+        if (screenWidth && screenHeight) {
+          this.containerWidth = `${screenWidth}px`;
+          this.containerHeight = `${screenHeight}px`;
+        } else {
+          console.error("获取 screenWidth 或 screenHeight 失败");
+        }
+      } catch (err) {
+        console.error("获取系统信息失败", err);
+      }
+    },
     a(i) {
       if (this.activeTab == i) {
         return;
@@ -154,7 +173,7 @@ const _sfc_main = {
           this.chartData.week
         );
       } else if (this.activeTab == "total") {
-        this.drawChartszhuzhaungtu(
+        this.drawChartsBar(
           "iCNaOsBiQOyeQimNgKXrtNkyqEaHNQww",
           this.chartData[i]
         );
@@ -165,7 +184,7 @@ const _sfc_main = {
         );
       }
     },
-    drawChartszhuzhaungtu(id, data) {
+    drawChartsBar(id, data) {
       const ctx = common_vendor.index.createCanvasContext(id, this);
       uChartsInstance[id] = new uni_modules_qiunDataCharts_js_sdk_uCharts_uCharts.uCharts({
         type: "column",
@@ -215,28 +234,22 @@ const _sfc_main = {
         }
       });
     },
-    getServerData() {
-      setTimeout(() => {
-        let res = {
-          type: "line",
-          categories: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-          series: [
-            //{ name: '正常学习时间', data: [20, 25, 22, 30], color: '#ffb238' },
-            {
-              name: "学习时间",
-              data: [12, 5, 7, 2, 9, 4, 2, 5, 10, 6],
-              color: "#7451ff"
-            }
-          ]
-          // categories: ['一', '二', '三', '四', '五', '六', '日'],
-          // 	          series: [
-          // 	            { name: '正常学习时间', data: [4, 5, 3, 6, 7, 4, 2], color: '#ffb238' },
-          // 	            { name: '高压学习时间', data: [1, 1, 1, 1, 1, 1, 1], color: '#7451ff' }
-          // 	          ]
-        };
-        this.drawChartsLine("iCNaOsBiQOyeQimNgKXrtNkyqEaHNQww", res);
-      }, 500);
-    },
+    // getServerData() {
+    //     setTimeout(() => {
+    //         let res = {
+    //             type: "line",
+    //             categories: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+    //             series: [
+    //                 {
+    //                     name: "学习时间",
+    //                     data: [12, 5, 7, 2, 9, 4, 2, 5, 10, 6],
+    //                     color: "#7451ff",
+    //                 },
+    //             ],
+    //         };
+    //         this.drawChartsLine("iCNaOsBiQOyeQimNgKXrtNkyqEaHNQww", res);
+    //     }, 500);
+    // },
     drawChartsLine(id, data) {
       const ctx = common_vendor.index.createCanvasContext(id, this);
       uChartsInstance[id] = new uni_modules_qiunDataCharts_js_sdk_uCharts_uCharts.uCharts({
@@ -263,7 +276,8 @@ const _sfc_main = {
         enableScroll: false,
         legend: {},
         xAxis: {
-          disableGrid: true
+          disableGrid: true,
+          fontSize: 10
         },
         yAxis: {
           gridType: "dash",
@@ -318,11 +332,7 @@ const _sfc_main = {
           column: {
             type: "stack",
             width: 30,
-            // activeBgColor: "#000000",
-            // activeBgOpacity: 0.08,
-            // labelPosition: "center",
             barBorderCircle: true
-            // linearType: "custom"
           }
         }
       });
@@ -343,7 +353,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     f: common_vendor.n($data.activeTab === "year" ? "active" : ""),
     g: common_vendor.o(($event) => $options.a("total")),
     h: common_vendor.n($data.activeTab === "total" ? "active" : ""),
-    i: common_vendor.o((...args) => $options.tap && $options.tap(...args))
+    i: common_vendor.o((...args) => $options.tap && $options.tap(...args)),
+    j: $data.containerWidth,
+    k: $data.containerHeight
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-3de7eb56"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/review/reflectionchart.vue"]]);

@@ -7666,9 +7666,6 @@ const pages = [
     path: "pages/review/history"
   },
   {
-    path: "pages/learn/bt_connected"
-  },
-  {
     path: "pages/learn/wait4bt"
   },
   {
@@ -7703,6 +7700,21 @@ const pages = [
   },
   {
     path: "pages/user/settings"
+  },
+  {
+    path: "pages/user/detect_record"
+  },
+  {
+    path: "pages/user/detecting60s"
+  },
+  {
+    path: "pages/user/bslinedetect"
+  },
+  {
+    path: "pages/user/bswait4bt"
+  },
+  {
+    path: "pages/learn/learntiming"
   }
 ];
 const globalStyle = {
@@ -8038,7 +8050,7 @@ class v {
 function I(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "10.192.106.63"\n    ],\n    "debugPort": 9001,\n    "initialLaunchType": "remote",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), P = b, T = I('{\n    "address": [\n        "127.0.0.1",\n        "10.192.106.63"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "remote",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), C = I('[{"provider":"aliyun","spaceName":"smart-learn","spaceId":"mp-9f6339ac-fb18-4d54-823e-1d2a4a18ddfd","clientSecret":"a7CcN+0Hm5IEYcg9wRa0Ig==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let O = "";
 try {
   O = "__UNI__F218843";

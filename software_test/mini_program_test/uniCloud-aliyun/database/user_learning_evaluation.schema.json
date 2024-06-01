@@ -1,0 +1,32 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": false,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"userId":{
+			"bsonType": "string",
+			"title": "用户ID"
+		},
+		"learningId":{
+			"bsonType": "string",
+			"title": "对应学习数据的ID"
+		},
+		"pressureValue":{
+			"bsonType": "double",
+			"title": "计算得到的压力值"
+		},
+		"attentionLevel":{
+			"bsonType": "double",
+			"title": "单次学习的专注度"
+		}
+	}
+}
