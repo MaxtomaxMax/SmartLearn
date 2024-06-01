@@ -177,9 +177,9 @@ export default {
     methods: {
 		goDetectRecord(){
 			uni.navigateTo({
-				url:"/pages/user/detect_record"
-			})
-		}
+				url:"/pages/user/detect_record",
+			});
+		},
 		setContainerSize() {
 			try {
 				const res = uni.getSystemInfoSync();
