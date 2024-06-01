@@ -1,0 +1,45 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"userId":{
+			"bsonType": "string",
+			"title": "关联用户的ID",
+			"trim": "both"
+		},
+		"posttime":{
+			"bsonType": "timestamp",
+			"title": "时间戳",
+			"description": "可以是用户发送的时间"
+		},
+		"project":{
+			"bsonType": "string",
+			"title": "项目",
+			"description": "提问的项目"
+		},
+		"keyword":{
+			"bsonType": "string",
+			"title": "关键词"
+		},
+		"flag":{
+			"bsonType": "int",
+			"title": "判断标志",
+			"description": "0为前置知识，1为进阶知识"
+		}
+		"answer":{
+			"bsonType": "string",
+			"title": "回答",
+			"description": "AI作出的回答"
+		}
+	}
+}

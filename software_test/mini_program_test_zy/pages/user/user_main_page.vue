@@ -122,7 +122,7 @@
             <text class="font_6">今年在学12本</text>
           </view>
         </view>
-        <view class="flex-col grid-item_1">
+        <view class="flex-col grid-item_1" @click="unicloudTest">
           <view class="flex-row items-center self-stretch">
             <image
               class="image_6"
@@ -203,6 +203,7 @@
 </template>
 
 <script>
+	const db = uniCloud.database();
 export default {
   components: {},
   props: {},
@@ -227,6 +228,16 @@ export default {
   },
 
   methods: {
+	  unicloudTest(){
+		  db.collection("SmartLearn_user").doc("66431ee5ee97ef5896bc5939").get()
+		  	.then(res=>{
+		  		console.log(res);
+		  	}).catch(err=>{
+		  		console.log(err);
+		  	})
+		  
+		  return;
+	  },
     ClicktoSetting() {
       uni.navigateTo({
         url: "/pages/user/settings", // 设置页面

@@ -31,7 +31,7 @@ const _sfc_main = {
     },
     goToReportPage() {
       common_vendor.index.navigateTo({
-        url: "/pages/user/detectreport"
+        url: "/pages/user/detectrecord"
         // 监测数据页面
       });
     },

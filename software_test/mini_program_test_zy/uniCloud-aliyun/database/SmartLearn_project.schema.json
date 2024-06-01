@@ -1,0 +1,25 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"userId":{
+			"bsonType": "string",
+			"title": "关联用户的ID",
+			"trim": "both"
+		},
+		"project_name": {
+			"bsonType": "string",
+			"title": "学习项目名称"
+		}
+	}
+}

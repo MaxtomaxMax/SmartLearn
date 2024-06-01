@@ -1,583 +1,311 @@
 <template>
-  <view class="flex-col page">
-    <view class="flex-col flex-1 group_2">
-      <view class="flex-col justify-start relative header">
-        <view class="flex-row justify-between group">
-          <image
-            class="image_2"
-            src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=24f8cb1f241816c388d930864dda0c7a.png"
-          />
-          <image
-            class="image_3"
-            src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=76bd8d16aed8583c32db970875acfaa3.png"
-          />
-        </view>
-      </view>
-      <view class="flex-col group_18">
-        <view class="flex-row group_3">
-          <image
-            class="shrink-0 self-center image_4"
-            src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=2182e647b8a6ea71092fe15fb8980ccd.png"
-          />
-          <view class="ml-14 flex-col items-start flex-1 self-start group_4">
-            <text class="text">{{ nickname }}</text>
-            <text class="font text_2 mt-9">{{ signature }}</text>
-          </view>
-        </view>
-
-        <view class="flex-col section">
-          <!--<view class="flex-row justify-between items-center section_2">
-                        <view class="flex-row items-center">
-                            <image
-                                class="shrink-0 image_5"
-                                src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=7ef3ccd9929c972089b8a5d57be030b8.png"
-                            />
-                            <text class="font_2 text_3 ml-11">学习排行榜</text>
-                        </view>
-                        <view class="group_5">
-                            <text class="font text_5">第</text>
-                            <text class="font_3 text_4">2</text>
-                            <text class="font text_6">名</text>
-                        </view>
-                    </view>-->
-          <view class="flex-row justify-between items-center section_2">
-            <view class="flex-row items-center">
-              <image
-                class="shrink-0 image_5"
-                src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=c4fb0376d2d6e382037314edaf19e346.png"
-              />
-              <text class="font_2 text_7 ml-11">净学习时长</text>
-            </view>
-            <view class="group_6">
-              <text class="font_3 text_8">{{ learninghours }}</text>
-              <text class="font_4 text_10">小时</text>
-              <text class="font_3 text_9">{{ learningminutes }}</text>
-              <text class="font text_11">分钟</text>
-            </view>
-          </view>
-
-          <!--<view class="flex-row justify-between items-center section_2">
-                        <view class="flex-row items-center">
-                            <image
-		finishedcount:19,
-		studyingcount:17,
-		detectcount:526,
-		avestress:33,
-                                class="shrink-0 image_5"
-                                src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=77eebaf052db6d0fa4ff6bd543121640.png"
-                            />
-                            <text class="font_2 text_12 ml-11">勋章</text>
-                        </view>
-                        <view class="group_7">
-                            <text class="font_3 text_13">25</text>
-                            <text class="font text_14">枚勋章</text>
-                        </view>
-                    </view>-->
-        </view>
-        <view>
-          <text class="self-start font_33 text_31"
-            >BASELINE-MONITOR·平静检测</text
-          >
-          <view
-            class="mt-14 flex-row justify-between items-center self-stretch section_30"
-            @click="goTodetect"
-          >
-            <view class="flex-row items-center">
-              <view class="flex-row items-center">
-                <view class="section_31"></view>
+    <view class="flex-col page">
+        <view class="flex-col">
+            <view class="flex-row justify-between items-center section">
+                <text class="text">12:30</text>
                 <image
-                  class="image_34 ml-5"
-                  src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=456c1bf87981560e563e0ca30574dc71.png"
+                    class="image"
+                    src="https://ide.code.fun/api/image?token=66478e3ba2432f00114f852d&name=cde61db4b88cce707c0a0cdc4c4eb952.png"
                 />
-              </view>
-              <view class="ml-18 flex-col items-center">
-                <text class="font_34 text_32">BASELINE-MONITOR</text>
-                <text class="mt-12 font_33">平静值检测</text>
-              </view>
             </view>
-            <image
-              class="image_35"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=9efdfc28904bd019d621cdadf31e2692.png"
-            />
-          </view>
+            <view class="flex-row justify-between items-center section_2">
+                <image
+                    class="image_2"
+                    src="https://ide.code.fun/api/image?token=66478e3ba2432f00114f852d&name=9b78ae5708b188309a05cbdc8fbc4daa.png"
+                />
+                <view class="flex-row items-center section_3">
+                    <view class="flex-row justify-start items-center image-wrapper">
+                        <image
+                            class="image_4"
+                            src="https://ide.code.fun/api/image?token=66478e3ba2432f00114f852d&name=07861491b7438d6582d49e350633044a.png"
+                        />
+                    </view>
+                    <view class="section_4 ml-11"></view>
+                    <view class="flex-row justify-start items-center image-wrapper ml-11">
+                        <image
+                            class="image_3"
+                            src="https://ide.code.fun/api/image?token=66478e3ba2432f00114f852d&name=3ce34d5e3bdec744bfd23a7768dbbb16.png"
+                        />
+                    </view>
+                </view>
+            </view>
         </view>
-      </view>
-
-      <view class="grid">
-        <view class="flex-col grid-item_1">
-          <view class="flex-row items-center self-stretch">
-            <image
-              class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=e59a70c1e3080a67cd25840e2e3cf158.png"
-            />
-            <text class="ml-12 font_5 text_25">在学</text>
-          </view>
-          <view class="self-start group_8 mt-9">
-            <text class="font_4">{{ studyingcount }}</text>
-            <text class="font_6">
-              本在学
-              <br />
-            </text>
-            <text class="font_6">今年在学12本</text>
-          </view>
+        <view class="flex-col group mt-27">
+            <view class="flex-row justify-center items-center self-stretch relative group_2">
+                <image
+                    class="image_5 pos"
+                    src="https://ide.code.fun/api/image?token=66478e3ba2432f00114f852d&name=b5edc2f97ef94958494bb7aa5b3f5719.png"
+                />
+                <view class="group_3">
+                    <text class="font text_2">
+                        BASELINE-MONITOR
+                        <br />
+                    </text>
+                    <text class="font_2">{{currentDate1}}</text>
+                </view>
+                <view class="section_5 pos_2"></view>
+            </view>
+            <view class="flex-col self-stretch group_4">
+                <view class="flex-col items-start section_6">
+                    <text class="font text_3">检测说明</text>
+                    <view class="group_5 mt-15">
+                        <text class="font_3">
+                            为了更好的监测学习压力
+                            <br />
+                        </text>
+                        <text class="font_3">需要您在每日</text>
+                        <text class="font_2">最平静</text>
+                        <text class="font_3">
+                            时进行一次压力监测
+                            <br />
+                        </text>
+                        <text class="font_3">
+                            放空心情
+                            <br />
+                        </text>
+                        <text class="font_3">请放好摄像头，</text>
+                        <text class="font_2">
+                            使上半身入画
+                            <br />
+                        </text>
+                        <text class="font_3">
+                            跟随指引
+                            <br />
+                        </text>
+                        <text class="font_3">这</text>
+                        <text class="font_2">1分钟</text>
+                        <text class="font_3">，彻底松弛吧~</text>
+                    </view>
+                </view>
+                <view class="mt-16 flex-col section_7">
+                    <text class="self-start font text_4">图例</text>
+                    <view class="mt-12 flex-row self-stretch">
+                        <view class="section_8">
+                            <image
+                                class="image_6"
+                                src="/static/logo.png"
+                            />
+                        </view>
+                        <view class="section_9">
+                            <image
+                                class="image_7"
+                                src="https://ide.code.fun/api/image?token=66478e3ba2432f00114f852d&name=example2.png"
+                            />
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="flex-col justify-start items-center button text-wrapper" @click="goTobttest"><text class="text_5">开始</text></view>
         </view>
-        <view class="flex-col grid-item_1">
-          <view class="flex-row items-center self-stretch">
-            <image
-              class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=6aa68ad6f689258b883452447311a124.png"
-            />
-            <text class="ml-12 font_5 text_15">学完</text>
-          </view>
-          <view class="self-start group_8 mt-9">
-            <text class="font_4">{{ finishedcount }}</text>
-            <text class="font_6">
-              本学完
-              <br />
-            </text>
-            <text class="font_6">今年学完5本</text>
-          </view>
-        </view>
-        <view class="flex-col grid-item">
-          <view class="flex-row items-center self-stretch">
-            <image
-              class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=6a497b9441a91bddb96ee9a9c92e5858.png"
-            />
-            <text class="ml-12 font_5 text_26">答疑</text>
-          </view>
-          <view class="self-start group_1 mt-9">
-            <text class="font_4">2829</text>
-            <text class="font_6">
-              个答疑
-              <br />
-            </text>
-            <text class="font_6">留在了26本书上</text>
-          </view>
-        </view>
-        <view class="flex-col grid-item_1">
-          <view class="flex-row items-center self-stretch">
-            <image
-              class="image_6"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=6fede10a8dac1767fdff2d1922b8c5b1.png"
-            />
-            <text class="ml-12 font_5 text_1">复习</text>
-          </view>
-          <view class="self-start group_8 mt-9">
-            <text class="font_4">{{ reviewedcount }}</text>
-            <text class="font_6">
-              条已复习
-              <br />
-            </text>
-            <text class="font_6">{{ unreviewcount }}条未复习</text>
-          </view>
-        </view>
-      </view>
-      <view class="flex-col section_3">
-        <view class="flex-row justify-between items-center section_4">
-          <view class="flex-row items-center">
-            <image
-              class="shrink-0 image_5"
-              src="https://ide.code.fun/api/image?token=6647a0967a1eb60011e76379&name=51a5d645ce89bc89c1c7e9f8cdc370c5.png"
-            />
-            <text class="font_2 text_16 ml-11">监测报告</text>
-          </view>
-          <view class="group_9">
-            <text class="font_4">已监测</text>
-            <text class="font_7">{{ detectcount }}</text>
-            <text class="font_4">
-              次
-              <br />
-            </text>
-            <text class="font_4">平均压力值</text>
-            <text class="font_7">{{ avestress }}%</text>
-          </view>
-        </view>
-      </view>
     </view>
-  </view>
 </template>
 
 <script>
 export default {
-  components: {},
-  props: {},
-  data() {
-    return {
-      nickname: "",
-      signature: "",
-      learninghours: 5,
-      learningminutes: 26,
-      finishedcount: 19,
-      studyingcount: 17,
-      detectcount: 526,
-      avestress: 33,
-      reviewedcount: 333,
-      unreviewcount: 424,
-    };
-  },
-  onShow() {
-    const globalData = getApp().globalData;
-    this.nickname = globalData.nickname;
-    this.signature = globalData.signature;
-  },
+    components: {},
+    props: {},
+    data() {
+        return {
+			currentDate1:''
+		};
+    },
+	created() {
+	        const today = new Date();
+	        const yyyy = today.getFullYear();
+	        const mm = String(today.getMonth() + 1).padStart(2, '0');
+	        const dd = String(today.getDate()).padStart(2, '0');
+	        this.currentDate1 = `${yyyy}/${mm}/${dd}`;
+	},
 
-  methods: {
-    ClicktoSetting() {
-      uni.navigateTo({
-        url: "/pages/user/settings", // 目标页面的路径
-      });
-    },
-    goToReportPage() {
-      uni.navigateTo({
-        url: "/pages/user/detectreport", // 目标页面的路径
-      });
-    },
-    goTodetect() {
-      uni.navigateTo({
-        url: "/pages/user/bslinedetect", // 目标页面的路径
-      });
-    },
-  },
+    methods: {
+		goTobttest(){
+			uni.navigateTo({
+			      url: '/pages/user/bswait4bt' // 目标页面的路径
+			  });
+		}
+	},
 };
 </script>
 
 <style scoped lang="css">
 .ml-11 {
-  margin-left: 22.92rpx;
+    margin-left: 22.92rpx;
 }
-.mt-9 {
-  margin-top: 18.75rpx;
+.mt-27 {
+    margin-top: 56.25rpx;
+}
+.mt-15 {
+    margin-top: 31.25rpx;
 }
 .page {
-  background-color: #f4f2fc;
-  border-radius: 58.33rpx;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100vh;
-}
-.group_2 {
-  padding-bottom: 77.08rpx;
-  overflow-y: auto;
-}
-.header {
-  margin-top: -91.67rpx;
-  padding: 91.67rpx 0 22.92rpx;
-}
-.group {
-  padding-left: 41.67rpx;
-  padding-right: 41.67rpx;
-}
-.image_2 {
-  width: 41.67rpx;
-  height: 41.67rpx;
-}
-.image_3 {
-  width: 50rpx;
-  height: 41.67rpx;
-}
-.group_18 {
-  margin: 10.42rpx 41.67rpx 0 41.67rpx;
-}
-.group_3 {
-  padding-bottom: 25rpx;
-}
-.image_4 {
-  border-radius: 50%;
-  width: 100rpx;
-  height: 100rpx;
-}
-.group_4 {
-  margin-right: 40rpx;
-  margin-top: 25rpx;
-}
-.text {
-  margin-left: 5.21rpx;
-  color: #000000;
-  font-size: 29.17rpx;
-  font-family: PingFang SC;
-  font-weight: 600;
-  line-height: 21.23rpx;
+    padding-bottom: 283.33rpx;
+    background-image: linear-gradient(180deg, #ffeacc 0%, #f4f2fc 64.5%);
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
 }
 .section {
-  padding: 16.67rpx 0 16.67rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
+    padding: 12.5rpx 33.33rpx;
+    background-color: #ffffff;
+}
+.text {
+    color: #000000;
+    font-size: 25rpx;
+    font-family: Inter;
+    line-height: 18.73rpx;
+}
+.image {
+    width: 127.38rpx;
+    height: 39.58rpx;
 }
 .section_2 {
-  padding: 37.5rpx 41.67rpx 37.5rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
+    padding: 22.92rpx 12.5rpx 22.92rpx 33.33rpx;
+    background-color: #ffffff;
 }
-.image_5 {
-  border-radius: 50%;
-  width: 50rpx;
-  height: 50rpx;
-}
-.font_2 {
-  font-size: 25rpx;
-  font-family: PingFang SC;
-  line-height: 25rpx;
-  color: #000000;
-}
-.text_3 {
-  line-height: 23.38rpx;
-}
-.group_5 {
-  margin-right: 27.17rpx;
-  line-height: 24.27rpx;
-  height: 26.38rpx;
-}
-.font_3 {
-  font-size: 33.33rpx;
-  font-family: PingFang SC;
-  line-height: 25rpx;
-  color: #979797;
-}
-.text_4 {
-  line-height: 24.27rpx;
-}
-.text_7 {
-  line-height: 23.08rpx;
-}
-.group_6 {
-  margin-right: 24.71rpx;
-  line-height: 24.73rpx;
-  height: 26.4rpx;
-}
-.text_8 {
-  line-height: 24.73rpx;
-}
-.font_4 {
-  font-size: 20.83rpx;
-  font-family: PingFang SC;
-  line-height: 25rpx;
-  color: #979797;
-}
-.text_10 {
-  line-height: 18.73rpx;
-}
-.text_9 {
-  line-height: 23.79rpx;
-}
-.text_12 {
-  line-height: 23.25rpx;
-}
-.group_7 {
-  margin-right: 24.06rpx;
-  line-height: 24.73rpx;
-  height: 26.46rpx;
-}
-.text_13 {
-  line-height: 24.73rpx;
-}
-.grid {
-  margin: 41.67rpx 41.67rpx 0 41.67rpx;
-  height: 366.67rpx;
-  display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  row-gap: 35.33rpx;
-  column-gap: 35.33rpx;
-}
-.grid-item_1 {
-  padding: 25rpx 25.67rpx 28.38rpx 25.67rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
-}
-.image_6 {
-  border-radius: 50%;
-  width: 48rpx;
-  height: 48rpx;
-}
-.font_5 {
-  font-size: 25rpx;
-  font-family: PingFang SC;
-  letter-spacing: 2.5rpx;
-  line-height: 25rpx;
-  color: #000000;
-}
-.text_25 {
-  line-height: 23.25rpx;
-}
-.group_8 {
-  line-height: 20.83rpx;
-}
-.font_6 {
-  font-size: 16.67rpx;
-  font-family: PingFang SC;
-  line-height: 20.83rpx;
-  color: #979797;
-}
-.text_15 {
-  line-height: 23.29rpx;
-}
-.grid-item {
-  padding: 25rpx 25.67rpx 28.31rpx 25.67rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
-}
-.text_26 {
-  line-height: 23.35rpx;
-}
-.group_1 {
-  line-height: 20.83rpx;
-}
-.text_1 {
-  line-height: 23.17rpx;
+.image_2 {
+    width: 18.75rpx;
+    height: 35.42rpx;
 }
 .section_3 {
-  margin: 41.67rpx 41.67rpx 0 41.67rpx;
-  padding-top: 16.67rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
+    padding: 12.5rpx 25rpx;
+    background-color: #ffffff;
+    border-radius: 38.65rpx;
+    height: 66.67rpx;
+    border-left: solid 1.04rpx #e9e9e9;
+    border-right: solid 1.04rpx #e9e9e9;
+    border-top: solid 1.04rpx #e9e9e9;
+    border-bottom: solid 1.04rpx #e9e9e9;
+}
+.image-wrapper {
+    width: 39.58rpx;
+}
+.image_4 {
+    width: 39.58rpx;
+    height: 14.58rpx;
 }
 .section_4 {
-  padding: 24.69rpx 41.67rpx 14.9rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
+    background-color: #e9e9e9;
+    width: 1.04rpx;
+    height: 41.67rpx;
 }
-.text_16 {
-  line-height: 23.15rpx;
+.image_3 {
+    width: 37.5rpx;
+    height: 37.5rpx;
 }
-.group_9 {
-  margin-right: 7.52rpx;
-  text-align: center;
-  width: 173.63rpx;
-  height: 85.42rpx;
+.group {
+    padding: 0 41.67rpx;
 }
-.font_7 {
-  font-size: 33.33rpx;
-  font-family: PingFang SC;
-  line-height: 39.58rpx;
-  color: #979797;
+.group_2 {
+    margin-right: 8.33rpx;
 }
-.section_5 {
-  padding: 25.17rpx 41.67rpx 21.29rpx;
-  background-color: #ffffff;
-  border-radius: 25rpx;
+.image_5 {
+    width: 41.67rpx;
+    height: 41.67rpx;
 }
-.text_17 {
-  line-height: 23.02rpx;
+.pos {
+    position: absolute;
+    left: 0;
+    top: 3.52rpx;
 }
-.group_10 {
-  margin-right: 22.6rpx;
-  line-height: 25rpx;
-  text-align: center;
-  height: 78.54rpx;
-}
-.tab-bar {
-  padding: 52.17rpx 60.5rpx 43.65rpx 66.75rpx;
-  background-color: #ffffff;
-  border-radius: 58.33rpx;
-  box-shadow: 0rpx 1.04rpx 0rpx #0000002e inset;
-  backdrop-filter: blur(0rpx);
-}
-.group_11 {
-  height: 77.06rpx;
-}
-.image_7 {
-  width: 54rpx;
-  height: 54rpx;
+.group_3 {
+    line-height: 25rpx;
+    text-align: center;
 }
 .font {
-  font-size: 20.83rpx;
-  font-family: PingFang SC;
-  line-height: 20.83rpx;
-  color: #979797;
-}
-.text_14 {
-  line-height: 19.4rpx;
-}
-.text_11 {
-  line-height: 19.1rpx;
-}
-.text_6 {
-  line-height: 19.08rpx;
-}
-.text_5 {
-  line-height: 19.27rpx;
+    font-size: 29.17rpx;
+    font-family: PingFang SC;
+    color: #000000;
 }
 .text_2 {
-  font-weight: 600;
-  line-height: 21.85rpx;
+    line-height: 35.42rpx;
 }
-.font_8 {
-  font-size: 20.83rpx;
-  font-family: PingFang SC;
-  line-height: 20.83rpx;
-  color: #a6a9b2;
+.font_2 {
+    font-size: 20.83rpx;
+    font-family: PingFang SC;
+    line-height: 25rpx;
+    color: #000000;
 }
-.text_18 {
-  line-height: 19.21rpx;
+.section_5 {
+    background-color: #00000000;
+    width: 50rpx;
+    height: 50rpx;
 }
-.group_12 {
-  height: 77.08rpx;
+.pos_2 {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
-.text_19 {
-  line-height: 19.44rpx;
+.group_4 {
+    margin-top: 54.17rpx;
 }
-.group_13 {
-  height: 76.98rpx;
+.section_6 {
+    padding: 33.33rpx 37.5rpx;
+    background-color: #ffffff;
+    border-radius: 25rpx;
 }
-.text_20 {
-  line-height: 19.13rpx;
+.text_3 {
+    line-height: 27.42rpx;
 }
-.group_14 {
-  height: 77.1rpx;
+.group_5 {
+    line-height: 25rpx;
+    width: 413.5rpx;
 }
-.text_21 {
-  color: #7451ff;
-  line-height: 19.42rpx;
+.font_3 {
+    font-size: 20.83rpx;
+    font-family: PingFang SC;
+    line-height: 25rpx;
+    color: #979797;
 }
-.list {
-  margin: 27.08rpx 0 -95.83rpx;
+.section_7 {
+    padding: 33.33rpx 0;
+    background-color: #ffffff;
+    border-radius: 25rpx;
 }
-.list-item {
-  padding: 33.33rpx 41.67rpx;
-  background-color: #ffffff;
+.text_4 {
+    margin-left: 41.67rpx;
+    line-height: 27.21rpx;
 }
-.image_35 {
-  margin-right: 41.67rpx;
-  width: 18.75rpx;
-  height: 25rpx;
+.section_8 {
+    flex: 1 1 333.33rpx;
+    background-color: #f2f2f2e6;
+    height: 287.5rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.list-item:first-child {
-  margin-top: 0;
+.section_9 {
+    flex: 1 1 333.33rpx;
+    background-color: #d9d9d9;
+    height: 287.5rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.font_33 {
-  font-size: 20.83rpx;
-  font-family: PingFang SC;
-  line-height: 19.31rpx;
-  color: #000000;
+.image_6 {
+    width: 300rpx;
+    height: 200rpx;
 }
-.text_31 {
-  line-height: 19.29rpx;
+.image_7 {
+    width: 300rpx;
+    height: 200rpx;
 }
-.section_30 {
-  background-color: #f4f2fc;
-  border-radius: 8.33rpx;
+.button {
+    align-self: center;
+    margin-top: 150rpx;
 }
-.section_31 {
-  background-image: linear-gradient(180deg, #ff9328 0%, #7451ff 100%);
-  border-radius: 8.33rpx;
-  width: 6.25rpx;
-  height: 116.67rpx;
+.text-wrapper {
+    padding: 37.5rpx 0;
+    background-image: linear-gradient(180deg, #453099b3 0%, #7451ff 100%);
+    border-radius: 104.17rpx;
+    width: 264.58rpx;
 }
-.image_34 {
-  filter: drop-shadow(0rpx 2.08rpx 4.17rpx #00000040);
-  width: 79.17rpx;
-  height: 75rpx;
-}
-.font_34 {
-  font-size: 25rpx;
-  font-family: PingFang SC;
-  line-height: 23.48rpx;
-  font-weight: 600;
-  color: #000000;
-}
-.text_32 {
-  line-height: 18.54rpx;
+.text_5 {
+    color: #ffffff;
+    font-size: 41.67rpx;
+    font-family: PingFang SC;
+    font-weight: 600;
+    line-height: 39.17rpx;
 }
 </style>

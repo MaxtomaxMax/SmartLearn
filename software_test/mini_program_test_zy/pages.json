@@ -5,12 +5,7 @@
     {
       "path": "pages/learn/wait4bt"
     },
-    {
-      "path": "pages/user/detecting60s",
-      "style": {
-        "navigationBarTitleText": " "
-      }
-    },
+   
     {
       "path": "pages/reflection/reflectionchart",
       "style": {
@@ -84,6 +79,13 @@
     },
     {
     	"path" : "pages/learn/thisTimeReport",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : ""
+    	}
+    },
+    {
+    	"path" : "pages/user/detecting60s",
     	"style" : 
     	{
     		"navigationBarTitleText" : ""

@@ -1,0 +1,48 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": ["email", "password"],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"email":{
+			"bsonType": "string",
+			"title": "邮箱",
+			"trim":"both",
+			"format": "email",
+			"unique":true,
+			"errorMessage":"邮箱格式不合法"
+		},
+		"password":{
+			"bsonType": "string",
+			"title": "密码",
+			"trim": "both"
+			// 存的是哈希密码，应该在前端进行校验
+			// "minLength": 6,
+			// "maxLength": 16,
+			// "errorMessage":"密码长度应该在6-16位"
+		},
+		"username":{
+			"bsonType": "string",
+			"title": "用户名",
+			"defaultValue":"未命名用户"
+		},
+		"signature":{
+			"bsonType": "string",
+			"title": "个性签名",
+			"defaultValue":"来写下自己的个性签名吧~"
+		},
+		"avatar":{
+			"bsonType": "string",
+			"title": "头像",
+			"description": "用户"
+		}
+	}
+}
