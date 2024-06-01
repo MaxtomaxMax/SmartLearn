@@ -28,7 +28,7 @@
 							<view class="msgRight">
 								<text class="text-style">{{item.userContent}}</text>
 							</view>
-							<image class="avatar" src="../../static/logo.png"></image>
+							<image class="avatar" :src=avatar></image>
 						</view>
 						<view class="flex-row botMsg" v-if="item.botContent != ''">
 							<!-- kimi的信息 -->
@@ -85,6 +85,8 @@
 				kimi_res:'',
 				history: [],
 				scroll_anchor:'',
+				
+				avatar:"../../static/ui_icon/logo_black.png",
 			};
 		},
 		computed: {
@@ -116,7 +118,11 @@
 			this.sendHeight();
 		},
 		onLoad() {
+			// 获取屏幕数据
 			this.setContainerSize();
+			
+			// 获取头像地址
+			this.avatar = uni.getStorageSync("avatar_url");
 		},
 		methods: {
 			setContainerSize() {
@@ -280,7 +286,7 @@
 }
 .loading-msgLeft {
     position: relative;
-    max-width: 486rpx;
+    max-width: 800rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
     padding: 24rpx 24rpx;

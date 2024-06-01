@@ -485,11 +485,11 @@
 }
 .preKnowledgeButton{
 	padding-right: 40rpx;
-	width: 320rpx;
+	width: 350rpx;
 }
 .advancedKnowledgeButton{
 	padding-left: 40rpx;
-	width: 320rpx;
+	width: 350rpx;
 }
 .button-container{
 	height: 80rpx;
@@ -581,7 +581,7 @@
 }
 .msgLeft {
     position: relative;
-    max-width: 486rpx;
+    max-width: 800rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
     padding: 0 12rpx 0 12rpx;

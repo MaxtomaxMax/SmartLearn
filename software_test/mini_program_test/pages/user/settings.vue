@@ -378,8 +378,8 @@ export default {
 .image_5 {
     margin-right: 8.33rpx;
     border-radius: 50%;
-    width: 50rpx;
-    height: 50rpx;
+    width: 40rpx;
+    height: 40rpx;
 }
 .text_7 {
     line-height: 26.96rpx;

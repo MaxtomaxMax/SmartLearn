@@ -8,7 +8,7 @@
 }
 .loading-msgLeft.data-v-e32e353c {
     position: relative;
-    max-width: 486rpx;
+    max-width: 800rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
     padding: 24rpx 24rpx;

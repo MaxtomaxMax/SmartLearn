@@ -1,10 +1,10 @@
 {
-  "name": "callKnowledgeMap",
-  "dependencies": {
-	  "axios": "^1.6.8",
-	  "bcryptjs": "^2.4.3"
-  },
-  "extensions": {
-    "uni-cloud-jql": {}
-  }
+    "cloudfunction-config": {
+        "memorySize": 512,
+        "timeout": 60,
+        "triggers": [],
+        "path": "",
+        "runtime": "Nodejs8",
+        "concurrency": 10
+    }
 }

@@ -109,7 +109,7 @@
 		</view>
 		<view class="flex-col section_3">
 			<view class="flex-row justify-between items-center section_4">
-				<view class="flex-row items-center">
+				<view class="flex-row items-center" @click="goDetectRecord">
 					<image
 						class="shrink-0 image_5"
 						src="../../static/ui_icon/report.png"
@@ -175,6 +175,11 @@ export default {
 		this.signature = uni.getStorageSync("signature");
 	},
     methods: {
+		goDetectRecord(){
+			uni.navigateTo({
+				url:"/pages/user/detect_record"
+			})
+		}
 		setContainerSize() {
 			try {
 				const res = uni.getSystemInfoSync();

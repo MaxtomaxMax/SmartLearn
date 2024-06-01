@@ -9,11 +9,11 @@
 }
 .preKnowledgeButton.data-v-85f07247{
 	padding-right: 40rpx;
-	width: 320rpx;
+	width: 350rpx;
 }
 .advancedKnowledgeButton.data-v-85f07247{
 	padding-left: 40rpx;
-	width: 320rpx;
+	width: 350rpx;
 }
 .button-container.data-v-85f07247{
 	height: 80rpx;
@@ -100,7 +100,7 @@
 }
 .msgLeft.data-v-85f07247 {
     position: relative;
-    max-width: 486rpx;
+    max-width: 800rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
     padding: 0 12rpx 0 12rpx;

@@ -18,7 +18,8 @@ const _sfc_main = {
       msgList: [],
       kimi_res: "",
       history: [],
-      scroll_anchor: ""
+      scroll_anchor: "",
+      avatar: "../../static/ui_icon/logo_black.png"
     };
   },
   computed: {
@@ -44,6 +45,7 @@ const _sfc_main = {
   },
   onLoad() {
     this.setContainerSize();
+    this.avatar = common_vendor.index.getStorageSync("avatar_url");
   },
   methods: {
     setContainerSize() {
@@ -186,16 +188,17 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return common_vendor.e({
         a: item.userContent != ""
       }, item.userContent != "" ? {
-        b: common_vendor.t(item.userContent)
+        b: common_vendor.t(item.userContent),
+        c: $data.avatar
       } : {}, {
-        c: item.botContent != ""
+        d: item.botContent != ""
       }, item.botContent != "" ? {
-        d: "e32e353c-0-" + i0,
-        e: common_vendor.p({
+        e: "e32e353c-0-" + i0,
+        f: common_vendor.p({
           source: item.botContent
         })
       } : {}, {
-        f: index
+        g: index
       });
     }),
     f: this.input_disable
