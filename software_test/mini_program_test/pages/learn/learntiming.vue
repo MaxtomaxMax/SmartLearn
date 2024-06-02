@@ -195,8 +195,8 @@ export default {
             allLearnTime: 0 ,// 存储单次学习时间，xxxx秒，需上云供数据库调用
 			SDNNnum:0,
 			RMSSDnum:0,
-			SDNNlist:[1,2,3],	// 初始数据为测试数据
-			RMSSDlist:[4,5,6],
+			SDNNlist:[],	// 初始数据为测试数据
+			RMSSDlist:[],
 			
 			receivedData:[],
 			shootTimer:null,
@@ -217,11 +217,25 @@ export default {
 			RMSSD_bs: 0,
         };
     },
-    onLoad(options) {
+    async onLoad(options) {
 		// 获取屏幕信息
 		
 		// 获取用户ID
 		this.userId = uni.getStorageSync("user_id");
+		
+		// 获取baseline
+		let getBsRes = await db.collection("baseline")
+			.where({
+				userId: this.userId,
+			})
+			.get()
+		// console.log(getBsRes);
+		this.RMSSD_bs = getBsRes.result.data[0].RMSSD;
+		this.SDNN_bs = getBsRes.result.data[0].SDNN;
+		console.log({
+			RMSSD: this.RMSSD_bs,
+			SDNN: this.SDNN_bs
+		})
 		
 		if (options.deviceId) {
 			this.connectedDeviceId = options.deviceId;
@@ -334,7 +348,7 @@ export default {
 		
 		uploadPhotoToServer1(filePath) {
 		      uni.uploadFile({
-		        url: 'http://42.194.198.63:5000/smartlearn/fatigue-detection', // 
+		        url: 'http://175.178.240.155:5000/smartlearn/fatigue-detection', // 
 		        filePath: filePath,
 		        name: 'file',
 		        formData: {
@@ -386,7 +400,7 @@ export default {
 		// 上传到第二个服务器
 		uploadPhotoToServer2(filePath) {
 		  uni.uploadFile({
-		    url: 'http://42.194.198.63:5000/smartlearn/human-detection', 
+		    url: 'http://175.178.240.155:5000/smartlearn/human-detection', 
 		    filePath: filePath,
 		    name: 'file',
 		    formData: {
@@ -562,42 +576,42 @@ export default {
         },
         
 		uploadBtData(){
-			    const dataToSend = this.receivedData;
-		        if (dataToSend.length > 0) {
-		            //console.log("Uploading data to the server: " + this.receivedData);
-		            // 在这里添加你的上传逻辑，例如使用 uni.request
-		            uni.request({
-		                url: 'http://42.194.198.63:5000/smartlearn/pressure-detection',
-		                method: 'POST',
-		                data:dataToSend,
-						header: {
-						    'Content-Type': 'application/json', // 指定请求体格式为JSON
-						},
-		                success: (res) => {
-		                    let data = res.data;
-		                    this.RMSSDnum = parseInt(data.RMSSD);
-		                    this.SDNNnum = parseInt(data.SDNN);
-		                    
-		                    // 显示返回结果的弹窗
-		                    this.SDNNlist.push({ SDNN: this.SDNNnum });
-		                    this.RMSSDlist.push({ RMSSD: this.RMSSDnum });
-		                    
-		                    console.log('SDNNlist:', this.SDNNlist);
-		                    console.log('RMSSDlist:', this.RMSSDlist);
-		                    
-		                    uni.showModal({
-		                        title: '服务器返回结果',
-		                        content: JSON.stringify(res.data, null, 2),
-		                        showCancel: false
-		                    });
-		                    
-		                    this.receivedData = []; // 清空接收数据列表
-		                    console.log('Data uploaded successfully', res);
-		                },
-		                fail: function(uploadErr) {
-		                    console.error('Failed to upload data', uploadErr);
-		                }
-		            });
+			const dataToSend = this.receivedData;
+			if (dataToSend.length > 0) {
+				//console.log("Uploading data to the server: " + this.receivedData);
+				// 在这里添加你的上传逻辑，例如使用 uni.request
+				uni.request({
+					url: 'http://175.178.240.155:5000/smartlearn/pressure-detection',
+					method: 'POST',
+					data:dataToSend,
+					header: {
+						'Content-Type': 'application/json', // 指定请求体格式为JSON
+					},
+					success: (res) => {
+						let data = res.data;
+						this.RMSSDnum = parseInt(data.RMSSD);
+						this.SDNNnum = parseInt(data.SDNN);
+						
+						// 显示返回结果的弹窗
+						this.SDNNlist.push({ SDNN: this.SDNNnum });
+						this.RMSSDlist.push({ RMSSD: this.RMSSDnum });
+						
+						console.log('SDNNlist:', this.SDNNlist);
+						console.log('RMSSDlist:', this.RMSSDlist);
+						
+						uni.showModal({
+							title: '服务器返回结果',
+							content: JSON.stringify(res.data, null, 2),
+							showCancel: false
+						});
+						
+						this.receivedData = []; // 清空接收数据列表
+						console.log('Data uploaded successfully', res);
+					},
+					fail: function(uploadErr) {
+						console.error('Failed to upload data', uploadErr);
+					}
+				});
 		    }
 		},
 		closeBluetooth() {
@@ -678,12 +692,24 @@ export default {
         	    console.log('定时上传已停止');
         	}
 			
+			// if (!this.elapsedTime && !this.tiredTime && this.NoattTime){
+			// 	return;
+			// }
+			// if (this.SDNNlist.length == 0){
+			// 	return;
+			// }
+			
+			// 测试数据
+			// this.SDNNlist = [{"SDNN":0},{"SDNN":152},{"SDNN":111},{"SDNN":130}];
+			// this.RMSSDlist = [{"RMSSD":0},{"RMSSD":248},{"RMSSD":125},{"RMSSD":206}];
+
+			
 			// 把数据上传到云数据库
 			let uploadLearningDataRes = await db.collection("user_learning_data")
 				.add({
 					userId: this.userId,
 					timestamp: Date.now(),
-					elapsedTime: this.elapsedTime,
+					elapsedTime: this.allLearnTime,
 					SDNNlist: this.SDNNlist,
 					RMSSDlist: this.RMSSDlist,
 					tiredTime: this.tiredTime,
@@ -691,8 +717,17 @@ export default {
 				});
 			console.log(uploadLearningDataRes);
 			
+			// 测试数据
+			// this.SDNNlist = [{"SDNN":0},{"SDNN":152},{"SDNN":111},{"SDNN":130}];
+			// this.RMSSDlist = [{"RMSSD":0},{"RMSSD":248},{"RMSSD":125},{"RMSSD":206}];
+			// this.tiredTime = 10;
+			// this.NoattTime = 40;
+			// this.elapsedTime = 186;
+			// this.RMSSD_bs = 129;
+			// this.SDNN_bs = 64;
+			
 			// 调用云函数进行运算
-			let dataProcessRes = uniCloud.callFunction({
+			let dataProcessRes = await uniCloud.callFunction({
 				name: "learningDataProcess",
 				data:{
 					elapsedTime: this.elapsedTime,
@@ -705,6 +740,21 @@ export default {
 				}
 			});
 			console.log(dataProcessRes);
+			
+			if (!dataProcessRes.result.pressureValue || !dataProcessRes.result.attentionLevel){
+				return;
+			}
+			
+			// 测试用
+			// return;
+			let uploadEvalRes = await db.collection("user_learning_evaluation")
+				.add({
+					userId: this.userId,
+					learningId: uploadLearningDataRes.result.id,
+					pressureValue: dataProcessRes.result.data[0].pressureValue,
+					attentionLevel: dataProcessRes.result.data[0].attentionLevel
+				})
+			console.log(uploadEvalRes);
         },
 		goTothisReport(){
 			uni.navigateTo({

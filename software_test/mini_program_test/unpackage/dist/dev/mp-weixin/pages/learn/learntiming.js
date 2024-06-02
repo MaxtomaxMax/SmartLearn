@@ -18,9 +18,9 @@ const _sfc_main = {
       // 存储单次学习时间，xxxx秒，需上云供数据库调用
       SDNNnum: 0,
       RMSSDnum: 0,
-      SDNNlist: [1, 2, 3],
+      SDNNlist: [],
       // 初始数据为测试数据
-      RMSSDlist: [4, 5, 6],
+      RMSSDlist: [],
       receivedData: [],
       shootTimer: null,
       upBtTimer: null,
@@ -48,8 +48,17 @@ const _sfc_main = {
       RMSSD_bs: 0
     };
   },
-  onLoad(options) {
+  async onLoad(options) {
     this.userId = common_vendor.index.getStorageSync("user_id");
+    let getBsRes = await db.collection("baseline").where({
+      userId: this.userId
+    }).get();
+    this.RMSSD_bs = getBsRes.result.data[0].RMSSD;
+    this.SDNN_bs = getBsRes.result.data[0].SDNN;
+    console.log({
+      RMSSD: this.RMSSD_bs,
+      SDNN: this.SDNN_bs
+    });
     if (options.deviceId) {
       this.connectedDeviceId = options.deviceId;
     } else {
@@ -143,7 +152,7 @@ const _sfc_main = {
     },
     uploadPhotoToServer1(filePath) {
       common_vendor.index.uploadFile({
-        url: "http://42.194.198.63:5000/smartlearn/fatigue-detection",
+        url: "http://175.178.240.155:5000/smartlearn/fatigue-detection",
         // 
         filePath,
         name: "file",
@@ -183,7 +192,7 @@ const _sfc_main = {
     // 上传到第二个服务器
     uploadPhotoToServer2(filePath) {
       common_vendor.index.uploadFile({
-        url: "http://42.194.198.63:5000/smartlearn/human-detection",
+        url: "http://175.178.240.155:5000/smartlearn/human-detection",
         filePath,
         name: "file",
         formData: {
@@ -323,7 +332,7 @@ const _sfc_main = {
       const dataToSend = this.receivedData;
       if (dataToSend.length > 0) {
         common_vendor.index.request({
-          url: "http://42.194.198.63:5000/smartlearn/pressure-detection",
+          url: "http://175.178.240.155:5000/smartlearn/pressure-detection",
           method: "POST",
           data: dataToSend,
           header: {
@@ -425,14 +434,14 @@ const _sfc_main = {
       let uploadLearningDataRes = await db.collection("user_learning_data").add({
         userId: this.userId,
         timestamp: Date.now(),
-        elapsedTime: this.elapsedTime,
+        elapsedTime: this.allLearnTime,
         SDNNlist: this.SDNNlist,
         RMSSDlist: this.RMSSDlist,
         tiredTime: this.tiredTime,
         NoattTime: this.NoattTime
       });
       console.log(uploadLearningDataRes);
-      let dataProcessRes = common_vendor.Ws.callFunction({
+      let dataProcessRes = await common_vendor.Ws.callFunction({
         name: "learningDataProcess",
         data: {
           elapsedTime: this.elapsedTime,
@@ -445,6 +454,10 @@ const _sfc_main = {
         }
       });
       console.log(dataProcessRes);
+      if (!dataProcessRes.result.pressureValue || !dataProcessRes.result.attentionLevel) {
+        return;
+      }
+      return;
     },
     goTothisReport() {
       common_vendor.index.navigateTo({

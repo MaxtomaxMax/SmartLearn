@@ -23,6 +23,7 @@ if (!Math) {
   "./pages/user/bslinedetect.js";
   "./pages/user/bswait4bt.js";
   "./pages/learn/learntiming.js";
+  "./pages/learn/thisTimeReport.js";
 }
 const _sfc_main = {
   onLaunch: function() {

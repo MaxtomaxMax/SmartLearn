@@ -7715,6 +7715,9 @@ const pages = [
   },
   {
     path: "pages/learn/learntiming"
+  },
+  {
+    path: "pages/learn/thisTimeReport"
   }
 ];
 const globalStyle = {

@@ -287,7 +287,7 @@ export default {
 				
 			if (true) {
 				uni.request({
-					url: 'http://175.178.102.44:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
+					url: 'http://175.178.240.155:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
 					method: 'POST',
 					data:dataToSend,
 					header: {

@@ -9,13 +9,13 @@ exports.main = async (event, context) => {
 	// 计算压力值
 	let RMSSD_sum = 0
 	for (let i = 0; i < RMSSDlist.length; i++){
-		RMSSD_sum += RMSSDlist[i];
+		RMSSD_sum += RMSSDlist[i]["RMSSD"];
 	}
 	let RMSSD_mean = RMSSD_sum / SDNNlist.length;
 	
 	let SDNN_sum = 0
 	for (let i = 0; i < SDNNlist.length; i++){
-		SDNN_sum += SDNNlist[i];
+		SDNN_sum += SDNNlist[i]["SDNN"];
 	}
 	let SDNN_mean = SDNN_sum / SDNNlist.length;
 	

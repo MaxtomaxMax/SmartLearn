@@ -20,7 +20,8 @@
     "pages/user/detecting60s",
     "pages/user/bslinedetect",
     "pages/user/bswait4bt",
-    "pages/learn/learntiming"
+    "pages/learn/learntiming",
+    "pages/learn/thisTimeReport"
   ],
   "window": {
     "navigationBarTextStyle": "black",

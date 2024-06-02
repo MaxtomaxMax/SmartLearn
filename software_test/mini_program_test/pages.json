@@ -65,6 +65,9 @@
 		},
 		{
 			"path": "pages/learn/learntiming"
+		},
+		{
+			"path": "pages/learn/thisTimeReport"
 		}
 		
     ],
