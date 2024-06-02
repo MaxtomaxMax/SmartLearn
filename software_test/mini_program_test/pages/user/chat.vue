@@ -16,7 +16,7 @@
 		
 		<view class="chat-container">
 			<scroll-view scroll-y="true" class="chat-content" 
-				:style="{height: `${windowHeight - inputHeight - 90}rpx`}"
+				:style="{height: `${windowHeight - inputHeight - 150}rpx`}"
 				:scroll-into-view="scroll_anchor"
 				scroll-with-animation
 				ref= "scrollview"
@@ -357,7 +357,7 @@
     max-width: 486rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
-    padding: 0 12rpx 0 12rpx;
+    padding: 12rpx 16rpx 12rpx 16rpx;
     margin: 0 24rpx;
     background-color: #FFFFFF;
     font-size: 32rpx;
@@ -426,12 +426,12 @@
 	width: 100%;
 }
 .group_3 {
-	height: 120rpx;
+	height: 80rpx;
 /*    padding: 10rpx 41.67rpx 18.5rpx 41.67rpx; */
     position: absolute;
-    bottom: 15px;
+    bottom: 15rpx;
     width: 100%; /* 根据需要调整宽度 */
-    z-index: 1000; /* 确保在其他内容之上 */
+    /* z-index: 1000; /* 确保在其他内容之上 */ 
 	
 }
 
@@ -507,8 +507,9 @@
 }
 
 .chat-container{
-	padding: 30rpx 0 20rpx 0;
+	padding: 30rpx 0 60rpx 0;
 	border-radius: 58.33rpx;
+	overflow-y: auto;
 }
 </style>
 

@@ -1,4 +1,7 @@
 
+.pressureValue-container.data-v-fafd1d13{
+		height: 60%;
+}
 .container.data-v-fafd1d13 {
 	  margin-top: 20px;
 	  padding: 20px;
@@ -10,22 +13,21 @@
 	  flex-wrap: wrap;
 	  justify-content: space-between;
 	  background-color: #ffffff; /* 淡黄色背景 */
-	  padding: 10px;
+	  padding: 40rpx;
 	  border-radius: 10px; /* 圆角 */
 }
 .stat-item.data-v-fafd1d13 {
-	  width: 32%; /* 三列布局 */
-	  margin-bottom: 10px;
+	  width: 40%; /* 三列布局 */
 }
 .stat-value.data-v-fafd1d13 {
-	  font-size: 20px;
+	  font-size: 40rpx;
 	  color: #333;
 	  font-weight: bold;
 	  display: block;
 	  text-align: center;
 }
 .stat-label.data-v-fafd1d13 {
-	  font-size: 14px;
+	  font-size: 40rpx	;
 	  color: #666;
 	  text-align: center;
 	  display: block;
@@ -204,10 +206,10 @@
 .section_7.data-v-fafd1d13 {
         padding: 25rpx 0;
         border-radius: 208.33rpx;
-        background-image: url('https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=7346d037eb298198524d0873133d4ac4.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
         height: 316.67rpx;
+		width: 150rpx;
 }
 .image_9.data-v-fafd1d13 {
         border-radius: 208.33rpx;
@@ -338,6 +340,7 @@
 }
 .group_7.data-v-fafd1d13 {
         height: 338.67rpx;
+		width: 280rpx;
 }
 .text_12.data-v-fafd1d13 {
         color: #000000;

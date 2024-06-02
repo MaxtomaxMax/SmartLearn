@@ -209,7 +209,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       size: "30"
     })
   } : {}, {
-    i: `${$options.windowHeight - $options.inputHeight - 90}rpx`,
+    i: `${$options.windowHeight - $options.inputHeight - 150}rpx`,
     j: $data.scroll_anchor,
     k: common_vendor.o($options.sendMsg),
     l: common_vendor.o(($event) => $data.inputMsg = $event),

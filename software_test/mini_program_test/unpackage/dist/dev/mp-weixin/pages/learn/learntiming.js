@@ -152,7 +152,7 @@ const _sfc_main = {
     },
     uploadPhotoToServer1(filePath) {
       common_vendor.index.uploadFile({
-        url: "http://175.178.240.155:5000/smartlearn/fatigue-detection",
+        url: "http://175.178.75.72:5000/smartlearn/fatigue-detection",
         // 
         filePath,
         name: "file",
@@ -192,7 +192,7 @@ const _sfc_main = {
     // 上传到第二个服务器
     uploadPhotoToServer2(filePath) {
       common_vendor.index.uploadFile({
-        url: "http://175.178.240.155:5000/smartlearn/human-detection",
+        url: "http://175.178.75.72:5000/smartlearn/human-detection",
         filePath,
         name: "file",
         formData: {
@@ -332,7 +332,7 @@ const _sfc_main = {
       const dataToSend = this.receivedData;
       if (dataToSend.length > 0) {
         common_vendor.index.request({
-          url: "http://175.178.240.155:5000/smartlearn/pressure-detection",
+          url: "http://175.178.75.72:5000/smartlearn/pressure-detection",
           method: "POST",
           data: dataToSend,
           header: {
@@ -431,6 +431,12 @@ const _sfc_main = {
         this.upBtTimer = null;
         console.log("定时上传已停止");
       }
+      if (!this.elapsedTime && !this.tiredTime && this.NoattTime) {
+        return;
+      }
+      if (this.SDNNlist.length == 0) {
+        return;
+      }
       let uploadLearningDataRes = await db.collection("user_learning_data").add({
         userId: this.userId,
         timestamp: Date.now(),
@@ -444,7 +450,7 @@ const _sfc_main = {
       let dataProcessRes = await common_vendor.Ws.callFunction({
         name: "learningDataProcess",
         data: {
-          elapsedTime: this.elapsedTime,
+          elapsedTime: this.allLearnTime,
           SDNNlist: this.SDNNlist,
           RMSSDlist: this.RMSSDlist,
           tiredTime: this.tiredTime,
@@ -457,9 +463,16 @@ const _sfc_main = {
       if (!dataProcessRes.result.pressureValue || !dataProcessRes.result.attentionLevel) {
         return;
       }
-      return;
+      let uploadEvalRes = await db.collection("user_learning_evaluation").add({
+        userId: this.userId,
+        learningId: uploadLearningDataRes.result.id,
+        pressureValue: dataProcessRes.result.pressureValue,
+        attentionLevel: dataProcessRes.result.attentionLevel
+      });
+      console.log(uploadEvalRes);
+      common_vendor.index.setStorageSync("learningId", uploadLearningDataRes.result.id);
     },
-    goTothisReport() {
+    async goTothisReport() {
       common_vendor.index.navigateTo({
         url: "/pages/learn/thisTimeReport"
         // 本次学习报告页面

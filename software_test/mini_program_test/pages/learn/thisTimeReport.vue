@@ -4,7 +4,7 @@
             <image
                 class="image_5 pos"
 				@click="returnLearning"
-                src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=b5edc2f97ef94958494bb7aa5b3f5719.png"
+                src="../../static/ui_icon/exit.png"
             />
             <view class="group">
                 <text class="font text_2">
@@ -19,7 +19,7 @@
                 <view class="flex-row">
                     <image
                         class="image_6"
-                        src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=8b67da0ec656083c8c44bbf097b87f98.png"
+                        :src=avatarUrl
                     />
                     <view class="ml-8 flex-col items-start self-center">
                         <text class="text_4">{{NickName}}</text>
@@ -32,12 +32,12 @@
                         <view class="flex-row">
                             <image
                                 class="image_8"
-                                src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=cf290e3198efc10f2e507f83756abc00.png"
+                                src="../../static/ui_icon/attentionLevel.png"
                             />
                             <text class="text_7 ml-9">高专注学习</text>
                         </view>
                         <view class="mt-22 group_5">
-                            <text class="text_8">{{focusLevel+"%"}}</text>
+                            <text class="text_8">{{(attentionLevel*100).toFixed(2)+"%"}}</text>
                             <text class="font_3 text_9">专注度</text>
                         </view>
                     </view>
@@ -48,118 +48,23 @@
                 <view class="flex-col section_6">
                     <text class="self-start font_3 text_11">压力分析</text>
                     <view class="flex-row items-center self-stretch group_6 mt-15">
-                        <view class="flex-col justify-start items-center flex-1 relative section_7">
+                        <view class="flex-col justify-start flex-1 relative section_7">
                             <image
-                                class="image_9"
-                                src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=fec8c1e4dd34dcef7813777a2f57dafc.png"
+								style=" width: 300rpx;height: 300rpx;"
+                                src="../../static/ui_icon/pressurePanel.png"
                             />
-                            <view class="flex-col justify-start section_8 pos_2">
-                                <view class="flex-col section_9">
-                                    <view class="flex-col justify-start items-center self-stretch relative group_8">
-                                        <view class="section_11"></view>
-                                        <view class="flex-col section_10 pos_3">
-                                            <view class="flex-col self-stretch">
-                                                <view class="flex-row justify-between items-center group_9">
-                                                    <image
-                                                        class="image_10 image_11"
-                                                        src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=ddaa84b9d50155ab3b9df25624e30fdd.png"
-                                                    />
-                                                    <text class="font_5">50</text>
-                                                    <image
-                                                        class="image_10 image_12"
-                                                        src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=08833cbf7b934ed11ca2c5caa987cc50.png"
-                                                    />
-                                                </view>
-                                                <view class="flex-row justify-evenly">
-                                                    <text class="font_5">40</text>
-                                                    <text class="font_5">60</text>
-                                                </view>
-                                            </view>
-                                            <view class="mt-4 flex-row self-stretch group_10">
-                                                <view class="flex-col self-start group_11">
-                                                    <image
-                                                        class="self-center image_13"
-                                                        src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=cc7fa7510d932aeb4b69e817c8d6dc9c.png"
-                                                    />
-                                                    <text class="self-end font_5">30</text>
-                                                    <text class="self-start font_5 text_14">20</text>
-                                                </view>
-                                                <image
-                                                    class="self-center image_14"
-                                                    src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=b8da177423b1dd706d714238195bf314.png"
-                                                />
-                                                <view class="flex-col self-start group_12">
-                                                    <view class="flex-col">
-                                                        <image
-                                                            class="self-center image_13"
-                                                            src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=723bbfcceec583c2eea7c9a301b8f998.png"
-                                                        />
-                                                        <text class="self-start font_5">70</text>
-                                                    </view>
-                                                    <view class="flex-row items-center group_13 mt-17">
-                                                        <text class="font_5">80</text>
-                                                        <image
-                                                            class="ml-2 shrink-0 image_15"
-                                                            src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=537a28775ac94f940b3ff3072a43c1a8.png"
-                                                        />
-                                                    </view>
-                                                </view>
-                                            </view>
-                                            <view class="mt-4 flex-col self-stretch group_14">
-                                                <view class="flex-row items-center">
-                                                    <image
-                                                        class="image_15"
-                                                        src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=a87f478f9c1202f8a64edd5028227d64.png"
-                                                    />
-                                                    <text class="ml-2 font_5">10</text>
-                                                </view>
-                                                <view class="flex-row justify-end items-center relative group_15">
-                                                    <text class="font_5">90</text>
-                                                    <image
-                                                        class="ml-2 image_15"
-                                                        src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=e380f34fef4c84e097ea1de66eb2ee8a.png"
-                                                    />
-                                                </view>
-                                            </view>
-                                            <text class="mt-4 self-center font_4 text_15">压力值</text>
-                                            <view class="mt-4 flex-row justify-between self-stretch divider">
-                                                <text class="font_5">0</text>
-                                                <text class="font_5">100</text>
-                                            </view>
-                                        </view>
-                                    </view>
-                                    <view class="flex-row justify-between self-stretch divider_2">
-                                        <image
-                                            class="image_13"
-                                            src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=bc171f20980474f20e85f104dc41fa8d.png"
-                                        />
-                                        <image
-                                            class="image_13"
-                                            src="https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=044a7c3b009a3a25e626a2b0e1dc723d.png"
-                                        />
-                                    </view>
-                                    <text class="self-center text_16">45%</text>
-                                </view>
-                            </view>
                         </view>
-                        <view class="group_7 ml-19">
-							<text class="text_12">
-							      
-							    <br />
-							</text>
-							<text class="text_12">
-							      
-							    <br />
-							</text>
-							<text class="text_12">
-							      
-							    <br />
-							</text>
-                            <text class="text_12">
-                                压力适中
-                                <br />
-                            </text>
-                            
+                        <view class="flex-col group_7">
+							<view class="flex-row justify-center">
+								<text class="text_12">
+								    压力适中
+								    <br />
+								</text>
+							</view>
+                            <view class="flex-col pressureValue-container justify-center">
+                            	<text style="font-size: 35rpx;">压力指数:&nbsp{{(pressureValue*100).toFixed(2) + "%"}}</text>
+                            </view>
+							
                         </view>
                     </view>
                 </view>
@@ -168,30 +73,13 @@
             </view>
 			<view class="container">
 			    <view class="stat-section">
-			      <view class="stat-item">
-			        <text class="stat-value">{{formattodayTime}}</text>
-			        <text class="stat-label">学习时长</text>
-			      </view>
-			      <view class="stat-item">
-			        <text class="stat-value">{{formatContinuedTime}}</text>
-			        <text class="stat-label">连续时长</text>
-			      </view>
-			      <view class="stat-item">
-			        <text class="stat-value">{{learnEffciency+"%"}}</text>
-			        <text class="stat-label">学习效率</text>
-			      </view>
-			      <view class="stat-item">
-			        <text class="stat-value">{{learnCount}}</text>
-			        <text class="stat-label">今日学习次数</text>
-			      </view>
-			      <view class="stat-item">
-			        <text class="stat-value"></text>
-			        <text class="stat-label"></text>
-			      </view>
-			      <view class="stat-item">
-			        <text class="stat-value">{{problemCount}}</text>
-			        <text class="stat-label">题目数量</text>
-			      </view>
+					<view class="stat-item">
+						<text class="stat-label">净学习时长</text>
+					</view>
+					
+					<view class="stat-item" style="width:240rpx">
+						<text class="stat-value">{{sec2Formatted(pureLearningTime)}}</text>	
+					</view>
 			    </view>
 			</view>
         </view>
@@ -199,22 +87,30 @@
 </template>
 
 <script>
+const db = uniCloud.database();
 export default {
     components: {},
     props: {},
     data() {
         return {
-            NickName:"yyf",
+            NickName:"",
 			currentDate:'',
-			todaylearnTime:0,
 			continuedTime:0,
 			formatContinuedTime:null,
 			formattodayTime:null,
 			learnEffciency:0,
 			learnCount:0,
 			problemCount:0,
-			focusLevel:0,
 			
+			userId:"",
+			avatarUrl: "",
+			learningID:"",
+			attentionLevel: 0,
+			pressureValue: 0,
+			totalLearningTime: 0,
+			tiredTime: 0,
+			NoattTime: 0,
+			pureLearningTime: 0,
         };
     },
 	
@@ -240,17 +136,57 @@ export default {
 		},
 		
 	},
+	async onShow() {
+		// 获取用户ID
+		this.userId = uni.getStorageSync("user_id");
+		
+		// 获取用户头像
+		this.avatarUrl = uni.getStorageSync("avatar_url");
+		
+		// 获取用户名
+		this.NickName = uni.getStorageSync("username");
+		
+		// 获取学习ID并获得专注度
+		this.learningID = uni.getStorageSync("learningId")
+		let getAttentionLevelRes = await db.collection("user_learning_evaluation")
+			.where({
+				learningId: this.learningID
+			}).get()
+		console.log(getAttentionLevelRes);
+		this.attentionLevel = getAttentionLevelRes.result.data[0].attentionLevel;
+		this.pressureValue = getAttentionLevelRes.result.data[0].pressureValue;
+		
+		// 获取净学习时长
+		let getLearningTimeRes = await db.collection("user_learning_data")
+			.doc(this.learningID)
+			.get();
+		console.log(getLearningTimeRes);
+		this.totalLearningTime = getLearningTimeRes.result.data[0].elapsedTime;
+		this.NoattTime = getLearningTimeRes.result.data[0].NoattTime;
+		this.tiredTime = getLearningTimeRes.result.data[0].tiredTime;
+		
+		this.pureLearningTime = this.totalLearningTime - this.NoattTime - this.tiredTime;
+		
+	},
     methods: {
+		sec2Formatted(timeInSec){
+			const hours = String(Math.floor(timeInSec / 3600)).padStart(2, '0');
+			const minutes = String(Math.floor((timeInSec % 3600) / 60)).padStart(2, '0');
+			const seconds = String(timeInSec % 60).padStart(2, '0');
+			return `${hours}:${minutes}:${seconds}`;
+		},
+		
 		returnLearning(){
-			uni.navigateTo({
-			      url: '/pages/learn/learntiming' // 学习监测页面
-			  });
+			uni.navigateBack()
 		}
 	},
 };
 </script>
 
 <style scoped lang="css">
+	.pressureValue-container{
+		height: 60%;
+	}
 	.container {
 	  margin-top: 20px;
 	  padding: 20px;
@@ -263,17 +199,16 @@ export default {
 	  flex-wrap: wrap;
 	  justify-content: space-between;
 	  background-color: #ffffff; /* 淡黄色背景 */
-	  padding: 10px;
+	  padding: 40rpx;
 	  border-radius: 10px; /* 圆角 */
 	}
 	
 	.stat-item {
-	  width: 32%; /* 三列布局 */
-	  margin-bottom: 10px;
+	  width: 40%; /* 三列布局 */
 	}
 	
 	.stat-value {
-	  font-size: 20px;
+	  font-size: 40rpx;
 	  color: #333;
 	  font-weight: bold;
 	  display: block;
@@ -281,7 +216,7 @@ export default {
 	}
 	
 	.stat-label {
-	  font-size: 14px;
+	  font-size: 40rpx	;
 	  color: #666;
 	  text-align: center;
 	  display: block;
@@ -463,10 +398,10 @@ export default {
     .section_7 {
         padding: 25rpx 0;
         border-radius: 208.33rpx;
-        background-image: url('https://ide.code.fun/api/image?token=665a9f63602bd2001264d215&name=7346d037eb298198524d0873133d4ac4.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
         height: 316.67rpx;
+		width: 150rpx;
     }
     .image_9 {
         border-radius: 208.33rpx;
@@ -597,6 +532,7 @@ export default {
     }
     .group_7 {
         height: 338.67rpx;
+		width: 280rpx;
     }
     .text_12 {
         color: #000000;

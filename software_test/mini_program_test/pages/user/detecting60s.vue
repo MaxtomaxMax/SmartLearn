@@ -12,17 +12,17 @@
         />
 		<view class="flex-col self-stretch section_7 mt-29">
 		<view class="mt-10 grid">
-		    <view class="flex-col justify-start items-center relative grid-item">
-		        <text class="font_22" @click="getservice">获取蓝牙服务</text>
+		    <view class="flex-col justify-start items-center relative grid-item" @click="getservice">
+		        <text class="font_22" >获取蓝牙服务</text>
 		    </view>
-		    <view class="flex-col justify-start items-center relative grid-item">
-		        <text class="font_22" @click="getcharacteristics">获取蓝牙特征值</text>
+		    <view class="flex-col justify-start items-center relative grid-item" @click="getcharacteristics">
+		        <text class="font_22" >获取蓝牙特征值</text>
 		    </view>
-		    <view class="flex-col justify-start items-center relative grid-item">
-		        <text class="font_22" @click="charIdchange">监测（60S）</text>
+		    <view class="flex-col justify-start items-center relative grid-item" @click="charIdchange">
+		        <text class="font_22" >监测（60S）</text>
 		    </view>
-		    <view class="flex-col justify-start items-center relative grid-item">
-		        <text class="font_22" @click="sendDataToServer">发送数据</text>
+		    <view class="flex-col justify-start items-center relative grid-item" @click="sendDataToServer">
+		        <text class="font_22" >发送数据</text>
 		    </view>
 		</view>
 		</view>
@@ -274,20 +274,34 @@ export default {
 		sendDataToServer() {
 			const dataToSend = this.BsreceivedData;
 			console.log('发送');
-			// db.collection("baseline").add({
-			// 	userId: this.userId,
-			// 	RMSSD: this.BaseLineRMSSD,
-			// 	SDNN: this.BaseLineSDNN,
-			// }).then(res=>{
-			// 	console.log(res);
-			// }).catch(err=>{
-			// 	console.log(err);
-			// })
-			// return;
+			
+			// 如果有baseline就更新
+			// db.collection("baseline")
+			// 	.where({
+			// 		userId: this.userId
+			// 	}).get()
+			// 	.then(res=>{
+			// 		console.log(res);
+			// 		if (res.result.data.length != 0){
+			// 			// 确实需要更新baseline
+			// 			let bsId = res.result.data[0]._id
+			// 			db.collection("baseline").doc(bsId).update({
+			// 				RMSSD: 130,
+			// 				SDNN: 65
+			// 			}).then(res=>{
+			// 				console.log(res);
+			// 			}).catch(err=>{
+			// 				console.log(err);
+			// 			});
+			// 		}
+			// 	}).catch(err=>{
+			// 		console.log(err);
+			// 	});
+			
 				
 			if (true) {
 				uni.request({
-					url: 'http://175.178.240.155:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
+					url: 'http://175.178.75.72:5000/smartlearn/pressure-detection', // 替换为你的云服务器地址
 					method: 'POST',
 					data:dataToSend,
 					header: {
@@ -307,16 +321,39 @@ export default {
 						});
 						this.BsreceivedData = [];
 						
-						// 接收数据上云数据库
-						db.collection("baseline").add({
-							userId: this.userId,
-							RMSSD: this.BaseLineRMSSD,
-							SDNN: this.BaseLineSDNN,
-						}).then(res=>{
-							console.log(res);
-						}).catch(err=>{
-							console.log(err);
-						})
+						// 如果有baseline就更新
+						db.collection("baseline")
+							.where({
+								userId: this.userId
+							}).get()
+							.then(res=>{
+								console.log(res);
+								if (res.result.data.length != 0){
+									// 确实需要更新baseline
+									let bsId = res.result.data[0]._id
+									db.collection("baseline").doc(bsId).update({
+										RMSSD: this.BaseLineRMSSD,
+										SDNN: this.BaseLineSDNN
+									}).then(res=>{
+										console.log(res);
+									}).catch(err=>{
+										console.log(err);
+									});
+								} else{
+									// 如果没有baseline接收数据上云数据库
+									db.collection("baseline").add({
+										userId: this.userId,
+										RMSSD: this.BaseLineRMSSD,
+										SDNN: this.BaseLineSDNN,
+									}).then(res=>{
+										console.log(res);
+									}).catch(err=>{
+										console.log(err);
+									})
+								}
+							}).catch(err=>{
+								console.log(err);
+							});
 					},
 					fail: (err) => {
 						uni.showModal({

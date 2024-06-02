@@ -75,7 +75,7 @@
     max-width: 486rpx;
     border-radius: 8rpx;
     word-wrap: break-word;
-    padding: 0 12rpx 0 12rpx;
+    padding: 12rpx 16rpx 12rpx 16rpx;
     margin: 0 24rpx;
     background-color: #FFFFFF;
     font-size: 32rpx;
@@ -136,12 +136,12 @@
 	width: 100%;
 }
 .group_3.data-v-e32e353c {
-	height: 120rpx;
+	height: 80rpx;
 /*    padding: 10rpx 41.67rpx 18.5rpx 41.67rpx; */
     position: absolute;
-    bottom: 15px;
+    bottom: 15rpx;
     width: 100%; /* 根据需要调整宽度 */
-    z-index: 1000; /* 确保在其他内容之上 */
+    /* z-index: 1000; /* 确保在其他内容之上 */
 }
 .image-wrapper.data-v-e32e353c {
     width: 68.75rpx;
@@ -211,6 +211,7 @@
   box-sizing: border-box; /* Ensure padding is included in height calculation */
 }
 .chat-container.data-v-e32e353c{
-	padding: 30rpx 0 20rpx 0;
+	padding: 30rpx 0 60rpx 0;
 	border-radius: 58.33rpx;
+	overflow-y: auto;
 }

@@ -235,7 +235,7 @@ export default {
 		console.log({
 			RMSSD: this.RMSSD_bs,
 			SDNN: this.SDNN_bs
-		})
+		});
 		
 		if (options.deviceId) {
 			this.connectedDeviceId = options.deviceId;
@@ -348,7 +348,7 @@ export default {
 		
 		uploadPhotoToServer1(filePath) {
 		      uni.uploadFile({
-		        url: 'http://175.178.240.155:5000/smartlearn/fatigue-detection', // 
+		        url: 'http://175.178.75.72:5000/smartlearn/fatigue-detection', // 
 		        filePath: filePath,
 		        name: 'file',
 		        formData: {
@@ -400,7 +400,7 @@ export default {
 		// 上传到第二个服务器
 		uploadPhotoToServer2(filePath) {
 		  uni.uploadFile({
-		    url: 'http://175.178.240.155:5000/smartlearn/human-detection', 
+		    url: 'http://175.178.75.72:5000/smartlearn/human-detection', 
 		    filePath: filePath,
 		    name: 'file',
 		    formData: {
@@ -581,7 +581,7 @@ export default {
 				//console.log("Uploading data to the server: " + this.receivedData);
 				// 在这里添加你的上传逻辑，例如使用 uni.request
 				uni.request({
-					url: 'http://175.178.240.155:5000/smartlearn/pressure-detection',
+					url: 'http://175.178.75.72:5000/smartlearn/pressure-detection',
 					method: 'POST',
 					data:dataToSend,
 					header: {
@@ -692,12 +692,12 @@ export default {
         	    console.log('定时上传已停止');
         	}
 			
-			// if (!this.elapsedTime && !this.tiredTime && this.NoattTime){
-			// 	return;
-			// }
-			// if (this.SDNNlist.length == 0){
-			// 	return;
-			// }
+			if (!this.elapsedTime && !this.tiredTime && this.NoattTime){
+				return;
+			}
+			if (this.SDNNlist.length == 0){
+				return;
+			}
 			
 			// 测试数据
 			// this.SDNNlist = [{"SDNN":0},{"SDNN":152},{"SDNN":111},{"SDNN":130}];
@@ -730,7 +730,7 @@ export default {
 			let dataProcessRes = await uniCloud.callFunction({
 				name: "learningDataProcess",
 				data:{
-					elapsedTime: this.elapsedTime,
+					elapsedTime: this.allLearnTime,
 					SDNNlist: this.SDNNlist,
 					RMSSDlist: this.RMSSDlist,
 					tiredTime: this.tiredTime,
@@ -751,12 +751,15 @@ export default {
 				.add({
 					userId: this.userId,
 					learningId: uploadLearningDataRes.result.id,
-					pressureValue: dataProcessRes.result.data[0].pressureValue,
-					attentionLevel: dataProcessRes.result.data[0].attentionLevel
+					pressureValue: dataProcessRes.result.pressureValue,
+					attentionLevel: dataProcessRes.result.attentionLevel
 				})
 			console.log(uploadEvalRes);
+			
+			// 把本次学习ID保存方便报告页面调用
+			uni.setStorageSync("learningId", uploadLearningDataRes.result.id);
         },
-		goTothisReport(){
+		async goTothisReport(){
 			uni.navigateTo({
 			      url: '/pages/learn/thisTimeReport' // 本次学习报告页面
 			  });
