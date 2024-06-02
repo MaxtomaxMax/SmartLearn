@@ -347,10 +347,10 @@ const _sfc_main = {
             this.RMSSDlist.push({ RMSSD: this.RMSSDnum });
             console.log("SDNNlist:", this.SDNNlist);
             console.log("RMSSDlist:", this.RMSSDlist);
-            common_vendor.index.showModal({
+            common_vendor.index.showToast({
               title: "服务器返回结果",
               content: JSON.stringify(res.data, null, 2),
-              showCancel: false
+              duration: 500
             });
             this.receivedData = [];
             console.log("Data uploaded successfully", res);

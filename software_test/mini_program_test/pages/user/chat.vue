@@ -509,7 +509,6 @@
 .chat-container{
 	padding: 30rpx 0 60rpx 0;
 	border-radius: 58.33rpx;
-	overflow-y: auto;
 }
 </style>
 

@@ -599,10 +599,10 @@ export default {
 						console.log('SDNNlist:', this.SDNNlist);
 						console.log('RMSSDlist:', this.RMSSDlist);
 						
-						uni.showModal({
+						uni.showToast({
 							title: '服务器返回结果',
 							content: JSON.stringify(res.data, null, 2),
-							showCancel: false
+							duration: 500,
 						});
 						
 						this.receivedData = []; // 清空接收数据列表
