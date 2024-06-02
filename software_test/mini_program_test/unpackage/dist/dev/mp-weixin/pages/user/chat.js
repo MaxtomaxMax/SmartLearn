@@ -148,7 +148,6 @@ const _sfc_main = {
       this.$nextTick(() => {
         this.scroll_anchor = "scrollTarget";
       });
-      this.scroll_anchor = "";
     },
     // 监视聊天发送栏高度
     sendHeight() {
@@ -209,7 +208,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       size: "30"
     })
   } : {}, {
-    i: `${$options.windowHeight - $options.inputHeight - 150}rpx`,
+    i: `${$options.windowHeight - $options.inputHeight - 240}rpx`,
     j: $data.scroll_anchor,
     k: common_vendor.o($options.sendMsg),
     l: common_vendor.o(($event) => $data.inputMsg = $event),

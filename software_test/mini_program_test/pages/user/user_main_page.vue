@@ -35,10 +35,7 @@
 						<text class="font_2 text_7 ml-11">净学习时长</text>
 					</view>
 					<view class="group_6">
-						<text class="font_3 text_8">{{ learninghours }}</text>
-						<text class="font_4 text_10">小时</text>
-						<text class="font_3 text_9">{{ learningminutes }}</text>
-						<text class="font text_11">分钟</text>
+						<text class="font_3 text_8">{{ formatSeconds(pureLearningTime)}}</text>
 					</view>
 				</view>
 			</view>
@@ -81,12 +78,12 @@
 					<text class="ml-12 font_5 text_26">答疑</text>
 				</view>
 				<view class="self-start group_1 mt-9">
-					<text class="font_4">2829</text>
+					<!-- <text class="font_4">2829</text>
 					<text class="font_6">
 						个答疑
 						<br />
 					</text>
-					<text class="font_6">留在了26本书上</text>
+					<text class="font_6">留在了26本书上</text> -->
 				</view>
 			</view>
 			<view class="flex-col grid-item">
@@ -98,12 +95,12 @@
 					<text class="ml-12 font_5 text_1">复习</text>
 				</view>
 				<view class="self-start group_8 mt-9">
-					<text class="font_4">{{ reviewedcount }}</text>
+					<!-- <text class="font_4">{{ reviewedcount }}</text>
 					<text class="font_6">
 						条已复习
 						<br />
 					</text>
-					<text class="font_6">{{ unreviewcount }}条未复习</text>
+					<text class="font_6">{{ unreviewcount }}条未复习</text> -->
 				</view>
 			</view>
 		</view>
@@ -118,13 +115,13 @@
 				</view>
 				<view class="group_9">
 					<text class="font_4">已监测</text>
-					<text class="font_7">{{ detectcount }}</text>
+					<text class="font_7">{{ totalLearningTimes}}</text>
 					<text class="font_4">
 						次
 						<br />
 					</text>
 					<text class="font_4">平均压力值</text>
-					<text class="font_7">{{ avestress }}%</text>
+					<text class="font_7">{{ (avePressureValue*100).toFixed(2) }}%</text>
 				</view>
 			</view>
 		</view>
@@ -132,6 +129,7 @@
 </template>
 
 <script>
+const db = uniCloud.database();
 export default {
     components: {},
     props: {},
@@ -143,9 +141,7 @@ export default {
             learninghours: 5,
             learningminutes: 26,
             finishedcount: 19,
-            studyingcount: 17,
             detectcount: 526,
-            avestress: 33,
             reviewedcount: 333,
             unreviewcount: 424,
 			
@@ -153,21 +149,64 @@ export default {
 			avatarUrl:"../../static/ui_icon/avatar.png",
 			username: "未命名用户",
 			signature:"",
+			
+			pureLearningTime: 0,
+			totalLearningTimes: 0,
+			avePressureValue: 0,
         };
     },
-    onLoad() {
+    async onLoad() {
 		// 获取屏幕高度
     	this.setContainerSize();
 		
 		// 获取用户ID
 		this.userId = uni.getStorageSync("user_id");
 		
+		// 获取总的净学习时长
+		let getAllLearningTimeRes = await db.collection("user_learning_data")
+			.where({
+				userId: this.userId
+			}).get()
+		console.log(getAllLearningTimeRes);
+		
+		// 成功获取数据后开始计算
+		let totalElapsedTime = 0;
+		let totalNoattTime = 0;
+		let totalTiredTime = 0;
+		if (getAllLearningTimeRes.result.data.length != 0){
+			for (let i = 0; i < getAllLearningTimeRes.result.data.length; i++){
+				totalElapsedTime += getAllLearningTimeRes.result.data[i].elapsedTime;
+				totalNoattTime += getAllLearningTimeRes.result.data[i].NoattTime;
+				totalTiredTime += getAllLearningTimeRes.result.data[i].tiredTime;
+			}
+		}
+		this.pureLearningTime = totalElapsedTime - totalNoattTime - totalTiredTime;
+		console.log(this.pureLearningTime);
+		
+		// 获取监测次数
+		let getEvalTimesRes = await db.collection("user_learning_evaluation")
+			.where({
+				userId: this.userId,
+			}).get()
+		console.log(getEvalTimesRes);
+		
+		// 学习次数
+		this.totalLearningTimes = getEvalTimesRes.result.data.length;
+		// 平均压力指数计算
+		let totalPressureValue = 0;
+		for (let i = 0; i < getEvalTimesRes.result.data.length; i++){
+			totalPressureValue += getEvalTimesRes.result.data[i].pressureValue;
+		}
+		this.avePressureValue = totalPressureValue / this.totalLearningTimes;
 		
     },
 	
 	onShow() {
 		// 获取头像地址
-		this.avatarUrl = uni.getStorageSync("avatar_url");
+		let temp = uni.getStorageSync("avatar_url");
+		if (temp != ""){
+			this.avatarUrl = temp;
+		}
 		console.log("头像地址:", this.avatarUrl);
 		
 		// 获取用户名和个性签名
@@ -175,6 +214,20 @@ export default {
 		this.signature = uni.getStorageSync("signature");
 	},
     methods: {
+		formatSeconds(seconds) {
+		    // 计算小时数
+		    const hours = Math.floor(seconds / 3600);
+		    // 计算剩余分钟数
+		    const minutes = Math.floor((seconds - (hours * 3600)) / 60);
+		    // 计算剩余秒数
+		    const remainingSeconds = seconds - (hours * 3600) - (minutes * 60);
+		
+		    // 格式化单个数字为至少两位数字，例如 '03'
+		    const formatNumber = (num) => num.toString().padStart(2, '0');
+		
+		    // 组合成所需格式
+		    return `${hours}小时${formatNumber(minutes)}分钟${formatNumber(remainingSeconds)}秒`;
+		},
 		goDetectRecord(){
 			uni.navigateTo({
 				url:"/pages/user/detect_record",
@@ -420,7 +473,7 @@ export default {
     .group_9 {
         margin-right: 7.52rpx;
         text-align: center;
-        width: 173.63rpx;
+        width: 240rpx;
         height: 85.42rpx;
     }
     .font_7 {

@@ -61,5 +61,4 @@ exports.main = async (event, context) => {
 			error: error.message
 		}
 	}
-	
 };

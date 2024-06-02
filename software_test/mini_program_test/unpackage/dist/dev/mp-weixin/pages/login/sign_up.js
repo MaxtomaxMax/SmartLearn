@@ -71,7 +71,12 @@ const _sfc_main = {
           email: this.email,
           password: this.hashPassword
         });
+        console.log(dbResult);
         console.log("注册成功");
+        common_vendor.index.setStorageSync("user_id", dbResult.result.id);
+        common_vendor.index.setStorageSync("avatar_url", "");
+        common_vendor.index.setStorageSync("signature", "来写下自己的个性签名吧~");
+        common_vendor.index.setStorageSync("username", "未命名用户");
         common_vendor.index.showToast({
           title: "注册成功"
         });

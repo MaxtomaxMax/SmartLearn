@@ -16,12 +16,12 @@
 		
 		<view class="chat-container">
 			<scroll-view scroll-y="true" class="chat-content" 
-				:style="{height: `${windowHeight - inputHeight - 150}rpx`}"
+				:style="{height: `${windowHeight - inputHeight - 240}rpx`}"
 				:scroll-into-view="scroll_anchor"
 				scroll-with-animation
 				ref= "scrollview"
 				id = "scrollview">
-				<view class="chatList-container" id="msgList-container">
+				<!-- <view class="chatList-container" id="msgList-container"> -->
 					<view v-for="(item,index) in msgList" :key="index">
 						<view class="flex-row userMsg" v-if="item.userContent != ''">
 							<!-- 用户发的信息 -->
@@ -49,7 +49,7 @@
 							<uni-icons class="loading" type="spinner-cycle" size="30"></uni-icons>	
 						</view>
 					</view>
-				</view>
+				<!-- </view> -->
 				<view class="scroll-target" id="scrollTarget"></view>
 			</scroll-view>
 			
@@ -251,7 +251,12 @@
 			    this.$nextTick(() => {
 			        this.scroll_anchor = "scrollTarget"
 			    });
-				this.scroll_anchor = '';
+				// #ifdef H5
+				    this.scroll_anchor = '';
+				    this.$nextTick(() => {
+				        this.scroll_anchor = "scrollTarget";
+				    });
+				    // #endif
 			},
 
 			

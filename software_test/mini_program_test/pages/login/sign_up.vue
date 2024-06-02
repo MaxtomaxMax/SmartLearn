@@ -140,12 +140,18 @@
 			            email: this.email,
 			            password: this.hashPassword
 			        });
-			
+					console.log(dbResult);
 			        console.log("注册成功");
+					
+					uni.setStorageSync('user_id', dbResult.result.id);
+					uni.setStorageSync("avatar_url", "");
+					uni.setStorageSync("signature", "来写下自己的个性签名吧~");
+					uni.setStorageSync("username", "未命名用户");
+					
 			        uni.showToast({
-			            title: "注册成功"
+			            title: "注册成功",
 			        });
-			
+					
 			        // 跳转页面
 					setTimeout(() =>{
 						uni.navigateTo({

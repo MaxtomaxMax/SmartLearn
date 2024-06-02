@@ -281,7 +281,6 @@ const _sfc_main = {
       this.$nextTick(() => {
         this.scroll_anchor = "scrollTarget";
       });
-      this.scroll_anchor = "";
     },
     // 监视聊天发送栏高度
     sendHeight() {

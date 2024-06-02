@@ -239,6 +239,12 @@ exports.main = async (event, context) => {
 - 密码验证的，通过把node_modules放在云函数文件夹里并且调整好package.json的依赖直接解决
 - 调用KimiAPI的一顿调试并问GPT和kimi都指向云函数支持的node.js的版本问题，最终在饭后找到对应的CSDN文章发现可以在package.json中规定所支持的Node.js的版本，注意好及时部署后问题迎刃而解
 
+2024年6月3日
+02点48分
+出现回旋镖，发现知识地图和问题生成都有问题
+解决方案：
+- 使用npm管理相关的包，不要随便乱复制！
+
 
 # 前端 UI 修改需求
 

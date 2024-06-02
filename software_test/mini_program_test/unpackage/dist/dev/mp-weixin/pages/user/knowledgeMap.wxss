@@ -225,5 +225,5 @@
 .chat-container.data-v-85f07247{
 	padding: 30rpx 0 20rpx 0;
 	border-radius: 58.33rpx;
-	overflow-y: auto;
+	/* overflow-y: auto; */
 }

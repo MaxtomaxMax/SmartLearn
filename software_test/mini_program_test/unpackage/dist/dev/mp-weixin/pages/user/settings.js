@@ -22,7 +22,10 @@ const _sfc_main = {
   onLoad() {
     this.setContainerSize();
     this.userId = common_vendor.index.getStorageSync("user_id");
-    this.imageUrl = common_vendor.index.getStorageSync("avatar_url");
+    let temp = common_vendor.index.getStorageSync("avatar_url");
+    if (temp != "") {
+      this.imageUrl = temp;
+    }
     this.username = common_vendor.index.getStorageSync("username");
     this.signature = common_vendor.index.getStorageSync("signature");
   },

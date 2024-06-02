@@ -449,7 +449,9 @@
 			    this.$nextTick(() => {
 			        this.scroll_anchor = "scrollTarget"
 			    });
+				//#ifdef H5
 				this.scroll_anchor = '';
+				//#endif
 			},
 
 			
@@ -719,7 +721,7 @@
 .chat-container{
 	padding: 30rpx 0 20rpx 0;
 	border-radius: 58.33rpx;
-	overflow-y: auto;
+	/* overflow-y: auto; */
 }
 </style>
 

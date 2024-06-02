@@ -109,7 +109,11 @@ export default {
 		this.userId = uni.getStorageSync("user_id");
 		
 		// 获取头像
-		this.imageUrl = uni.getStorageSync("avatar_url")
+		let temp = uni.getStorageSync("avatar_url")
+		if (temp != ""){
+			this.imageUrl = temp;
+		}
+		
 		 
 		// 获取用户名
 		this.username = uni.getStorageSync("username");

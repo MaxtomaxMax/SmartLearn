@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const db = common_vendor.Ws.database();
 const _sfc_main = {
   components: {},
   props: {},
@@ -10,28 +11,65 @@ const _sfc_main = {
       learninghours: 5,
       learningminutes: 26,
       finishedcount: 19,
-      studyingcount: 17,
       detectcount: 526,
-      avestress: 33,
       reviewedcount: 333,
       unreviewcount: 424,
       userId: "",
       avatarUrl: "../../static/ui_icon/avatar.png",
       username: "未命名用户",
-      signature: ""
+      signature: "",
+      pureLearningTime: 0,
+      totalLearningTimes: 0,
+      avePressureValue: 0
     };
   },
-  onLoad() {
+  async onLoad() {
     this.setContainerSize();
     this.userId = common_vendor.index.getStorageSync("user_id");
+    let getAllLearningTimeRes = await db.collection("user_learning_data").where({
+      userId: this.userId
+    }).get();
+    console.log(getAllLearningTimeRes);
+    let totalElapsedTime = 0;
+    let totalNoattTime = 0;
+    let totalTiredTime = 0;
+    if (getAllLearningTimeRes.result.data.length != 0) {
+      for (let i = 0; i < getAllLearningTimeRes.result.data.length; i++) {
+        totalElapsedTime += getAllLearningTimeRes.result.data[i].elapsedTime;
+        totalNoattTime += getAllLearningTimeRes.result.data[i].NoattTime;
+        totalTiredTime += getAllLearningTimeRes.result.data[i].tiredTime;
+      }
+    }
+    this.pureLearningTime = totalElapsedTime - totalNoattTime - totalTiredTime;
+    console.log(this.pureLearningTime);
+    let getEvalTimesRes = await db.collection("user_learning_evaluation").where({
+      userId: this.userId
+    }).get();
+    console.log(getEvalTimesRes);
+    this.totalLearningTimes = getEvalTimesRes.result.data.length;
+    let totalPressureValue = 0;
+    for (let i = 0; i < getEvalTimesRes.result.data.length; i++) {
+      totalPressureValue += getEvalTimesRes.result.data[i].pressureValue;
+    }
+    this.avePressureValue = totalPressureValue / this.totalLearningTimes;
   },
   onShow() {
-    this.avatarUrl = common_vendor.index.getStorageSync("avatar_url");
+    let temp = common_vendor.index.getStorageSync("avatar_url");
+    if (temp != "") {
+      this.avatarUrl = temp;
+    }
     console.log("头像地址:", this.avatarUrl);
     this.username = common_vendor.index.getStorageSync("username");
     this.signature = common_vendor.index.getStorageSync("signature");
   },
   methods: {
+    formatSeconds(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds - hours * 3600) / 60);
+      const remainingSeconds = seconds - hours * 3600 - minutes * 60;
+      const formatNumber = (num) => num.toString().padStart(2, "0");
+      return `${hours}小时${formatNumber(minutes)}分钟${formatNumber(remainingSeconds)}秒`;
+    },
     goDetectRecord() {
       common_vendor.index.navigateTo({
         url: "/pages/user/detect_record"
@@ -79,16 +117,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: $data.avatarUrl,
     c: common_vendor.t($data.username),
     d: common_vendor.t($data.signature),
-    e: common_vendor.t($data.learninghours),
-    f: common_vendor.t($data.learningminutes),
-    g: common_vendor.o((...args) => $options.goTodetect && $options.goTodetect(...args)),
-    h: common_vendor.t($data.reviewedcount),
-    i: common_vendor.t($data.unreviewcount),
-    j: common_vendor.o((...args) => $options.goDetectRecord && $options.goDetectRecord(...args)),
-    k: common_vendor.t($data.detectcount),
-    l: common_vendor.t($data.avestress),
-    m: $data.containerWidth,
-    n: $data.containerHeight
+    e: common_vendor.t($options.formatSeconds($data.pureLearningTime)),
+    f: common_vendor.o((...args) => $options.goTodetect && $options.goTodetect(...args)),
+    g: common_vendor.o((...args) => $options.goDetectRecord && $options.goDetectRecord(...args)),
+    h: common_vendor.t($data.totalLearningTimes),
+    i: common_vendor.t(($data.avePressureValue * 100).toFixed(2)),
+    j: $data.containerWidth,
+    k: $data.containerHeight
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-234aa2de"], ["__file", "D:/SmartLearn/software_test/mini_program_test/pages/user/user_main_page.vue"]]);
