@@ -141,9 +141,17 @@ const _sfc_main = {
       this.chartData.week
     );
   },
-  onLoad() {
+  async onLoad() {
     this.setContainerSize();
     this.userId = common_vendor.index.getStorageSync("user_id");
+    let getAllLearningTimeRes = await db.collection("user_learning_data").where({
+      userId: this.userId
+    }).get();
+    console.log(getAllLearningTimeRes);
+    let getEvalTimesRes = await db.collection("user_learning_evaluation").where({
+      userId: this.userId
+    }).get();
+    console.log(getEvalTimesRes);
   },
   methods: {
     setContainerSize() {

@@ -122,12 +122,25 @@ export default {
             this.chartData.week
         );
     },
-	onLoad() {
+	async onLoad() {
 		// 获取屏幕高度
 		this.setContainerSize();
 		
 		// 获取用户ID
 		this.userId = uni.getStorageSync("user_id");
+		
+		// 获取用户所有的学习信息
+		let getAllLearningTimeRes = await db.collection("user_learning_data")
+			.where({
+				userId: this.userId
+			}).get()
+		console.log(getAllLearningTimeRes);
+		
+		let getEvalTimesRes = await db.collection("user_learning_evaluation")
+			.where({
+				userId: this.userId,
+			}).get()
+		console.log(getEvalTimesRes);
 	},
     methods: {
 		setContainerSize() {
