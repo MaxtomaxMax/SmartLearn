@@ -41,6 +41,7 @@
 <script>
 import uCharts from "@/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js";
 var uChartsInstance = {};
+const db = uniCloud.database();
 export default {
     data() {
         return {
@@ -56,13 +57,13 @@ export default {
                     categories: ["一", "二", "三", "四", "五", "六", "日"],
                     series: [
                         {
-                            name: "正常学习时间",
-                            data: [4, 5, 3, 6, 7, 4, 2],
+                            name: "净学习时间",
+                            data: [0,0,0,0,0,0,0],
                             color: "#ffb238",
                         },
                         {
-                            name: "高压学习时间",
-                            data: [1, 1, 1, 1, 1, 1, 1],
+                            name: "分心学习时间",
+                            data: [0,0,0,0,0,0,0],
                             color: "#7451ff",
                         },
                     ],
@@ -112,6 +113,12 @@ export default {
                     ],
                 },
             },
+			
+			// 保存各个时间节点的时间戳
+			thisWeekTimestamp: [],
+			thisMonthTimestamp: [],
+			thisYearTimestamp: [],
+			
         };
     },
     onReady() {
@@ -135,14 +142,76 @@ export default {
 				userId: this.userId
 			}).get()
 		console.log(getAllLearningTimeRes);
+			
+		if (getAllLearningTimeRes.result.data.length == 0){
+			return;
+		}
+		// console.log(getAllLearningTimeRes.result.data[0].timestamp); 
 		
-		let getEvalTimesRes = await db.collection("user_learning_evaluation")
-			.where({
-				userId: this.userId,
-			}).get()
-		console.log(getEvalTimesRes);
+		// return;
+		// 获取当周的每个时间节点的时间戳
+		let {startOfWeek, endOfWeek} = this.getWeekTimestamp();
+		for (let i = 0; i < getAllLearningTimeRes.result.data.length; i++){
+			if (getAllLearningTimeRes.result.data[i].timestamp > startOfWeek 
+			&& getAllLearningTimeRes.result.data[i].timestamp < endOfWeek){
+				this.thisWeekTimestamp.push(getAllLearningTimeRes.result.data[i])
+			}
+		}
+		// console.log(this.thisWeekTimestamp);
+		
+		// 获取当周信息
+		let {elapsedTime, pureTime} = this.getLearningTimeOfWeek(this.thisWeekTimestamp);
+		// 转化为分钟
+		elapsedTime = elapsedTime.map(item =>Math.round((item/60) * 100) /100);
+		pureTime = pureTime.map(item =>Math.round((item/60) * 100) /100);
+		
+		
+		this.chartData.week.series[0].data = pureTime;
+		this.chartData.week.series[1].data = elapsedTime.map((item, index) => item - pureTime[index]);	//元素相减
+		
 	},
     methods: {
+		getLearningTimeOfWeek(thisWeekTimestamp){
+			let elapsedTime = [0,0,0,0,0,0,0];	// 总学习时长
+			let pureTime = [0,0,0,0,0,0,0];	// 净学习时长
+			for (let i = 0; i < thisWeekTimestamp.length; i++){
+				let tempDate = new Date(thisWeekTimestamp[i].timestamp);
+				let dayIndex = tempDate.getDay();
+				elapsedTime[dayIndex] += thisWeekTimestamp[i].elapsedTime;
+				let tempPureTime = thisWeekTimestamp[i].elapsedTime - thisWeekTimestamp[i].NoattTime - thisWeekTimestamp[i].tiredTime;
+				pureTime[dayIndex] += tempPureTime;
+			}
+			return {
+				elapsedTime,
+				pureTime
+			};
+		},
+		
+		getWeekTimestamp(){
+			const date = new Date();
+			const year = date.getFullYear();
+			const month = date.getMonth();
+			const day_date = date.getDate();
+			const day = date.getDay();
+			
+			// console.log(`${year}-${month+1}-${day_date}-星期${day}`);
+			
+			const today_start = new Date(`${year}-${month+1}-${day_date}`);
+			// console.log(today_start.getTime());
+			
+			const diffInDay = 86400000;
+			// 计算星期开始和结束
+			const startOfWeek = today_start.getTime() - diffInDay * day;
+			const endOfWeek = today_start.getTime() + diffInDay * (7 - day);
+			// console.log(new Date(endOfWeek));
+			// console.log(startOfWeek);
+			return {
+				startOfWeek, 
+				endOfWeek
+				};
+		},
+		
+		
 		setContainerSize() {
 			try {
 				const res = uni.getSystemInfoSync();
