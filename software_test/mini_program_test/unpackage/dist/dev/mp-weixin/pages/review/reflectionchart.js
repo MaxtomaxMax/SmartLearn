@@ -2,6 +2,7 @@
 const common_vendor = require("../../common/vendor.js");
 const uni_modules_qiunDataCharts_js_sdk_uCharts_uCharts = require("../../uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js");
 var uChartsInstance = {};
+const db = common_vendor.Ws.database();
 const _sfc_main = {
   data() {
     return {
@@ -16,13 +17,13 @@ const _sfc_main = {
           categories: ["一", "二", "三", "四", "五", "六", "日"],
           series: [
             {
-              name: "正常学习时间",
-              data: [4, 5, 3, 6, 7, 4, 2],
+              name: "净学习时间",
+              data: [0, 0, 0, 0, 0, 0, 0],
               color: "#ffb238"
             },
             {
-              name: "高压学习时间",
-              data: [1, 1, 1, 1, 1, 1, 1],
+              name: "分心学习时间",
+              data: [0, 0, 0, 0, 0, 0, 0],
               color: "#7451ff"
             }
           ]
@@ -130,7 +131,11 @@ const _sfc_main = {
             }
           ]
         }
-      }
+      },
+      // 保存各个时间节点的时间戳
+      thisWeekTimestamp: [],
+      thisMonthTimestamp: [],
+      thisYearTimestamp: []
     };
   },
   onReady() {
@@ -148,12 +153,52 @@ const _sfc_main = {
       userId: this.userId
     }).get();
     console.log(getAllLearningTimeRes);
-    let getEvalTimesRes = await db.collection("user_learning_evaluation").where({
-      userId: this.userId
-    }).get();
-    console.log(getEvalTimesRes);
+    if (getAllLearningTimeRes.result.data.length == 0) {
+      return;
+    }
+    let { startOfWeek, endOfWeek } = this.getWeekTimestamp();
+    for (let i = 0; i < getAllLearningTimeRes.result.data.length; i++) {
+      if (getAllLearningTimeRes.result.data[i].timestamp > startOfWeek && getAllLearningTimeRes.result.data[i].timestamp < endOfWeek) {
+        this.thisWeekTimestamp.push(getAllLearningTimeRes.result.data[i]);
+      }
+    }
+    let { elapsedTime, pureTime } = this.getLearningTimeOfWeek(this.thisWeekTimestamp);
+    elapsedTime = elapsedTime.map((item) => Math.round(item / 60 * 100) / 100);
+    pureTime = pureTime.map((item) => Math.round(item / 60 * 100) / 100);
+    this.chartData.week.series[0].data = pureTime;
+    this.chartData.week.series[1].data = elapsedTime.map((item, index) => item - pureTime[index]);
   },
   methods: {
+    getLearningTimeOfWeek(thisWeekTimestamp) {
+      let elapsedTime = [0, 0, 0, 0, 0, 0, 0];
+      let pureTime = [0, 0, 0, 0, 0, 0, 0];
+      for (let i = 0; i < thisWeekTimestamp.length; i++) {
+        let tempDate = new Date(thisWeekTimestamp[i].timestamp);
+        let dayIndex = tempDate.getDay();
+        elapsedTime[dayIndex] += thisWeekTimestamp[i].elapsedTime;
+        let tempPureTime = thisWeekTimestamp[i].elapsedTime - thisWeekTimestamp[i].NoattTime - thisWeekTimestamp[i].tiredTime;
+        pureTime[dayIndex] += tempPureTime;
+      }
+      return {
+        elapsedTime,
+        pureTime
+      };
+    },
+    getWeekTimestamp() {
+      const date = /* @__PURE__ */ new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day_date = date.getDate();
+      const day = date.getDay();
+      const today_start = /* @__PURE__ */ new Date(`${year}-${month + 1}-${day_date}`);
+      const diffInDay = 864e5;
+      const startOfWeek = today_start.getTime() - diffInDay * day;
+      const endOfWeek = today_start.getTime() + diffInDay * (7 - day);
+      return {
+        startOfWeek,
+        endOfWeek
+      };
+    },
     setContainerSize() {
       try {
         const res = common_vendor.index.getSystemInfoSync();

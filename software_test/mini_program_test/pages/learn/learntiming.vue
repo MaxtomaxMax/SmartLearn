@@ -348,7 +348,7 @@ export default {
 		
 		uploadPhotoToServer1(filePath) {
 		      uni.uploadFile({
-		        url: 'http://175.178.75.72:5000/smartlearn/fatigue-detection', // 
+		        url: 'http://42.193.218.247:5000/smartlearn/fatigue-detection', // 
 		        filePath: filePath,
 		        name: 'file',
 		        formData: {
@@ -400,7 +400,7 @@ export default {
 		// 上传到第二个服务器
 		uploadPhotoToServer2(filePath) {
 		  uni.uploadFile({
-		    url: 'http://175.178.75.72:5000/smartlearn/human-detection', 
+		    url: 'http://42.193.218.247:5000/smartlearn/human-detection', 
 		    filePath: filePath,
 		    name: 'file',
 		    formData: {
@@ -581,7 +581,7 @@ export default {
 				//console.log("Uploading data to the server: " + this.receivedData);
 				// 在这里添加你的上传逻辑，例如使用 uni.request
 				uni.request({
-					url: 'http://175.178.75.72:5000/smartlearn/pressure-detection',
+					url: 'http://42.193.218.247:5000/smartlearn/pressure-detection',
 					method: 'POST',
 					data:dataToSend,
 					header: {

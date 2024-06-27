@@ -152,7 +152,7 @@ const _sfc_main = {
     },
     uploadPhotoToServer1(filePath) {
       common_vendor.index.uploadFile({
-        url: "http://175.178.75.72:5000/smartlearn/fatigue-detection",
+        url: "http://42.193.218.247:5000/smartlearn/fatigue-detection",
         // 
         filePath,
         name: "file",
@@ -192,7 +192,7 @@ const _sfc_main = {
     // 上传到第二个服务器
     uploadPhotoToServer2(filePath) {
       common_vendor.index.uploadFile({
-        url: "http://175.178.75.72:5000/smartlearn/human-detection",
+        url: "http://42.193.218.247:5000/smartlearn/human-detection",
         filePath,
         name: "file",
         formData: {
@@ -332,7 +332,7 @@ const _sfc_main = {
       const dataToSend = this.receivedData;
       if (dataToSend.length > 0) {
         common_vendor.index.request({
-          url: "http://175.178.75.72:5000/smartlearn/pressure-detection",
+          url: "http://42.193.218.247:5000/smartlearn/pressure-detection",
           method: "POST",
           data: dataToSend,
           header: {
