@@ -38,10 +38,18 @@ const _sfc_main = {
       try {
         if (this.password !== this.confirmPassword) {
           console.log("两次输入密码不一致");
+          common_vendor.index.showToast({
+            icon: "error",
+            title: "密码不一致"
+          });
           return;
         }
         if (this.password.length < 6 || this.password.length > 16) {
           console.log("密码长度应在6-16位");
+          common_vendor.index.showToast({
+            icon: "error",
+            title: "密码长度6-16位"
+          });
           return;
         }
         const checkUniResult = await common_vendor.Ws.callFunction({
@@ -89,7 +97,7 @@ const _sfc_main = {
         console.log(err);
         common_vendor.index.showToast({
           icon: "error",
-          title: "注册失败，请稍后再试"
+          title: err.message
         });
       }
     },

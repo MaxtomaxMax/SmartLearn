@@ -98,12 +98,20 @@
 			        // 检查两次输入密码是否一致
 			        if (this.password !== this.confirmPassword) {
 			            console.log("两次输入密码不一致");
+						uni.showToast({
+						    icon: "error",
+						    title: "密码不一致"
+						});
 			            return;
 			        }
 			
 			        // 校验密码长度
 			        if (this.password.length < 6 || this.password.length > 16) {
 			            console.log("密码长度应在6-16位");
+						uni.showToast({
+						    icon: "error",
+						    title: "密码长度6-16位"
+						});
 			            return;
 			        }
 			
@@ -135,13 +143,19 @@
 			
 			        console.log("加密完成");
 			        this.hashPassword = encryptResult.result;
-			
+					
+					
 			        const dbResult = await db.collection("SmartLearn_user").add({
 			            email: this.email,
 			            password: this.hashPassword
 			        });
 					console.log(dbResult);
 			        console.log("注册成功");
+					// if (!dbResult) {
+					// 	uni.showToast({
+					// 		title:""
+					// 	})
+					// }
 					
 					uni.setStorageSync('user_id', dbResult.result.id);
 					uni.setStorageSync("avatar_url", "");
@@ -165,7 +179,7 @@
 			        // 在需要的地方也可以添加适当的错误处理提示
 			        uni.showToast({
 			            icon: "error",
-			            title: "注册失败，请稍后再试"
+			            title: err.message
 			        });
 			    }
 			},

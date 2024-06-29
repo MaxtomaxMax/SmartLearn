@@ -48,7 +48,7 @@ const _sfc_main = {
       this.masterLevel = this.dataList[this.dataIndex].masterLevel;
     } else {
       common_vendor.index.showToast({
-        title: "当前项目尚未知识地图哦",
+        title: "未建立知识地图",
         icon: "error",
         duration: 2e3
       });

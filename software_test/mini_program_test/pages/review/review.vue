@@ -128,7 +128,7 @@ export default {
 			this.masterLevel = this.dataList[this.dataIndex].masterLevel;
 		} else{
 			uni.showToast({
-				title:"当前项目尚未知识地图哦",
+				title:"未建立知识地图",
 				icon:"error",
 				duration: 2000
 			})
